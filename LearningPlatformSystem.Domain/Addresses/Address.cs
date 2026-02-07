@@ -29,7 +29,7 @@ public class Address
         ValidateCity(city);
         
         Guid id = Guid.NewGuid();
-        Address address = new Address(id, streetName, postalCode, city);
+        Address address = new(id, streetName, postalCode, city);
 
         return address;
     }

@@ -25,7 +25,7 @@ public class Classroom
         ValidateCapacity(capacity);
 
         Guid id = Guid.NewGuid();
-        Classroom classroom = new Classroom(id, name, capacity, type);
+        Classroom classroom = new(id, name, capacity, type);
         return classroom;
     }
 
