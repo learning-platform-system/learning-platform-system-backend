@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="LearningPlatformSystem.API/LearningPlatformSystem.API.csproj" />
+  <Project Path="LearningPlatformSystem.Application/LearningPlatformSystem.Application.csproj" />
+  <Project Path="LearningPlatformSystem.Domain/LearningPlatformSystem.Domain.csproj" />
+  <Project Path="LearningPlatformSystem.Infrastructure/LearningPlatformSystem.Infrastructure.csproj" />
+  <Project Path="LearningPlatformSystem.Tests/LearningPlatformSystem.Tests.csproj" />
+</Solution>
