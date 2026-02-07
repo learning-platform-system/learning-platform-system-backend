@@ -3,10 +3,12 @@
 public class Category
 {
     // följa databasens satta name length - säkerhet. Bara props blir kolumner i databasen
-    public const int NameMaxLength = 50;
+    public const int NameMaxLength = 100;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
+
+    // eventuellt en lista med Subcategories
 
     private Category(Guid id, string name)
     {
