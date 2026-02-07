@@ -7,6 +7,7 @@ public class Subcategory
     public const int NameMaxLength = 100;
 
     public Guid Id { get; private set; }
+    public Category CategoryId { get; set; }
     public string Name { get; private set; } = null!;
 
     // eventuellt en lista med Courses

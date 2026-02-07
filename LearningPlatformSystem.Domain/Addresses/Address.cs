@@ -19,6 +19,22 @@ public class Address
         City = city;
     }
 
+
+    public static Address Create(string streetName, string postalCode, string city)
+    {
+        ValidateStreetName(streetName);
+
+        ValidatePostalCode(postalCode);
+
+        ValidateCity(city);
+        
+        Guid id = Guid.NewGuid();
+        Address address = new Address(id, streetName, postalCode, city);
+
+        return address;
+    }
+
+
     public static void ValidateStreetName(string streetName)
     {
         if (string.IsNullOrWhiteSpace(streetName))
@@ -54,20 +70,5 @@ public class Address
         {
             throw new CityNameTooLong(CityNameMaxLength);
         }
-    }
-
-
-    public static Address Create(string streetName, string postalCode, string city)
-    {
-        ValidateStreetName(streetName);
-
-        ValidatePostalCode(postalCode);
-
-        ValidateCity(city);
-        
-        Guid id = Guid.NewGuid();
-        Address address = new Address(id, streetName, postalCode, city);
-
-        return address;
     }
 }
