@@ -24,6 +24,7 @@ public class Teacher
 
         Guid id = Guid.NewGuid();
         Teacher teacher = new(id, name, contactInformation);
+
         return teacher;
     }
 }
