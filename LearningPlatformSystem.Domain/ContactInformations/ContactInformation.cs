@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.Addresses;
-using System.Xml.Linq;
 
 namespace LearningPlatformSystem.Domain.ContactInformations;
 
@@ -9,10 +8,10 @@ public class ContactInformation
     public const int PhoneNumberMaxLength = 20;
     public const int PhoneNumberMinLength = 8;
 
-    public Guid Id { get; set; }
-    public string Email { get; set; } = null!;
-    public string PhoneNumber { get; set; } = null!;
-    public Address? Address { get; set; }
+    public Guid Id { get; private set; }
+    public string Email { get; private set; } = null!;
+    public string PhoneNumber { get; private set; } = null!;
+    public Address? Address { get; private set; }
 
 
     private ContactInformation(Guid id, string email, string phoneNumber)
