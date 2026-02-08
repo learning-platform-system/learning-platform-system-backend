@@ -7,32 +7,35 @@ public class Subcategory
     public const int NameMaxLength = 100;
 
     public Guid Id { get; private set; }
-    public Category CategoryId { get; set; }
+    public Guid CategoryId { get; private set; }
     public string Name { get; private set; } = null!;
 
     // eventuellt en lista med Courses
 
-    private Subcategory(Guid id, string name)
+    private Subcategory(Guid id, Guid categoryId, string name)
     {
         Id = id;
         Name = name;
+        CategoryId = categoryId;
     }
 
-
-    public static Subcategory Create(string name)
+    // måste skapas via category (application kommer inte åt), en subcategory måste tillhöra en category
+    internal static Subcategory Create(Guid categoryId, string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        string normalizedName = name?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(normalizedName))
         {
             throw new SubcategoryNameIsRequired();
         }
 
-        if (name.Length > Category.NameMaxLength)
+        if (normalizedName.Length > NameMaxLength)
         {
             throw new SubcategoryNameIsTooLong(NameMaxLength);
         }
 
         Guid id = Guid.NewGuid();
-        Subcategory subcategory = new(id,name);
+        Subcategory subcategory = new(id, categoryId, normalizedName);
 
         return subcategory;
     }

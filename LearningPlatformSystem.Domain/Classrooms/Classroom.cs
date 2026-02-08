@@ -21,11 +21,13 @@ public class Classroom
 
     public static Classroom Create(string name, int capacity, ClassRoomType type)
     {
-        ValidateName(name);
+        string normalizedName = name?.Trim() ?? string.Empty;
+
+        ValidateName(normalizedName);
         ValidateCapacity(capacity);
 
         Guid id = Guid.NewGuid();
-        Classroom classroom = new(id, name, capacity, type);
+        Classroom classroom = new(id, normalizedName, capacity, type);
         return classroom;
     }
 

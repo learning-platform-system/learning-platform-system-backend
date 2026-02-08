@@ -6,23 +6,27 @@ public class Campus
 {
     public const int NameMaxLength = 50;
 
-    public Guid Id { get; set; }
-    public Guid AddressId { get; set; }
-    public string Name { get; set; } = null!;
+    public Guid Id { get; private set; }
+    public string Name { get; private set; } = null!;
+    public Address Address { get; set; }
 
-    private Campus(Guid id, Guid addressId, string name)
+    private Campus(Guid id, string name, Address address)
     {
         Id = id;
-        AddressId = addressId;
         Name = name;
+        Address = address;
     }
 
-    public static Campus Create(string name, Guid addressId)
+    public static Campus Create(string name, string streetName, string postalCode, string city)
     {
-        ValidateName(name);
+        string normalizedName = name?.Trim() ?? string.Empty;
+
+        ValidateName(normalizedName);
+
+        Address address = Address.Create(streetName, postalCode, city);
 
         Guid id = Guid.NewGuid();
-        Campus campus = new(id, addressId, name);
+        Campus campus = new(id, normalizedName, address);
 
         return campus;
     }

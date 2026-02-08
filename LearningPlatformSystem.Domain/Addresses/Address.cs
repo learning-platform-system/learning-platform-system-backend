@@ -1,4 +1,6 @@
-﻿namespace LearningPlatformSystem.Domain.Addresses;
+﻿using System.Xml.Linq;
+
+namespace LearningPlatformSystem.Domain.Addresses;
 
 public class Address
 {
@@ -19,17 +21,21 @@ public class Address
         City = city;
     }
 
-
-    public static Address Create(string streetName, string postalCode, string city)
+    // måste skapas via contact information eller campus (application kommer inte åt), en adress måste tillhöra antingen en contactInformation eller en campus
+    internal static Address Create(string streetName, string postalCode, string city)
     {
-        ValidateStreetName(streetName);
+        string normalizedStreetName = streetName?.Trim() ?? string.Empty;
+        string normalizedPostalCode = postalCode?.Trim() ?? string.Empty;
+        string normalizedCity = city?.Trim() ?? string.Empty;
 
-        ValidatePostalCode(postalCode);
+        ValidateStreetName(normalizedStreetName);
 
-        ValidateCity(city);
+        ValidatePostalCode(normalizedPostalCode);
+
+        ValidateCity(normalizedCity);
         
         Guid id = Guid.NewGuid();
-        Address address = new(id, streetName, postalCode, city);
+        Address address = new(id, normalizedStreetName, normalizedPostalCode, normalizedCity);
 
         return address;
     }
