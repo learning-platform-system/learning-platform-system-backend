@@ -31,7 +31,7 @@ public class Classroom
         return classroom;
     }
 
-    public static void ValidateName(string name)
+    private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -43,7 +43,7 @@ public class Classroom
         }
     }
 
-    public static void ValidateCapacity(int capacity) {
+    private static void ValidateCapacity(int capacity) {
         if (capacity <= 0)
         {
             throw new ClassroomCapacityMustBePositive();

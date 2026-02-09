@@ -41,7 +41,7 @@ public class ContactInformation
         Address = Address.Create(streetName, postalCode, city);
     }
 
-    public static void ValidateEmail(string email)
+    private static void ValidateEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
         {
@@ -53,7 +53,7 @@ public class ContactInformation
         }
     }
 
-    public static void ValidatePhoneNumber(string phoneNumber)
+    private static void ValidatePhoneNumber(string phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {

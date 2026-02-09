@@ -31,7 +31,7 @@ public class Campus
         return campus;
     }
 
-    public static void ValidateName(string name)
+    private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {

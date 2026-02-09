@@ -21,14 +21,6 @@ public class Category
         Name = name;
     }
 
-
-    public void AddSubcategory(string name)
-    {
-        var subcategory = Subcategory.Create(Id, name);
-        _subcategories.Add(subcategory);
-    }
-
-
     // skapa upp regler för vad en Category får vara
     public static Category Create(string name)
     {
@@ -40,7 +32,7 @@ public class Category
             throw new CategoryNameIsRequired();
         }
 
-        if (normalizedName.Length > NameMaxLength) 
+        if (normalizedName.Length > NameMaxLength)
         {
             throw new CategoryNameTooLongException(NameMaxLength);
         }
@@ -50,4 +42,13 @@ public class Category
 
         return category;
     }
+
+    public void AddSubcategory(string name)
+    {
+        var subcategory = Subcategory.Create(Id, name);
+        _subcategories.Add(subcategory);
+    }
+
+
+    
 }

@@ -19,7 +19,7 @@ public class Subcategory
         CategoryId = categoryId;
     }
 
-    // måste skapas via category (application kommer inte åt), en subcategory måste tillhöra en category
+    // internal, måste skapas via category (application kommer inte åt), en subcategory måste tillhöra en category
     internal static Subcategory Create(Guid categoryId, string name)
     {
         string normalizedName = name?.Trim() ?? string.Empty;

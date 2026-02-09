@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace LearningPlatformSystem.Domain.Addresses;
+﻿namespace LearningPlatformSystem.Domain.Addresses;
 
 public class Address
 {
@@ -41,7 +39,7 @@ public class Address
     }
 
 
-    public static void ValidateStreetName(string streetName)
+    private static void ValidateStreetName(string streetName)
     {
         if (string.IsNullOrWhiteSpace(streetName))
         {
@@ -54,7 +52,7 @@ public class Address
         }
     }
 
-    public static void ValidatePostalCode(string postalCode)
+    private static void ValidatePostalCode(string postalCode)
     {
         if (string.IsNullOrWhiteSpace(postalCode))
         {
@@ -66,7 +64,7 @@ public class Address
         }
     }
 
-    public static void ValidateCity(string city)
+    private static void ValidateCity(string city)
     {
         if (string.IsNullOrWhiteSpace(city))
         {
