@@ -1,10 +1,12 @@
-﻿using LearningPlatformSystem.Domain.Addresses;
+﻿using LearningPlatformSystem.Domain.Shared;
 
 namespace LearningPlatformSystem.Domain.Classrooms;
 
 public class Classroom
 {
-    public const int NameMaxLength = 5;
+    private Classroom() { } // parameterlös konstruktor som krävs av EF Core
+
+    public const int ClassroomNameMaxLength = 5;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
@@ -21,9 +23,8 @@ public class Classroom
 
     public static Classroom Create(string name, int capacity, ClassRoomType type)
     {
-        string normalizedName = name?.Trim() ?? string.Empty;
-
-        ValidateName(normalizedName);
+        string normalizedName = DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
+            ClassroomErrors.ClassroomNameIsRequired, ClassroomErrors.ClassroomNameIsTooLong(ClassroomNameMaxLength));
         ValidateCapacity(capacity);
 
         Guid id = Guid.NewGuid();
@@ -31,22 +32,10 @@ public class Classroom
         return classroom;
     }
 
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ClassroomNameIsRequired();
-        }
-        if (name.Length > NameMaxLength)
-        {
-            throw new ClassroomNameTooLong(NameMaxLength);
-        }
-    }
-
     private static void ValidateCapacity(int capacity) {
         if (capacity <= 0)
         {
-            throw new ClassroomCapacityMustBePositive();
+            throw new DomainException(ClassroomErrors.CapacityMustBePositive);
         }
     }
 }

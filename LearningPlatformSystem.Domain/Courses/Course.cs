@@ -1,9 +1,15 @@
-﻿namespace LearningPlatformSystem.Domain.Courses;
+﻿using LearningPlatformSystem.Domain.Shared;
+
+namespace LearningPlatformSystem.Domain.Courses;
 
 public class Course
 {
-    public const int TitleMaxLength = 200;
-    
+    private Course() { } // parameterlös konstruktor som krävs av EF Core
+
+    public const int CourseTitleMaxLength = 200;
+    public const int CreditsMinValue = 1;
+    public const int CreditsMaxValue = 30;
+
     public Guid Id { get; private set; }
     public Guid SubcategoryId { get; private set; }
     public string Title { get; private set; } = null!;
@@ -22,14 +28,17 @@ public class Course
 
     public static Course Create(Guid subcategoryId, string title, string? description, int credits)
     {
-        string normalizedTitle = title?.Trim() ?? string.Empty;
-        var normalizedDescription = description?.Trim() ?? null;
+        string normalizedTitle = DomainValidator.ValidateRequiredString(title, CourseTitleMaxLength, 
+            CourseErrors.CourseTitleIsRequired, CourseErrors.CourseTitleIsTooLong(CourseTitleMaxLength)); 
 
-        ValidateTitle(normalizedTitle);
         ValidateCredits(credits);
 
+        string? normalizedDescription = DomainValidator.ValidateOptionalString(description);
+
+        DomainValidator.ValidateRequiredGuid(subcategoryId, CourseErrors.SubcategoryIdIsRequired);
+
         Guid id = Guid.NewGuid();
-        Course course = new(id, subcategoryId, normalizedTitle, description, credits);
+        Course course = new(id, subcategoryId, normalizedTitle, normalizedDescription, credits);
 
         return course;
     }
@@ -46,22 +55,10 @@ public class Course
 
     private static void ValidateCredits(int credits)
     {
-        if (credits <= 0)
+        if (credits < CreditsMinValue || credits > CreditsMaxValue)
         {
-            throw new CourseCreditsMustBePositive();
-        }
-    }
-
-    private static void ValidateTitle(string normalizedTitle)
-    {
-        if (string.IsNullOrWhiteSpace(normalizedTitle))
-        {
-            throw new CourseTitleIsRequired();
-        }
-        
-        if (normalizedTitle.Length > TitleMaxLength)
-        {
-            throw new CourseTitleTooLong(TitleMaxLength);
+            throw new DomainException(
+                CourseErrors.CreditsValueOutOfRange(CreditsMinValue, CreditsMaxValue));
         }
     }
 }

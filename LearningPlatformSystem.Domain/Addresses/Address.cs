@@ -1,7 +1,11 @@
-﻿namespace LearningPlatformSystem.Domain.Addresses;
+﻿using LearningPlatformSystem.Domain.Shared;
+
+namespace LearningPlatformSystem.Domain.Addresses;
 
 public class Address
 {
+    private Address() { } // parameterlös konstruktor som krävs av EF Core
+
     public const int StreetNameMaxLength = 50;
     public const int CityNameMaxLength = 50;
     public const int PostalCodeMaxLength = 6;
@@ -22,57 +26,19 @@ public class Address
     // måste skapas via contact information eller campus (application kommer inte åt), en adress måste tillhöra antingen en contactInformation eller en campus
     internal static Address Create(string streetName, string postalCode, string city)
     {
-        string normalizedStreetName = streetName?.Trim() ?? string.Empty;
-        string normalizedPostalCode = postalCode?.Trim() ?? string.Empty;
-        string normalizedCity = city?.Trim() ?? string.Empty;
 
-        ValidateStreetName(normalizedStreetName);
+        string normalizedStreetName = DomainValidator.ValidateRequiredString(streetName, StreetNameMaxLength, 
+            AddressErrors.StreetNameIsRequired, AddressErrors.StreetNameIsTooLong(StreetNameMaxLength));
 
-        ValidatePostalCode(normalizedPostalCode);
+        string normalizedPostalCode = DomainValidator.ValidateRequiredString(postalCode, PostalCodeMaxLength, 
+            AddressErrors.PostalCodeIsRequired, AddressErrors.PostalCodeIsTooLong(PostalCodeMaxLength));
 
-        ValidateCity(normalizedCity);
+        string normalizedCity = DomainValidator.ValidateRequiredString(city, CityNameMaxLength, 
+            AddressErrors.CityIsRequired, AddressErrors.CityIsTooLong(CityNameMaxLength));
         
         Guid id = Guid.NewGuid();
         Address address = new(id, normalizedStreetName, normalizedPostalCode, normalizedCity);
 
         return address;
-    }
-
-
-    private static void ValidateStreetName(string streetName)
-    {
-        if (string.IsNullOrWhiteSpace(streetName))
-        {
-            throw new StreetNameIsRequired();
-        }
-
-        if (streetName.Length > CityNameMaxLength)
-        {
-            throw new StreetNameTooLong(CityNameMaxLength);
-        }
-    }
-
-    private static void ValidatePostalCode(string postalCode)
-    {
-        if (string.IsNullOrWhiteSpace(postalCode))
-        {
-            throw new PostalCodeIsRequired();
-        }
-        if (postalCode.Length > PostalCodeMaxLength)
-        {
-            throw new PostalCodeTooLong(PostalCodeMaxLength);
-        }
-    }
-
-    private static void ValidateCity(string city)
-    {
-        if (string.IsNullOrWhiteSpace(city))
-        {
-            throw new CityIsRequired();
-        }
-        if (city.Length > CityNameMaxLength)
-        {
-            throw new CityNameTooLong(CityNameMaxLength);
-        }
     }
 }

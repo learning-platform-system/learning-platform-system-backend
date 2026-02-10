@@ -1,7 +1,12 @@
-﻿namespace LearningPlatformSystem.Domain.CoursePeriods;
+﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
+using LearningPlatformSystem.Domain.Shared;
+
+namespace LearningPlatformSystem.Domain.CoursePeriods;
 
 public class CoursePeriod
 {
+    private CoursePeriod() { } // parameterlös konstruktor som krävs av EF Core
+
     public Guid Id { get; private set; }
     public Guid CourseId { get; private set; }
     public Guid TeacherId { get; private set; }
@@ -24,6 +29,9 @@ public class CoursePeriod
 
     public static CoursePeriod Create(Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
+        DomainValidator.ValidateRequiredGuid(courseId, CoursePeriodErrors.CourseIdIsRequired);
+        DomainValidator.ValidateRequiredGuid(teacherId, CoursePeriodErrors.TeacherIdIsRequired);
+
         Guid id = Guid.NewGuid();
         CoursePeriod coursePeriod = new(id, courseId, teacherId, startDate, endDate, format);
 
@@ -34,5 +42,4 @@ public class CoursePeriod
     {
         CampusId = campusId;
     }
-
 }

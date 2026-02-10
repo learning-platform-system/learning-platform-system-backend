@@ -1,7 +1,11 @@
-﻿namespace LearningPlatformSystem.Domain.CourseSessions;
+﻿using LearningPlatformSystem.Domain.Shared;
+
+namespace LearningPlatformSystem.Domain.CourseSessions;
 
 public class CourseSession
 {
+    private CourseSession() { } // parameterlös konstruktor som krävs av EF Core
+
     public Guid Id { get; private set; }
     public Guid CoursePeriodId { get; private set; }
     public Guid  ClassroomId { get; private set; }
@@ -23,7 +27,8 @@ public class CourseSession
     public static CourseSession Create(Guid coursePeriodId, Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         ValidateSessionTimes(startTime, endTime);
-        ValidateRequiredIds(coursePeriodId, classroomId);
+        DomainValidator.ValidateRequiredGuid(coursePeriodId, CourseSessionErrors.CoursePeriodIdIsRequired);
+        DomainValidator.ValidateRequiredGuid(coursePeriodId, CourseSessionErrors.ClassroomIdIsRequired);
 
         Guid id = Guid.NewGuid();
         CourseSession courseSession = new(id, coursePeriodId, classroomId, date, startTime, endTime);
@@ -36,21 +41,8 @@ public class CourseSession
     {
         if (endTime <= startTime)
         {
-            throw new CourseSessionEndTimeMustBeAfterStartTime();
+            throw new DomainException(CourseSessionErrors.CourseSessionEndTimeMustBeAfterStartTime);
         }
     }
 
-    // eftersom Guid är en struct (defaultvärde) och inte nullable, så kan den inte vara null
-    private static void ValidateRequiredIds(Guid coursePeriodId, Guid classroomId)
-    {
-        if (coursePeriodId == Guid.Empty)
-        {
-            throw new CoursePeriodIdIsRequired();
-        }
-
-        if (classroomId == Guid.Empty)
-        {
-            throw new ClassroomIdIsRequired();
-        }
-    }
 }

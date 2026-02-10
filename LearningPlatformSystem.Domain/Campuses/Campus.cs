@@ -1,14 +1,17 @@
 ﻿using LearningPlatformSystem.Domain.Addresses;
+using LearningPlatformSystem.Domain.Shared;
 
 namespace LearningPlatformSystem.Domain.Campuses;
 
 public class Campus
 {
-    public const int NameMaxLength = 50;
+    private Campus() { } // parameterlös konstruktor som krävs av EF Core
+
+    public const int CampusNameMaxLength = 50;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
-    public Address Address { get; set; }
+    public Address Address { get; private set; } = null!;
 
     private Campus(Guid id, string name, Address address)
     {
@@ -19,9 +22,8 @@ public class Campus
 
     public static Campus Create(string name, string streetName, string postalCode, string city)
     {
-        string normalizedName = name?.Trim() ?? string.Empty;
-
-        ValidateName(normalizedName);
+        string normalizedName = DomainValidator.ValidateRequiredString(name, CampusNameMaxLength, 
+            CampusErrors.CampusNameIsRequired, CampusErrors.CampusNameIsTooLong(CampusNameMaxLength)); 
 
         Address address = Address.Create(streetName, postalCode, city);
 
@@ -29,18 +31,6 @@ public class Campus
         Campus campus = new(id, normalizedName, address);
 
         return campus;
-    }
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new CampusNameIsRequired();
-        }
-        if (name.Length > NameMaxLength)
-        {
-            throw new CampusNameIsTooLong(NameMaxLength);
-        }
     }
 }
     

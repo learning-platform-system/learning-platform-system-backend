@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 
-public class PersonName : ValueObject
+public sealed class PersonName : ValueObject
 {
     public const int FirstNameMaxLength = 50;
     public const int LastNameMaxLength = 50;
@@ -16,11 +16,11 @@ public class PersonName : ValueObject
 
     public static PersonName Create(string firstName, string lastName)
     {
-        string normalizedFirstName = firstName?.Trim() ?? string.Empty;
-        string normalizedLastName = lastName?.Trim() ?? string.Empty;
+        string normalizedFirstName = DomainValidator.ValidateRequiredString(firstName, FirstNameMaxLength, 
+            PersonNameErrors.FirstNameIsRequired, PersonNameErrors.FirstNameIsTooLong(FirstNameMaxLength));
 
-        ValidateFirstName(normalizedFirstName);
-        ValidateLastName(normalizedLastName);
+        string normalizedLastName = DomainValidator.ValidateRequiredString(lastName, LastNameMaxLength, 
+            PersonNameErrors.LastNameIsRequired, PersonNameErrors.LastNameIsTooLong(LastNameMaxLength));
 
         PersonName personName = new(normalizedFirstName, normalizedLastName);
         return personName;
@@ -30,32 +30,5 @@ public class PersonName : ValueObject
     {
         yield return FirstName;
         yield return LastName;
-    }
-
-    // Validering
-    private static void ValidateFirstName(string normalizedFirstName)
-    {
-        if (string.IsNullOrWhiteSpace(normalizedFirstName))
-        {
-            throw new PersonFirstNameIsRequired();
-        }
-
-        if (normalizedFirstName.Length > FirstNameMaxLength)
-        {
-            throw new PersonFirstNameTooLong(FirstNameMaxLength);
-        }
-    }
-
-    private static void ValidateLastName(string normalizedLastName)
-    {
-        if (string.IsNullOrWhiteSpace(normalizedLastName))
-        {
-            throw new PersonLastNameIsRequired();
-        }
-
-        if (normalizedLastName.Length > LastNameMaxLength)
-        {
-            throw new PersonLastNameTooLong(LastNameMaxLength);
-        }
     }
 }

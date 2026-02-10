@@ -5,6 +5,8 @@ namespace LearningPlatformSystem.Domain.Student;
 
 public class Student
 {
+    private Student() { } // parameterlös konstruktor som krävs av EF Core
+
     public Guid Id { get; private set; }
     public PersonName Name { get; private set; } = null!;
     public ContactInformation ContactInformation { get; private set; } = null!;

@@ -1,9 +1,12 @@
 ﻿using LearningPlatformSystem.Domain.Addresses;
+using LearningPlatformSystem.Domain.Shared;
 
 namespace LearningPlatformSystem.Domain.ContactInformations;
 
 public class ContactInformation
 {
+    private ContactInformation() { } // parameterlös konstruktor som krävs av EF Core
+
     public const int EmailMaxLength = 100;
     public const int PhoneNumberMaxLength = 20;
     public const int PhoneNumberMinLength = 8;
@@ -23,11 +26,12 @@ public class ContactInformation
 
     public static ContactInformation Create(string email, string phoneNumber)
     {
-        string normalizedEmail = email?.Trim() ?? string.Empty;
-        string normalizedPhoneNumber = phoneNumber?.Trim() ?? string.Empty;
+        string normalizedEmail = DomainValidator.ValidateRequiredString(email, EmailMaxLength, 
+            ContactInformationErrors.EmailIsRequired, ContactInformationErrors.EmailIsTooLong(EmailMaxLength));
 
-        ValidateEmail(normalizedEmail);
-        ValidatePhoneNumber(normalizedPhoneNumber);
+        string normalizedPhoneNumber = DomainValidator.ValidateRequiredStringWithLengthRange(phoneNumber, PhoneNumberMinLength, PhoneNumberMaxLength,
+            ContactInformationErrors.PhoneNumberIsRequired, ContactInformationErrors.PhoneNumberIsTooShort(PhoneNumberMinLength), 
+            ContactInformationErrors.PhoneNumberIsTooLong(PhoneNumberMaxLength));
 
         Guid id = Guid.NewGuid();
         ContactInformation contactInformation = new(id, normalizedEmail, normalizedPhoneNumber);
@@ -39,33 +43,5 @@ public class ContactInformation
     public void AddAddress(string streetName, string postalCode, string city)
     {
         Address = Address.Create(streetName, postalCode, city);
-    }
-
-    private static void ValidateEmail(string email)
-    {
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new EmailIsRequired();
-        }
-        if (email.Length > EmailMaxLength)
-        {
-            throw new EmailIsTooLong(EmailMaxLength);
-        }
-    }
-
-    private static void ValidatePhoneNumber(string phoneNumber)
-    {
-        if (string.IsNullOrWhiteSpace(phoneNumber))
-        {
-            throw new PhoneNumberIsRequired();
-        }
-        if (phoneNumber.Length > PhoneNumberMaxLength)
-        {
-            throw new PhoneNumberIsTooLong(PhoneNumberMaxLength);
-        }
-        if (phoneNumber.Length < PhoneNumberMinLength)
-        {
-            throw new PhoneNumberIsTooShort(PhoneNumberMinLength);
-        }
     }
 }
