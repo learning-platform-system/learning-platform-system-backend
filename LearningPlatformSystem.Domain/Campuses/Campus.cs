@@ -5,8 +5,6 @@ namespace LearningPlatformSystem.Domain.Campuses;
 
 public class Campus
 {
-    private Campus() { } // parameterlös konstruktor som krävs av EF Core
-
     public const int CampusNameMaxLength = 50;
 
     public Guid Id { get; private set; }

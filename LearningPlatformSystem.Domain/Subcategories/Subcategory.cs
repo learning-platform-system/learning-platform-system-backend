@@ -4,15 +4,11 @@ namespace LearningPlatformSystem.Domain.Subcategories;
 
 public class Subcategory
 {
-    private Subcategory() { } // parameterlös konstruktor som krävs av EF Core
-
     public const int SubcategoryNameMaxLength = 100;
 
     public Guid Id { get; private set; }
     public Guid CategoryId { get; private set; }
     public string Name { get; private set; } = null!;
-
-    // eventuellt en lista med Courses
 
     private Subcategory(Guid id, Guid categoryId, string name)
     {

@@ -5,12 +5,9 @@ namespace LearningPlatformSystem.Domain.Student;
 
 public class Student
 {
-    private Student() { } // parameterlös konstruktor som krävs av EF Core
-
     public Guid Id { get; private set; }
     public PersonName Name { get; private set; } = null!;
     public ContactInformation ContactInformation { get; private set; } = null!;
-    //public List<CoursePeriodEnrollment>? CoursePeriodEnrollments { get; private set; }
 
     private Student(Guid id, PersonName name, ContactInformation contactInformation)
     {
@@ -30,14 +27,4 @@ public class Student
 
         return student;
     }
-
-    //public void EnrollInCoursePeriod(CoursePeriod coursePeriod)
-    //{
-    //    if (CoursePeriodEnrollments == null)
-    //    {
-    //        CoursePeriodEnrollments = new List<CoursePeriodEnrollment>();
-    //    }
-    //    CoursePeriodEnrollment enrollment = CoursePeriodEnrollment.Create(this, coursePeriod);
-    //    CoursePeriodEnrollments.Add(enrollment);
-    //}
 }

@@ -4,8 +4,6 @@ namespace LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 
 public class CoursePeriodEnrollment
 {
-    private CoursePeriodEnrollment() { } // parameterlös konstruktor som krävs av EF Core
-
     // 2 FK, Student x är inskriven i period y
     public Guid StudentId { get; private set; }
     public Guid CoursePeriodId { get; private set; }

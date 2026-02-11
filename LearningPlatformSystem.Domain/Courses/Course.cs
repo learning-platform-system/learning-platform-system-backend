@@ -1,13 +1,12 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Courses;
 
 public class Course
 {
-    private Course() { } // parameterlös konstruktor som krävs av EF Core
-
     // Listan: skapas direkt (new), är muterbar (readonly), kan aldrig bli null (new), går ej att göra new på -->är alltid samma instans (readonly)
     private readonly List<CoursePeriod> _coursePeriods = new();
 

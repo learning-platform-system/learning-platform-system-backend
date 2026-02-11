@@ -1,12 +1,10 @@
-﻿using LearningPlatformSystem.Domain.Shared;
+﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Classrooms;
 
 public class Classroom
 {
-    private Classroom() { } // parameterlös konstruktor som krävs av EF Core
-
     public const int ClassroomNameMaxLength = 5;
 
     public Guid Id { get; private set; }

@@ -1,16 +1,13 @@
 ﻿
 using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
-using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Domain.CourseSessions;
-using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriods;
 
 public class CoursePeriod
 {
-    private CoursePeriod() { } // parameterlös konstruktor som krävs av EF Core
-
     private readonly List<CourseSession> _sessions = new();
     private readonly List<CoursePeriodEnrollment> _enrollments = new();
 

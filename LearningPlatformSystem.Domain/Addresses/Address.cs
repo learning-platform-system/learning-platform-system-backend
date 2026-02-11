@@ -4,8 +4,6 @@ namespace LearningPlatformSystem.Domain.Addresses;
 
 public class Address
 {
-    private Address() { } // parameterlös konstruktor som krävs av EF Core
-
     public const int StreetNameMaxLength = 50;
     public const int CityNameMaxLength = 50;
     public const int PostalCodeMaxLength = 6;

@@ -5,8 +5,6 @@ namespace LearningPlatformSystem.Domain.ContactInformations;
 
 public class ContactInformation
 {
-    private ContactInformation() { } // parameterlös konstruktor som krävs av EF Core
-
     public const int EmailMaxLength = 100;
     public const int PhoneNumberMaxLength = 20;
     public const int PhoneNumberMinLength = 8;

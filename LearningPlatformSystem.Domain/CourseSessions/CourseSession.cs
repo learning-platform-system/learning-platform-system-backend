@@ -1,13 +1,12 @@
 ﻿using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CourseSessions;
 
 public class CourseSession
 {
-    private CourseSession() { } // parameterlös konstruktor som krävs av EF Core
-
     private readonly List<CourseSessionAttendance> _attendances = new();
 
     public Guid Id { get; private set; }

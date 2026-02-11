@@ -5,8 +5,6 @@ namespace LearningPlatformSystem.Domain.Categories;
 
 public class Category
 {
-    private Category() { } // parameterlös konstruktor som krävs av EF Core
-
     // private - listan är bara tillgänglig inne i category. Readonly, listan är muterbar, men referensen kan inte bytas ut (alltid samma lista-instans)
     private readonly List<Subcategory> _subcategories = new();
     // följa databasens satta namelength - säkerhet. Bara props blir kolumner i databasen
