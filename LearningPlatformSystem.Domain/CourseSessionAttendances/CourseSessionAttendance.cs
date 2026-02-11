@@ -20,7 +20,8 @@ public class CourseSessionAttendance
         Status = status;
     }
 
-    public static CourseSessionAttendance Create(Guid studentId, Guid courseSessionId, Guid coursePeriodId, AttendanceStatus status)
+    // skapande via CourseSession
+    internal static CourseSessionAttendance Create(Guid studentId, Guid courseSessionId, Guid coursePeriodId, AttendanceStatus status)
     {
         DomainValidator.ValidateRequiredGuid(studentId, CourseSessionAttendanceErrors.StudentIdIsRequired);
         DomainValidator.ValidateRequiredGuid(courseSessionId, CourseSessionAttendanceErrors.CourseSessionIdIsRequired);

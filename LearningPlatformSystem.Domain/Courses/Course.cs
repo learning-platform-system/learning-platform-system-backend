@@ -1,10 +1,14 @@
-﻿using LearningPlatformSystem.Domain.Shared;
+﻿using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.Shared;
 
 namespace LearningPlatformSystem.Domain.Courses;
 
 public class Course
 {
     private Course() { } // parameterlös konstruktor som krävs av EF Core
+
+    // Listan: skapas direkt (new), är muterbar (readonly), kan aldrig bli null (new), går ej att göra new på -->är alltid samma instans (readonly)
+    private readonly List<CoursePeriod> _coursePeriods = new();
 
     public const int CourseTitleMaxLength = 200;
     public const int CreditsMinValue = 1;
@@ -15,7 +19,8 @@ public class Course
     public string Title { get; private set; } = null!;
     public string? Description { get; private set; }
     public int Credits { get; private set; }
-    //public List<CoursePeriod>? CoursePeriods { get; private set; }
+    // immutabel egenskap som bara är en exponering av den privata listan, så att den inte kan ändras utanför klassen
+    public IReadOnlyCollection<CoursePeriod> CoursePeriods => _coursePeriods;
 
     private Course(Guid id, Guid subcategoryId, string title, string? description, int credits)
     {
@@ -38,20 +43,16 @@ public class Course
         DomainValidator.ValidateRequiredGuid(subcategoryId, CourseErrors.SubcategoryIdIsRequired);
 
         Guid id = Guid.NewGuid();
-        Course course = new(id, subcategoryId, normalizedTitle, normalizedDescription, credits);
 
-        return course;
+        return new Course(id, subcategoryId, normalizedTitle, normalizedDescription, credits);
     }
 
-    //public void AddCoursePeriod(DateTime startDate, DateTime endDate)
-    //{
-    //    if (CoursePeriods == null)
-    //    {
-    //        CoursePeriods = new List<CoursePeriod>();
-    //    }
-    //    CoursePeriod coursePeriod = CoursePeriod.Create(this, startDate, endDate);
-    //    CoursePeriods.Add(coursePeriod);
-    //}
+    // this.Id = id på den Course som just nu kör metoden
+    public void AddCoursePeriod(Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
+    {
+        CoursePeriod coursePeriod = CoursePeriod.Create(this.Id, teacherId, startDate, endDate, format);
+        _coursePeriods.Add(coursePeriod);
+    }
 
     private static void ValidateCredits(int credits)
     {

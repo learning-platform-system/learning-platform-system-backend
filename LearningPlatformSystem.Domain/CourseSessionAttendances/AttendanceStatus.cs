@@ -2,7 +2,6 @@
 
 public enum AttendanceStatus
 {
-    NotRecorded,
     Present,
     Absent,
     Excused

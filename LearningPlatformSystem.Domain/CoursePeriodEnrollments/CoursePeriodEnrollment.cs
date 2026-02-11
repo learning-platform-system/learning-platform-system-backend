@@ -18,7 +18,7 @@ public class CoursePeriodEnrollment
         Grade = grade;
     }
 
-    public static CoursePeriodEnrollment Create(Guid studentId, Guid coursePeriodId)
+    internal static CoursePeriodEnrollment Create(Guid studentId, Guid coursePeriodId)
     {
         DomainValidator.ValidateRequiredGuid(studentId, CoursePeriodEnrollmentErrors.StudentIdIsRequired);
         DomainValidator.ValidateRequiredGuid(coursePeriodId, CoursePeriodEnrollmentErrors.CoursePeriodIdIsRequired);

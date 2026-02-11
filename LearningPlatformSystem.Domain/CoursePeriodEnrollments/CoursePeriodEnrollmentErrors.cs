@@ -7,4 +7,7 @@ public class CoursePeriodEnrollmentErrors
 
     public const string CoursePeriodIdIsRequired =
         "Kursperiodens id måste anges.";
+
+    public const string StudentAlreadyEnrolled =
+        "Studenten är redan inskriven i denna kursperiod.";
 }
