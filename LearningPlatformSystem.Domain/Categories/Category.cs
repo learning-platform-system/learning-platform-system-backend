@@ -1,4 +1,4 @@
-﻿using LearningPlatformSystem.Domain.Shared;
+﻿using LearningPlatformSystem.Domain.Shared.Validators;
 using LearningPlatformSystem.Domain.Subcategories;
 
 namespace LearningPlatformSystem.Domain.Categories;

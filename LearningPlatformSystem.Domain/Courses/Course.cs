@@ -1,5 +1,6 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Courses;
 
