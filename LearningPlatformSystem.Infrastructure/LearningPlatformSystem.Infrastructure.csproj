@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LearningPlatformSystem.Application\LearningPlatformSystem.Application.csproj" />
+    <ProjectReference Include="..\LearningPlatformSystem.Domain\LearningPlatformSystem.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
