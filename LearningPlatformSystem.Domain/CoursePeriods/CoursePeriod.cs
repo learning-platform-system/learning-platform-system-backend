@@ -3,6 +3,7 @@ using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriods;
 

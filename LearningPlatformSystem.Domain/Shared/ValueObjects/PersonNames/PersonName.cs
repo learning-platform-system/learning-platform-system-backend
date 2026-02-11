@@ -1,4 +1,6 @@
-﻿namespace LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
+﻿using LearningPlatformSystem.Domain.Shared.Validators;
+
+namespace LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 
 public sealed class PersonName : ValueObject
 {

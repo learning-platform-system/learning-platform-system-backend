@@ -1,4 +1,6 @@
-﻿namespace LearningPlatformSystem.Domain.Shared;
+﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
+
+namespace LearningPlatformSystem.Domain.Shared.Validators;
 
 public static class DomainValidator
 {

@@ -1,4 +1,4 @@
-﻿namespace LearningPlatformSystem.Domain.Shared;
+﻿namespace LearningPlatformSystem.Domain.Shared.Exceptions;
 
 public class DomainException : Exception
 {
