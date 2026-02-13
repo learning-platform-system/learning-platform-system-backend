@@ -1,6 +1,6 @@
-﻿namespace LearningPlatformSystem.Domain.Shared.Repositories;
+﻿namespace LearningPlatformSystem.Application.Shared;
 
-public interface IRepository<T> where T : class
+public interface IRepositoryBase<T> where T : class
 {
     Task AddAsync(T entity, CancellationToken ct);
 

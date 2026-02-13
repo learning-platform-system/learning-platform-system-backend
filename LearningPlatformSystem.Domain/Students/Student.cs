@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.ContactInformations;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 
-namespace LearningPlatformSystem.Domain.Student;
+namespace LearningPlatformSystem.Domain.Students;
 
 public class Student
 {
