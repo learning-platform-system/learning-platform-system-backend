@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class AddressEntity : BaseEntity
+public sealed class AddressEntity : EntityBase
 {
     public Guid Id { get; set; }
 

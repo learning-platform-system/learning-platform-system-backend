@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class CampusEntity : BaseEntity
+public sealed class CampusEntity : EntityBase
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

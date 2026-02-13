@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class SubcategoryEntity : BaseEntity
+public sealed class SubcategoryEntity : EntityBase
 {
     public Guid Id { get; set; }
     public Guid CategoryId { get; set; }

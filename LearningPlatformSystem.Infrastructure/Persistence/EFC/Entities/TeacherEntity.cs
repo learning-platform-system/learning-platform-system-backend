@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class TeacherEntity : BaseEntity
+public sealed class TeacherEntity : EntityBase
 {
     public Guid Id { get; set; }
     public PersonName Name { get; set; } = null!;

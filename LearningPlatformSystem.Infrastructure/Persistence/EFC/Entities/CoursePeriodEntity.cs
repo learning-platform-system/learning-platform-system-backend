@@ -2,7 +2,7 @@
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class CoursePeriodEntity : BaseEntity
+public sealed class CoursePeriodEntity : EntityBase
 {
     public Guid Id { get; set; }
     public Guid CourseId { get; set; }

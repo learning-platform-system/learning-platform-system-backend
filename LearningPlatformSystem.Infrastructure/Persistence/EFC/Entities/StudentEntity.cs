@@ -2,7 +2,7 @@
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class StudentEntity : BaseEntity
+public sealed class StudentEntity : EntityBase
 {
     public Guid Id { get; set; }
     public PersonName Name { get; set; } = null!;

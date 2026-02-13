@@ -2,7 +2,7 @@
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class ContactInformationEntity : BaseEntity
+public sealed class ContactInformationEntity : EntityBase
 {
     public Guid Id { get; set; }
     public string Email { get; set; } = null!;

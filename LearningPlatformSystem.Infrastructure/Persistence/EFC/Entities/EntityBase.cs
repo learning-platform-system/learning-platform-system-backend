@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public abstract class BaseEntity
+public abstract class EntityBase
 {
     // Auditing-teknisk spårning, fälten används för att spåra när en adress skapades och senast ändrades. 
     public DateTime CreatedAt { get; set; }

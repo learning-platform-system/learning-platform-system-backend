@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
-public sealed class CategoryEntity : BaseEntity
+public sealed class CategoryEntity : EntityBase
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
