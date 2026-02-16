@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Validators;
 using LearningPlatformSystem.Domain.Shared.ValueObjects;
 
-namespace LearningPlatformSystem.Domain.ContactInformations;
+namespace LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 
 public class ContactInformation : ValueObject
 {
@@ -12,6 +12,7 @@ public class ContactInformation : ValueObject
     public string Email { get; } 
     public string PhoneNumber { get; }
 
+    private ContactInformation() { } // parameterlös konstruktor som krävs av EF Core
     private ContactInformation(string email, string phoneNumber)
     {
         Email = email;

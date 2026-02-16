@@ -1,5 +1,5 @@
-﻿
-using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
+﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
+using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
@@ -10,6 +10,7 @@ public class CoursePeriod
 {
     private readonly List<CourseSession> _sessions = new();
     private readonly List<CoursePeriodEnrollment> _enrollments = new();
+    private readonly List<CoursePeriodReview> _reviews = new();
 
     public Guid Id { get; private set; }
     public Guid CourseId { get; private set; }
@@ -20,6 +21,7 @@ public class CoursePeriod
     public CourseFormat Format { get; private set; }
     public IReadOnlyCollection<CourseSession> Sessions => _sessions;
     public IReadOnlyCollection<CoursePeriodEnrollment> Enrollments => _enrollments;
+    public IReadOnlyCollection<CoursePeriodReview> Reviews => _reviews;
 
     private CoursePeriod(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
@@ -74,5 +76,13 @@ public class CoursePeriod
         var enrollment = CoursePeriodEnrollment.Create(this.Id, studentId);
 
         _enrollments.Add(enrollment);
+    }
+
+    public void AddReview(Guid studentId, int ratingValue, string? comment)
+    {
+        Rating rating = Rating.Create(ratingValue);
+
+        CoursePeriodReview review = CoursePeriodReview.Create(this.Id, studentId, rating, comment);
+        _reviews.Add(review);
     }
 }

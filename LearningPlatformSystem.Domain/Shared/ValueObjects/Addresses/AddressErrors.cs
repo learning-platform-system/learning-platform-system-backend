@@ -1,4 +1,4 @@
-﻿namespace LearningPlatformSystem.Domain.Addresses;
+﻿namespace LearningPlatformSystem.Domain.Shared.ValueObjects.Addresses;
 
 public static class AddressErrors
 {

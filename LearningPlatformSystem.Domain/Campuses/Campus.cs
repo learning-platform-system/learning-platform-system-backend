@@ -1,7 +1,7 @@
-﻿using LearningPlatformSystem.Domain.Addresses;
-using LearningPlatformSystem.Domain.ContactInformations;
-using LearningPlatformSystem.Domain.Shared.Exceptions;
+﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
+using LearningPlatformSystem.Domain.Shared.ValueObjects.Addresses;
+using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 
 namespace LearningPlatformSystem.Domain.Campuses;
 

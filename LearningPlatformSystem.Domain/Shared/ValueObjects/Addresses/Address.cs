@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Validators;
 using LearningPlatformSystem.Domain.Shared.ValueObjects;
 
-namespace LearningPlatformSystem.Domain.Addresses;
+namespace LearningPlatformSystem.Domain.Shared.ValueObjects.Addresses;
 
 public class Address : ValueObject
 {

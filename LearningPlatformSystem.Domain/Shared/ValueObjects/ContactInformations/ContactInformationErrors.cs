@@ -1,4 +1,4 @@
-﻿namespace LearningPlatformSystem.Domain.ContactInformations;
+﻿namespace LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 
 public static class ContactInformationErrors
 {
