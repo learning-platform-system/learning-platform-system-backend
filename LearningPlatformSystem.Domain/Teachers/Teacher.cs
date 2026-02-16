@@ -1,4 +1,6 @@
-﻿using LearningPlatformSystem.Domain.ContactInformations;
+﻿using LearningPlatformSystem.Domain.Addresses;
+using LearningPlatformSystem.Domain.ContactInformations;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 
 namespace LearningPlatformSystem.Domain.Teachers;
@@ -8,6 +10,7 @@ public class Teacher
     public Guid Id { get; private set; }
     public PersonName Name { get; private set; } = null!;
     public ContactInformation ContactInformation { get; private set; } = null!; 
+    public Address? Address { get; private set; }
 
     private Teacher(Guid id, PersonName name, ContactInformation contactInformation)
     {
@@ -26,5 +29,36 @@ public class Teacher
         Teacher teacher = new(id, name, contactInformation);
 
         return teacher;
+    }
+
+    public void ChangeName(string firstName, string lastName)
+    {
+        Name = PersonName.Create(firstName, lastName);
+    }
+
+    public void AddAddress(string streetName, string postalCode, string city)
+    {
+        if (Address is not null)
+        {
+            throw new DomainException(TeacherErrors.AddressAlreadyExists);
+        }
+
+        Address = Address.Create(streetName, postalCode, city);
+    }
+
+    public void ChangeAddress(string streetName, string postalCode, string city)
+    {
+        if (Address is null)
+        {
+            throw new DomainException(TeacherErrors.AddressIsRequired);
+        }
+
+        Address = Address.Create(streetName, postalCode, city);
+
+    }
+
+    public void ChangeContactInformation(string email, string phoneNumber)
+    {
+        ContactInformation = ContactInformation.Create(email, phoneNumber);
     }
 }

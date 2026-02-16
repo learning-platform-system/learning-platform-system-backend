@@ -8,6 +8,11 @@ public static class ContactInformationErrors
 
     public const string PhoneNumberIsRequired =
     "Telefonnummer måste anges.";
+
+    public const string AddressAlreadyExists = "Adress finns redan.";
+
+    public const string AddressIsRequired = "Ingen address finns att ändra.";
+
     public static string PhoneNumberIsTooShort(int minLength) =>
         $"Telefonnummret måste vara minst {minLength} tecken.";
     public static string PhoneNumberIsTooLong(int maxLength) =>

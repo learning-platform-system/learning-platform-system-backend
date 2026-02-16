@@ -29,6 +29,7 @@ public sealed class PersonName : ValueObject
         return personName;
     }
 
+    // Definierar vilka egenskaper som avgör om två PersonName-objekt är lika. Används i ValueObjects-klassen för värdebaserad jämförelse (Equals, GetHashCode och operatorer) 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return FirstName;
