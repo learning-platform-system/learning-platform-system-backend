@@ -1,5 +1,4 @@
-﻿using LearningPlatformSystem.Domain.Addresses;
-using LearningPlatformSystem.Domain.Shared.Exceptions;
+﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 
 namespace LearningPlatformSystem.Domain.Shared.Validators;
 

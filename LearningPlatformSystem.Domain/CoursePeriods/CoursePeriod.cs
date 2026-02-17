@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
+using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
@@ -8,10 +9,15 @@ namespace LearningPlatformSystem.Domain.CoursePeriods;
 
 public class CoursePeriod
 {
+    // === Fields ===
     private readonly List<CourseSession> _sessions = new();
     private readonly List<CoursePeriodEnrollment> _enrollments = new();
     private readonly List<CoursePeriodReview> _reviews = new();
+    private readonly List<CoursePeriodResource> _resources = new();
 
+
+
+    // === Properties ===
     public Guid Id { get; private set; }
     public Guid CourseId { get; private set; }
     public Guid TeacherId { get; private set; }
@@ -22,7 +28,11 @@ public class CoursePeriod
     public IReadOnlyCollection<CourseSession> Sessions => _sessions;
     public IReadOnlyCollection<CoursePeriodEnrollment> Enrollments => _enrollments;
     public IReadOnlyCollection<CoursePeriodReview> Reviews => _reviews;
+    public IReadOnlyCollection<CoursePeriodResource> Resources => _resources;
 
+
+
+    // === Constructor ===
     private CoursePeriod(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
         Id = id;
@@ -33,7 +43,8 @@ public class CoursePeriod
         Format = format;
     }
 
-    // Ingen CoursePeriod kan skapas utan att ligga i Course._coursePeriods.
+
+    // === Factory Method ===
     internal static CoursePeriod Create(Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
         DomainValidator.ValidateRequiredGuid(courseId, CoursePeriodErrors.CourseIdIsRequired);
@@ -49,6 +60,8 @@ public class CoursePeriod
         return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
     }
 
+    
+    // === Campus ===
     public void ConnectToCampus(Guid campusId) 
     {
         DomainValidator.ValidateRequiredGuid(campusId, CoursePeriodErrors.CampusIdIsRequired);
@@ -56,6 +69,8 @@ public class CoursePeriod
         CampusId = campusId;
     }
 
+
+    // === Sessions ===
     public void AddSession(Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         CourseSession session = CourseSession.Create(this.Id, classroomId, date, startTime, endTime);
@@ -63,6 +78,8 @@ public class CoursePeriod
         _sessions.Add(session);
     }
 
+
+    // === Enrollments ===
     public void EnrollStudent(Guid studentId)
     {
         DomainValidator.ValidateRequiredGuid(studentId, CoursePeriodEnrollmentErrors.StudentIdIsRequired);
@@ -78,11 +95,32 @@ public class CoursePeriod
         _enrollments.Add(enrollment);
     }
 
+
+    // === Reviews ===
     public void AddReview(Guid studentId, int ratingValue, string? comment)
     {
         Rating rating = Rating.Create(ratingValue);
 
         CoursePeriodReview review = CoursePeriodReview.Create(this.Id, studentId, rating, comment);
         _reviews.Add(review);
+    }
+
+
+    // === Resources ===
+    public void AddResource(string title, string url, string? description)
+    {
+        CoursePeriodResource resource = CoursePeriodResource.Create(this.Id, title, url, description);
+        _resources.Add(resource);
+    }
+
+    public void RemoveResource(Guid resourceId)
+    {
+        CoursePeriodResource? resource = _resources.FirstOrDefault(r => r.Id == resourceId);
+        if (resource is null)
+        {
+            throw new DomainException(CoursePeriodResourceErrors.CoursePeriodResourceNotFound);
+        }
+
+        _resources.Remove(resource);
     }
 }

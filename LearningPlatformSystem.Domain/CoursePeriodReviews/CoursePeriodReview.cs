@@ -9,7 +9,7 @@ public class CoursePeriodReview
     public Guid Id { get; private set; }
     public Guid StudentId { get; private set; } 
     public Guid CoursePeriodId { get; private set; }
-    public Rating Rating { get; } = null!;
+    public Rating Rating { get; } 
     public string? Comment { get; private set; }
 
     private CoursePeriodReview(Guid id, Guid studentId, Guid coursePeriodId, Rating rating, string? comment)
