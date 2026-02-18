@@ -7,11 +7,13 @@ public class Category
 {
     // private - listan är bara tillgänglig inne i category. Readonly, listan är muterbar, men referensen kan inte bytas ut (alltid samma lista-instans)
     private readonly List<Subcategory> _subcategories = new();
+
     // följa databasens satta namelength - säkerhet. Bara props blir kolumner i databasen
     public const int CategoryNameMaxLength = 100;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } 
+
     // för att kunna få tag på listan i application och läsa den 
     public IReadOnlyCollection<Subcategory> Subcategories => _subcategories;
 
@@ -22,7 +24,7 @@ public class Category
         Name = name;
     }
 
-    // skapa upp regler för vad en Category får vara
+    // skapa upp regler för vad en Category måste vara
     public static Category Create(string name)
     {
         string normalizedName = DomainValidator.ValidateRequiredString(name, CategoryNameMaxLength, 
