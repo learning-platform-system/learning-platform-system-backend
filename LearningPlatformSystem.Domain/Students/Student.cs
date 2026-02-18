@@ -8,8 +8,8 @@ namespace LearningPlatformSystem.Domain.Students;
 public class Student
 {
     public Guid Id { get; private set; }
-    public PersonName Name { get; private set; } = null!;
-    public ContactInformation ContactInformation { get; private set; } = null!;
+    public PersonName Name { get; private set; } 
+    public ContactInformation ContactInformation { get; private set; }
     public Address? Address { get; private set; }
 
     private Student(Guid id, PersonName name, ContactInformation contactInformation)
@@ -36,24 +36,24 @@ public class Student
         Name = PersonName.Create(firstName, lastName);
     }
 
-    public void AddAddress(string streetName, string postalCode, string city)
+    public void AddAddress(string street, string postalCode, string city)
     {
         if (Address is not null)
         {
             throw new DomainException(StudentErrors.AddressAlreadyExists);
         }
         
-        Address = Address.Create(streetName, postalCode, city);
+        Address = Address.Create(street, postalCode, city);
     }
 
-    public void ChangeAddress(string streetName, string postalCode, string city)
+    public void ChangeAddress(string street, string postalCode, string city)
     {
         if (Address is null)
         {
             throw new DomainException(StudentErrors.AddressIsRequired);
         }
 
-        Address = Address.Create(streetName, postalCode, city);
+        Address = Address.Create(street, postalCode, city);
 
     }
 

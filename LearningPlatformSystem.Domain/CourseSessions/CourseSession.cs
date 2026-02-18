@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.CourseSessionAttendances;
-using LearningPlatformSystem.Domain.Shared;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 

@@ -11,7 +11,7 @@ public class Category
     public const int CategoryNameMaxLength = 100;
 
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
+    public string Name { get; private set; } 
     // för att kunna få tag på listan i application och läsa den 
     public IReadOnlyCollection<Subcategory> Subcategories => _subcategories;
 

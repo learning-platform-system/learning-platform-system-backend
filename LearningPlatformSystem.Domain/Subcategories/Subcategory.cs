@@ -8,7 +8,7 @@ public class Subcategory
 
     public Guid Id { get; private set; }
     public Guid CategoryId { get; private set; }
-    public string Name { get; private set; } = null!;
+    public string Name { get; private set; } 
 
     private Subcategory(Guid id, Guid categoryId, string name)
     {

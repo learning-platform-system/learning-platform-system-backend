@@ -10,9 +10,9 @@ public class Campus
     public const int CampusNameMaxLength = 50;
 
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
+    public string Name { get; private set; }
     public ContactInformation? ContactInformation { get; private set; }
-    public Address Address { get; private set; } = null!;
+    public Address Address { get; private set; } 
 
     private Campus(Guid id, string name, Address address)
     {
@@ -21,11 +21,11 @@ public class Campus
         Address = address;
     }
 
-    public static Campus Create(string name, string streetName, string postalCode, string city)
+    public static Campus Create(string name, string street, string postalCode, string city)
     {
         string normalizedName = ValidateName(name);
 
-        Address address = Address.Create(streetName, postalCode, city);
+        Address address = Address.Create(street, postalCode, city);
 
         Guid id = Guid.NewGuid();
         Campus campus = new(id, normalizedName, address);
@@ -40,9 +40,9 @@ public class Campus
         Name = normalizedName;
     }
 
-    public void ChangeAddress(string streetName, string postalCode, string city)
+    public void ChangeAddress(string street, string postalCode, string city)
     {
-        Address = Address.Create(streetName, postalCode, city);
+        Address = Address.Create(street, postalCode, city);
     }
 
     public void AddContactInformation(string email, string phoneNumber)

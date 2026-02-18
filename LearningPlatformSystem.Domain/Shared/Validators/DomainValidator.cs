@@ -106,9 +106,4 @@ public static class DomainValidator
             throw new DomainException(errorMessage);
         }
     }
-
-    internal static void ValidateRequiredGuid(Guid coursePeriodId, object coursePeriodIdIsRequired)
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -8,7 +8,7 @@ public class Classroom
     public const int ClassroomNameMaxLength = 5;
 
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
+    public string Name { get; private set; } 
     public int Capacity { get; private set; }
     public ClassRoomType Type { get; private set; }
 

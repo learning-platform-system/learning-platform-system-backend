@@ -16,7 +16,7 @@ public class Course
 
     public Guid Id { get; private set; }
     public Guid SubcategoryId { get; private set; }
-    public string Title { get; private set; } = null!;
+    public string Title { get; private set; }
     public string? Description { get; private set; }
     public int Credits { get; private set; }
     // immutabel egenskap som bara är en exponering av den privata listan, så att den inte kan ändras utanför klassen

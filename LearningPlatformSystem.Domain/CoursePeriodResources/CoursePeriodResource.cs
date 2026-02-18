@@ -11,8 +11,8 @@ public class CoursePeriodResource
 
     public Guid Id { get; private set; }
     public Guid CoursePeriodId { get; private set; }
-    public string Title { get; private set; } = null!; 
-    public string Url { get; private set; } = null!;
+    public string Title { get; private set; }
+    public string Url { get; private set; } 
     public string? Description { get; private set; }
 
     private CoursePeriodResource(Guid id, Guid coursePeriodId, string title, string url, string? description)
