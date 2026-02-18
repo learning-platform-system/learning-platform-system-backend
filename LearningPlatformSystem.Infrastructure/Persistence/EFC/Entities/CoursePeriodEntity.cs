@@ -19,9 +19,6 @@ public sealed class CoursePeriodEntity : EntityBase
     public ICollection<CoursePeriodEnrollmentEntity> Enrollments { get; set; } = [];
     public ICollection<CoursePeriodResourceEntity> Resources { get; set; } = [];
     public ICollection<CoursePeriodReviewEntity> Reviews { get; set; } = [];
-
-
-
 }
 
 /* DateOnly konfiguration i fluent api:builder.Property(e => e.StartDate)
