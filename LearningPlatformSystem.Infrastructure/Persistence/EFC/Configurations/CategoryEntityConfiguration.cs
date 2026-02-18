@@ -18,13 +18,14 @@ public class CategoryEntityConfiguration : EntityBaseConfiguration<CategoryEntit
             .ValueGeneratedNever();
 
         builder.Property(e => e.Name)
+            .HasColumnName("Name")
             .IsRequired()
             .HasMaxLength(Category.CategoryNameMaxLength);
 
         builder.HasMany(e => e.Subcategories) // en Category har många Subcategories
             .WithOne(s => s.Category) // varje Subcategory har exakt en Category
             .HasForeignKey(s => s.CategoryId) // Subcategory äger Category FK (beroendet)
-            .OnDelete(DeleteBehavior.Cascade); // när en Category tas bort, ta också bort alla Subcategories med det CategoryId
+            .OnDelete(DeleteBehavior.Restrict); // en Category kan inte tas bort om den har Subcategories. DeleteBehavour påverkar alltid borttagning av parent, inte borttagning av child. Det är alltid parent som bestämmer delete behavior.
 
         // Index:
         builder.HasIndex(e => e.Name)
