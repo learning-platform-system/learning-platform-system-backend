@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
-using LearningPlatformSystem.Domain.Shared;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
@@ -11,6 +10,7 @@ public class Course
     private readonly List<CoursePeriod> _coursePeriods = new();
 
     public const int CourseTitleMaxLength = 200;
+    public const int CourseDescriptionMaxLength = 2000;
     public const int CreditsMinValue = 1;
     public const int CreditsMaxValue = 30;
 
@@ -38,7 +38,8 @@ public class Course
 
         ValidateCredits(credits);
 
-        string? normalizedDescription = DomainValidator.ValidateOptionalString(description);
+        string? normalizedDescription = DomainValidator.ValidateOptionalString(description, CourseDescriptionMaxLength, 
+            CourseErrors.CourseDescriptionIsTooLong(CourseDescriptionMaxLength));
 
         DomainValidator.ValidateRequiredGuid(subcategoryId, CourseErrors.SubcategoryIdIsRequired);
 
