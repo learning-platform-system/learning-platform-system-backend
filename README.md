@@ -22,22 +22,22 @@ Infrastructure (EF Core & Databas)
 ```
 
 ### Lagerstruktur
-Presentation  
-ASP.NET Core Minimal API som exponerar endpoints.
+- **Presentation**  
+  ASP.NET Core Minimal API som exponerar endpoints.
 
-Application
-Use cases och applikationslogik.
-Koordinerar domän och infrastruktur.
+- **Application**  
+  Use cases och applikationslogik.
+  Koordinerar domän och infrastruktur.
 
-Domain
-Aggregates, entiteter, value objects och affärsregler.
-Repository-interfaces definieras här.
+- **Domain**  
+ Aggregates, entiteter, value objects och affärsregler.
+ Repository-interfaces definieras här.
 
-Infrastructure
-Entity Framework Core, konfigurationer och repository-implementationer.
+- **Infrastructure**  
+  Entity Framework Core, konfigurationer och repository-implementationer.
 
-Tests
-Enhets- och integrationstester för centrala delar av systemet.
+- **Tests**  
+  Enhets- och integrationstester för centrala delar av systemet.
 
 ## Databas
 - Code First med Entity Framework Core
