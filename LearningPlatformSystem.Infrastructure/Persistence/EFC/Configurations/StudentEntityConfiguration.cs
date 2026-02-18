@@ -7,22 +7,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Configurations;
 
-public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
+public class StudentEntityConfiguration : EntityBaseConfiguration<StudentEntity>
 {
-    public override void Configure(EntityTypeBuilder<TeacherEntity> builder)
+    public override void Configure(EntityTypeBuilder<StudentEntity> builder)
     {
         base.Configure(builder);
-               
-        builder.ToTable("Teachers");
+
+        builder.ToTable("Students");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
         .ValueGeneratedNever();
 
-        //PersonName = ownedType (ägs av en annan entitet och lagras i samma tabell)
-        builder.OwnsOne(teacher => teacher.Name, name =>
+        builder.OwnsOne(student => student.Name, name =>
         {
-            // Mappar value objectets egenskaper till kolumner i tabellen
             name.Property(n => n.FirstName)
                 .HasColumnName("FirstName")
                 .HasMaxLength(PersonName.FirstNameMaxLength)
@@ -34,7 +32,7 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
                 .IsRequired();
         });
 
-        builder.OwnsOne(teacher => teacher.ContactInformation, contactInfo =>
+        builder.OwnsOne(student => student.ContactInformation, contactInfo =>
         {
             contactInfo.Property(c => c.Email)
                 .HasColumnName("Email")
@@ -46,7 +44,7 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
                 .IsRequired();
         });
 
-        builder.OwnsOne(teacher => teacher.Address, address =>
+        builder.OwnsOne(student => student.Address, address =>
         {
             address.Property(a => a.Street)
                 .HasColumnName("Street")
@@ -59,12 +57,10 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
                 .HasMaxLength(Address.PostalCodeMaxLength);
         });
 
-        //Index:
-
-        // databas-skydd mot dubletter
+        // Index:
         builder.HasIndex(e => e.ContactInformation.Email)
        .IsUnique();
-        // sökning på förnamn + efternamn
+
         builder.HasIndex(e => new { e.Name.FirstName, e.Name.LastName });
     }
 }
