@@ -18,7 +18,6 @@ public class CategoryEntityConfiguration : EntityBaseConfiguration<CategoryEntit
             .ValueGeneratedNever();
 
         builder.Property(e => e.Name)
-            .HasColumnName("Name")
             .IsRequired()
             .HasMaxLength(Category.CategoryNameMaxLength);
 

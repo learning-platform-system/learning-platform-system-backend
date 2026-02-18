@@ -23,16 +23,13 @@ public class CourseEntityConfiguration : EntityBaseConfiguration<CourseEntity>
             .ValueGeneratedNever();
 
         builder.Property(e => e.Title)
-            .HasColumnName("Title")
             .IsRequired()
             .HasMaxLength(Course.CourseTitleMaxLength);
 
         builder.Property(e => e.Description)
-            .HasColumnName("Description")
             .HasMaxLength(Course.CourseDescriptionMaxLength);
 
         builder.Property(e => e.Credits)
-            .HasColumnName("Credits")
             .IsRequired();
 
         builder.HasOne(e => e.Subcategory)
