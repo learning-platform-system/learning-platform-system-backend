@@ -2,10 +2,10 @@
 
 public static class AddressErrors
 {
-    public const string StreetNameIsRequired = "Gatunamn måste anges.";
+    public const string StreetIsRequired = "Gatuadress måste anges.";
     //metod för att få tag på längd-const i Address
-    public static string StreetNameIsTooLong(int streetNameMaxLength) => 
-        $"Gatunamn får inte vara längre än {streetNameMaxLength} tecken.";
+    public static string StreetIsTooLong(int streetMaxLength) => 
+        $"Gatunamn får inte vara längre än {streetMaxLength} tecken.";
 
     public const string PostalCodeIsRequired = "Postnummer måste anges.";
     public static string PostalCodeIsTooLong(int postalCodeMaxLength) =>
