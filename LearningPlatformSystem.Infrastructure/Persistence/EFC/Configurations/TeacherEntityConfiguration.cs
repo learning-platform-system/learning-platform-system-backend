@@ -60,6 +60,11 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
         });
 
         //Index:
+
+        // databas-skydd mot dubletter
+        builder.HasIndex(entity => entity.ContactInformation.Email)
+       .IsUnique();
+        // sökning på förnamn + efternamn
         builder.HasIndex(entity => new { entity.Name.FirstName, entity.Name.LastName });
     }
 }
