@@ -12,7 +12,6 @@ public class ContactInformation : ValueObject
     public string Email { get; } 
     public string PhoneNumber { get; }
 
-    private ContactInformation() { } // parameterlös konstruktor som krävs av EF Core
     private ContactInformation(string email, string phoneNumber)
     {
         Email = email;

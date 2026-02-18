@@ -10,7 +10,6 @@ public sealed class PersonName : ValueObject
     public string FirstName { get; }
     public string LastName { get; }
 
-    private PersonName() { } // parameterlös konstruktor som krävs av EF Core
     private PersonName(string firstName, string lastName)
     {
         FirstName = firstName;

@@ -13,7 +13,6 @@ public class Address : ValueObject
     public string PostalCode { get; }
     public string City { get; } 
 
-    private Address() { } // parameterlös konstruktor som krävs av EF Core
     private Address(string street, string postalCode, string city)
     {
         Street = street;
