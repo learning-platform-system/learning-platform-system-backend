@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriods;
+﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
+using LearningPlatformSystem.Domain.CoursePeriods;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
@@ -15,8 +16,11 @@ public sealed class CoursePeriodEntity : EntityBase
     public DateOnly EndDate { get; set; }
     public CourseFormat Format { get; set; }
     public ICollection<CourseSessionEntity> Sessions { get; set; } = [];
-
     public ICollection<CoursePeriodEnrollmentEntity> Enrollments { get; set; } = [];
+    public ICollection<CoursePeriodResourceEntity> Resources { get; set; } = [];
+    public ICollection<CoursePeriodReviewEntity> Reviews { get; set; } = [];
+
+
 
 }
 
