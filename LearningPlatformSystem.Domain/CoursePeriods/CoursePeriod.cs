@@ -2,6 +2,7 @@
 using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CourseSessions;
+using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
@@ -71,9 +72,9 @@ public class CoursePeriod
 
 
     // === Sessions ===
-    public void AddSession(Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    public void AddSession(CourseFormat format, Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
-        CourseSession session = CourseSession.Create(this.Id, classroomId, date, startTime, endTime);
+        CourseSession session = CourseSession.Create(this.Id, format, classroomId, date, startTime, endTime);
 
         _sessions.Add(session);
     }

@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 

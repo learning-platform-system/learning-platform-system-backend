@@ -1,4 +1,4 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriods;
+﻿using LearningPlatformSystem.Domain.Shared.Enums;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
