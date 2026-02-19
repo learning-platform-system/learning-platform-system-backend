@@ -7,8 +7,21 @@ public class LearningPlatformDbContext : DbContext
     public LearningPlatformDbContext(DbContextOptions<LearningPlatformDbContext> options) : base(options)
     {
     }
-    // tabellen för ClassroomEntity hämtas från DbContext via Set<T>().
+
+    // Returnerar DbSet (= en collection av entiteter) för ClassroomEntity via DbContext.Set<T>(), vilket representerar tabellen i databasen.
     public DbSet<ClassroomEntity> Classrooms => Set<ClassroomEntity>();
+    public DbSet<CourseEntity> Courses => Set<CourseEntity>();
+    public DbSet<CoursePeriodEnrollmentEntity> CoursePeriodEnrollments => Set<CoursePeriodEnrollmentEntity>();
+    public DbSet<CoursePeriodEntity> CoursePeriods => Set<CoursePeriodEntity>();
+    public DbSet<CourseSessionAttendanceEntity> CourseSessionAttendances => Set<CourseSessionAttendanceEntity>();
+    public DbSet<CoursePeriodReviewEntity> CoursePeriodReviews => Set<CoursePeriodReviewEntity>();
+    public DbSet<CoursePeriodResourceEntity> CoursePeriodResources => Set<CoursePeriodResourceEntity>();
+    public DbSet<CampusEntity> Campuses => Set<CampusEntity>();
+    public DbSet<StudentEntity> Students => Set<StudentEntity>();
+    public DbSet<TeacherEntity> Teachers => Set<TeacherEntity>();
+    public DbSet<SubcategoryEntity> Subcategories => Set<SubcategoryEntity>();
+    public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
+    public DbSet<CourseSessionEntity> CourseSessions => Set<CourseSessionEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
