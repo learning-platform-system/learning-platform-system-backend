@@ -20,9 +20,3 @@ public sealed class CoursePeriodEntity : EntityBase
     public ICollection<CoursePeriodReviewEntity> Reviews { get; set; } = [];
 }
 
-/* DateOnly konfiguration i fluent api:builder.Property(e => e.StartDate)
-       .HasColumnType("date");
-
-builder.Property(e => e.EndDate)
-       .HasColumnType("date");
-*/
