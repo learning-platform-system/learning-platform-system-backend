@@ -60,7 +60,5 @@ public class CoursePeriodEntityConfiguration : EntityBaseConfiguration<CoursePer
         // Index:
         // sortera på startdatum
         builder.HasIndex(e => e.StartDate);
-
-
     }
 }
