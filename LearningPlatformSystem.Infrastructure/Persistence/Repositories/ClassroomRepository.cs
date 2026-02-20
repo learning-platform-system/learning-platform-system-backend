@@ -13,7 +13,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
     {
         ClassroomEntity classroomEntity = ToEntity(aggregate);
 
-        await _context.Classrooms.AddAsync(classroomEntity);
+        await _context.Classrooms.AddAsync(classroomEntity, ct);
     }
 
     public async Task<IReadOnlyList<Classroom>> GetClassroomByTypeAsync(ClassroomType type, CancellationToken ct)
@@ -78,7 +78,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
 
     private static ClassroomEntity ToEntity(Classroom aggregate)
     {
-        ClassroomEntity classroomEntity = new ClassroomEntity
+        ClassroomEntity classroomEntity = new()
         {
             Id = aggregate.Id,
             Name = aggregate.Name,
