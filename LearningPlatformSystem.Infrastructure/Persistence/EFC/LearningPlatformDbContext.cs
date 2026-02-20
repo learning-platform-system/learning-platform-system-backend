@@ -1,8 +1,9 @@
-﻿using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC;
-public class LearningPlatformDbContext : DbContext
+public class LearningPlatformDbContext : DbContext, IUnitOfWork
 {
     public LearningPlatformDbContext(DbContextOptions<LearningPlatformDbContext> options) : base(options)
     {
