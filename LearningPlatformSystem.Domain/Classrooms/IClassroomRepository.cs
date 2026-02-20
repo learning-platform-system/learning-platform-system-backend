@@ -1,8 +1,9 @@
-﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.Classrooms;
+﻿using LearningPlatformSystem.Domain.Shared;
 
-namespace LearningPlatformSystem.Application.Classrooms;
+namespace LearningPlatformSystem.Domain.Classrooms;
 
-public interface IClassroomRepository : IRepositoryBase<Classroom>
+public interface IClassroomRepository : IRepositoryBase<Classroom, Guid>
 {
+    Task<IReadOnlyList<Classroom>> GetClassroomByTypeAsync(ClassroomType type, CancellationToken ct);
+
 }

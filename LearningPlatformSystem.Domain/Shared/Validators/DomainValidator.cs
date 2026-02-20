@@ -106,4 +106,9 @@ public static class DomainValidator
             throw new DomainException(errorMessage);
         }
     }
+
+    internal static void ValidateRequiredGuid(Guid id, object idIsRequired)
+    {
+        throw new NotImplementedException();
+    }
 }

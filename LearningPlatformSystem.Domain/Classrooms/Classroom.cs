@@ -10,9 +10,9 @@ public class Classroom
     public Guid Id { get; private set; }
     public string Name { get; private set; } 
     public int Capacity { get; private set; }
-    public ClassRoomType Type { get; private set; }
+    public ClassroomType Type { get; private set; }
 
-    private Classroom(Guid id, string name, int capacity, ClassRoomType type)
+    private Classroom(Guid id, string name, int capacity, ClassroomType type)
     {
         Id = id;
         Name = name;
@@ -20,13 +20,14 @@ public class Classroom
         Type = type;
     }
 
-    public static Classroom Create(string name, int capacity, ClassRoomType type)
+    public static Classroom Create(Guid id, string name, int capacity, ClassroomType type)
     {
         string normalizedName = DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
-            ClassroomErrors.ClassroomNameIsRequired, ClassroomErrors.ClassroomNameIsTooLong(ClassroomNameMaxLength));
+            ClassroomErrors.NameIsRequired, ClassroomErrors.NameIsTooLong(ClassroomNameMaxLength));
         ValidateCapacity(capacity);
+        
+        DomainValidator.ValidateRequiredGuid(id, ClassroomErrors.IdIsRequired);
 
-        Guid id = Guid.NewGuid();
         Classroom classroom = new(id, normalizedName, capacity, type);
         return classroom;
     }

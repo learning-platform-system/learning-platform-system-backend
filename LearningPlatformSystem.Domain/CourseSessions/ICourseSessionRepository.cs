@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.CourseSessions;
 
-namespace LearningPlatformSystem.Application.CourseSessions;
+namespace LearningPlatformSystem.Domain.CourseSessions;
 
 public interface ICourseSessionRepository : IRepositoryBase<CourseSession>
 {

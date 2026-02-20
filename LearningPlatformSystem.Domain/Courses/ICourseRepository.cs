@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.Courses;
 
-namespace LearningPlatformSystem.Application.Courses;
+namespace LearningPlatformSystem.Domain.Courses;
 
 public interface ICourseRepository : IRepositoryBase<Course>
 {

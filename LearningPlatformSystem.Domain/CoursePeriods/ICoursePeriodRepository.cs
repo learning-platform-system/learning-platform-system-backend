@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.CoursePeriods;
 
-namespace LearningPlatformSystem.Application.CoursePeriods;
+namespace LearningPlatformSystem.Domain.CoursePeriods;
 
 public interface ICoursePeriodRepository : IRepositoryBase<CoursePeriod>
 {

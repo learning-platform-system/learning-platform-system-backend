@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.Teachers;
 
-namespace LearningPlatformSystem.Application.Teachers;
+namespace LearningPlatformSystem.Domain.Teachers;
 
 public interface ITeacherRepository : IRepositoryBase<Teacher>
 {

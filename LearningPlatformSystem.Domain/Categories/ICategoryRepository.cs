@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.Categories;
 
-namespace LearningPlatformSystem.Application.Categories;
+namespace LearningPlatformSystem.Domain.Categories;
 
 public interface ICategoryRepository : IRepositoryBase<Category>
 {
