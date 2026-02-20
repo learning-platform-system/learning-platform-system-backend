@@ -5,8 +5,6 @@ namespace LearningPlatformSystem.Domain.CourseSessionAttendances;
 // PK: StudentId FK + CourseSessionId FK + CoursePeriodId FK
 public class CourseSessionAttendance
 {
-    private CourseSessionAttendance() { } // parameterlös konstruktor som krävs av EF Core
-
     public Guid StudentId { get; private set; }
     public Guid CourseSessionId { get; private set; }
     public Guid CoursePeriodId { get; private set; }

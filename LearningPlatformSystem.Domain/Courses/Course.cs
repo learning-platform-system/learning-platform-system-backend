@@ -1,23 +1,23 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
-using LearningPlatformSystem.Domain.Shared;
+using LearningPlatformSystem.Domain.Shared.Enums;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Courses;
 
 public class Course
 {
-    private Course() { } // parameterlös konstruktor som krävs av EF Core
-
     // Listan: skapas direkt (new), är muterbar (readonly), kan aldrig bli null (new), går ej att göra new på -->är alltid samma instans (readonly)
     private readonly List<CoursePeriod> _coursePeriods = new();
 
     public const int CourseTitleMaxLength = 200;
+    public const int CourseDescriptionMaxLength = 2000;
     public const int CreditsMinValue = 1;
     public const int CreditsMaxValue = 30;
 
     public Guid Id { get; private set; }
     public Guid SubcategoryId { get; private set; }
-    public string Title { get; private set; } = null!;
+    public string Title { get; private set; }
     public string? Description { get; private set; }
     public int Credits { get; private set; }
     // immutabel egenskap som bara är en exponering av den privata listan, så att den inte kan ändras utanför klassen
@@ -39,7 +39,8 @@ public class Course
 
         ValidateCredits(credits);
 
-        string? normalizedDescription = DomainValidator.ValidateOptionalString(description);
+        string? normalizedDescription = DomainValidator.ValidateOptionalString(description, CourseDescriptionMaxLength, 
+            CourseErrors.CourseDescriptionIsTooLong(CourseDescriptionMaxLength));
 
         DomainValidator.ValidateRequiredGuid(subcategoryId, CourseErrors.SubcategoryIdIsRequired);
 

@@ -10,4 +10,27 @@
     <ProjectReference Include="..\LearningPlatformSystem.Domain\LearningPlatformSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Campuses\Inputs\" />
+    <Folder Include="Campuses\Outputs\" />
+    <Folder Include="Categories\Inputs\" />
+    <Folder Include="Categories\Outputs\" />
+    <Folder Include="Classrooms\Inputs\" />
+    <Folder Include="Classrooms\Outputs\" />
+    <Folder Include="CoursePeriods\Inputs\" />
+    <Folder Include="CoursePeriods\Outputs\" />
+    <Folder Include="CourseSessions\Inputs\" />
+    <Folder Include="CourseSessions\Outputs\" />
+    <Folder Include="Courses\Inputs\" />
+    <Folder Include="Courses\Outputs\" />
+    <Folder Include="Students\Inputs\" />
+    <Folder Include="Students\Outputs\" />
+    <Folder Include="Teachers\Inputs\" />
+    <Folder Include="Teachers\Outputs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
+  </ItemGroup>
+
 </Project>

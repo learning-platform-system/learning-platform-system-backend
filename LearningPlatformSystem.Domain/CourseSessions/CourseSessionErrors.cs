@@ -1,6 +1,4 @@
-﻿using LearningPlatformSystem.Domain.CourseSessionAttendances;
-
-namespace LearningPlatformSystem.Domain.CourseSessions;
+﻿namespace LearningPlatformSystem.Domain.CourseSessions;
 
 public class CourseSessionErrors
 {
@@ -8,16 +6,7 @@ public class CourseSessionErrors
     public const string ClassroomIdIsRequired = "Lokal måste anges.";
     public const string CourseSessionEndTimeMustBeAfterStartTime = "Sluttiden måste vara efter starttiden.";
 
+    public const string ClassroomIdIsRequiredForOnsiteSession = "För onsite-format måste en klassrum anges.";
 
-    public void bla()
-    {
-        var courseSession = CourseSession.Create(Guid.NewGuid(), Guid.NewGuid(), DateOnly.FromDateTime(DateTime.Now), TimeOnly.FromDateTime(DateTime.Now), TimeOnly.FromDateTime(DateTime.Now.AddHours(1)));
-        var studentId = Guid.NewGuid();
-
-        courseSession.AddAttendance(studentId, AttendanceStatus.Present);
-
-       var currentCourseSession = courseSession.Attendances.First(a => a.StudentId == studentId);
-
-        currentCourseSession.ChangeAttendanceStatus(AttendanceStatus.Absent);
-    }
+    public const string ClassroomNotAllowedForOnlineSession = "För online-format får inget klassrum anges.";
 }
