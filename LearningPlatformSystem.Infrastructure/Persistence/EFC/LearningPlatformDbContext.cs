@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Application.Shared.Exceptions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,20 @@ public class LearningPlatformDbContext : DbContext, IUnitOfWork
         // EF Core letar efter ALLA klasser i assemblyn (projektet) som implementerar IEntityTypeConfiguration och anropar deras Configure-metod automatiskt.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LearningPlatformDbContext).Assembly);
     }
+
+    // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en generell PersistenceException som kan hanteras i applikationslagret.
+    public override async Task<int> SaveChangesAsync(CancellationToken ct)
+    {
+        try
+        {
+            return await base.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException ex)
+        {
+            throw new PersistenceException("Ett fel uppstod vid sparning.", ex);
+        }
+    }
+
 }
 
 /*

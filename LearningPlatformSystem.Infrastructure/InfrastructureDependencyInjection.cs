@@ -1,4 +1,7 @@
-﻿using LearningPlatformSystem.Infrastructure.Persistence.EFC;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Classrooms;
+using LearningPlatformSystem.Infrastructure.Persistence.EFC;
+using LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +17,11 @@ public static class InfrastructureDependencyInjection
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
+
+        services.AddScoped<IUnitOfWork, LearningPlatformDbContext>();
+
+        services.AddScoped<IClassroomRepository, ClassroomRepository>();
+
 
         return services;
     }
