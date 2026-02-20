@@ -1,5 +1,5 @@
-﻿using LearningPlatformSystem.Domain.Campuses;
-using LearningPlatformSystem.Domain.Shared.Repositories;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Campuses;
 
 namespace LearningPlatformSystem.Application.Campuses;
 

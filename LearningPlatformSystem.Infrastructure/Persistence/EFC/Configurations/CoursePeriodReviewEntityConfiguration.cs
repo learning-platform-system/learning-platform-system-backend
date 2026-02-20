@@ -32,7 +32,7 @@ public class CoursePeriodReviewEntityConfiguration : EntityBaseConfiguration<Cou
             .OnDelete(DeleteBehavior.Cascade) // Om CoursePeriod tas bort ska dess reviews också tas bort
             .IsRequired();
 
-        builder.HasOne<StudentEntity>()
+        builder.HasOne(e => e.Student)
             .WithMany() // ingen navigation från student till review, tillhör olika aggregate.
             .HasForeignKey(e => e.StudentId)
             .OnDelete(DeleteBehavior.Restrict) // Om Student tas bort ska dess reviews inte tas bort

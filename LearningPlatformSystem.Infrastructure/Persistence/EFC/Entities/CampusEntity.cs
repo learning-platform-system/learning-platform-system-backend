@@ -9,5 +9,5 @@ public sealed class CampusEntity : EntityBase
     public string Name { get; set; } = null!;
     public Address Address { get; set; } = null!;
     // Navigeringsegenskap som används av EF Core för att representera relationen (.HasOne()) och möjliggöra laddning av relaterad data. I repot: .Include(campus => campus.ContactInformation) --> möjligt att skriva campus.ContactInformation.PhoneNumber
-    public ContactInformation? ContactInformation { get; set; } = null!;
+    public ContactInformation? ContactInformation { get; set; }
 }

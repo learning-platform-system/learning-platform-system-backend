@@ -44,6 +44,8 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
                 .HasColumnName("PhoneNumber")
                 .HasMaxLength(ContactInformation.PhoneNumberMaxLength)
                 .IsRequired();
+
+            contactInfo.HasIndex(c => c.Email).IsUnique();
         });
 
         builder.OwnsOne(teacher => teacher.Address, address =>
@@ -58,13 +60,5 @@ public class TeacherEntityConfiguration : EntityBaseConfiguration<TeacherEntity>
                 .HasColumnName("PostalCode")
                 .HasMaxLength(Address.PostalCodeMaxLength);
         });
-
-        //Index:
-
-        // databas-skydd mot dubletter
-        builder.HasIndex(e => e.ContactInformation.Email)
-       .IsUnique();
-        // sökning på förnamn + efternamn
-        builder.HasIndex(e => new { e.Name.FirstName, e.Name.LastName });
     }
 }

@@ -1,4 +1,4 @@
-﻿using LearningPlatformSystem.Domain.Shared.Repositories;
+﻿using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Students;
 
 namespace LearningPlatformSystem.Application.Students;

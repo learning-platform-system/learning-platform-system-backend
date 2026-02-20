@@ -30,6 +30,9 @@ public class StudentEntityConfiguration : EntityBaseConfiguration<StudentEntity>
                 .HasColumnName("LastName")
                 .HasMaxLength(PersonName.LastNameMaxLength)
                 .IsRequired();
+
+            // sökning på förnamn + efternamn
+            name.HasIndex(n => new { n.FirstName, n.LastName });
         });
 
         builder.OwnsOne(student => student.ContactInformation, contactInfo =>
@@ -42,6 +45,8 @@ public class StudentEntityConfiguration : EntityBaseConfiguration<StudentEntity>
                 .HasColumnName("PhoneNumber")
                 .HasMaxLength(ContactInformation.PhoneNumberMaxLength)
                 .IsRequired();
+
+            contactInfo.HasIndex(c => c.Email).IsUnique();
         });
 
         builder.OwnsOne(student => student.Address, address =>
@@ -56,11 +61,5 @@ public class StudentEntityConfiguration : EntityBaseConfiguration<StudentEntity>
                 .HasColumnName("PostalCode")
                 .HasMaxLength(Address.PostalCodeMaxLength);
         });
-
-        // Index:
-        builder.HasIndex(e => e.ContactInformation.Email)
-       .IsUnique();
-
-        builder.HasIndex(e => new { e.Name.FirstName, e.Name.LastName });
     }
 }

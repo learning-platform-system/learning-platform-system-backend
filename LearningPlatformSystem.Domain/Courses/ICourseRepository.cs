@@ -1,5 +1,5 @@
-﻿using LearningPlatformSystem.Domain.Courses;
-using LearningPlatformSystem.Domain.Shared.Repositories;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Courses;
 
 namespace LearningPlatformSystem.Application.Courses;
 

@@ -8,9 +8,9 @@ using LearningPlatformSystem.Application.Students;
 using LearningPlatformSystem.Application.Teachers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LearningPlatformSystem.Application.Extensions;
+namespace LearningPlatformSystem.Application;
 
-public static class ApplicationServiceCollectionExtensions
+public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {

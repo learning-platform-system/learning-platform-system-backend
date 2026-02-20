@@ -1,5 +1,5 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriods;
-using LearningPlatformSystem.Domain.Shared.Repositories;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.CoursePeriods;
 
 namespace LearningPlatformSystem.Application.CoursePeriods;
 

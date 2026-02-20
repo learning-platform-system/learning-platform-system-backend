@@ -1,5 +1,5 @@
-﻿using LearningPlatformSystem.Domain.CourseSessions;
-using LearningPlatformSystem.Domain.Shared.Repositories;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.CourseSessions;
 
 namespace LearningPlatformSystem.Application.CourseSessions;
 

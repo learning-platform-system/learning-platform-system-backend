@@ -53,11 +53,6 @@ public class CampusEntityConfiguration : EntityBaseConfiguration<CampusEntity>
         // Index:
         builder.HasIndex(e => e.Name)
        .IsUnique();
-
-        // Om email har ett värde måste den vara unik, om den är null - ignorera
-        builder.HasIndex(e => e.ContactInformation.Email)
-       .IsUnique()
-       .HasFilter("[Email] IS NOT NULL");
     }
 }
 
