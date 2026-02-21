@@ -1,8 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Classrooms.Inputs;
 using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Application.Shared.Errors;
 using LearningPlatformSystem.Application.Shared.Exceptions;
-using LearningPlatformSystem.Application.Shared.Results;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
@@ -12,10 +10,16 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
 {
     private readonly IClassroomRepository _classroomRepository = classroomRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task<Result> CreateClassroomAsync(CreateClassroomInput input, CancellationToken ct)
+    public async Task<ApplicationResult> CreateAsync(CreateClassroomInput input, CancellationToken ct)
     {
         try
         {
+            if (await classroomRepository.ExistsByNameAsync(input.Name, ct))
+            {
+                ApplicationResultError error = ClassroomApplicationErrors.NameAlreadyExists(input.Name);
+                return ApplicationResult.Fail(error);
+            }
+
             Classroom classroom = Classroom.Create
                 (
                 Guid.NewGuid(), 
@@ -27,17 +31,19 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             await _classroomRepository.AddAsync(classroom, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return Result.Ok();
+            return ApplicationResult.Ok();
         }
         catch (DomainException ex) 
         {
-            return Result.Fail(ClassroomApplicationErrors.BadRequest(ex.Message));
+            ApplicationResultError error = ClassroomApplicationErrors.BadRequest(ex.Message);
+            return ApplicationResult.Fail(error);
         }
-        catch (PersistenceException ex) // från SaveChangesAsync 
+        catch (PersistenceException ex) // wrappar DbUpdateException från SaveChangesAsync 
         {
             Exception? originalException = ex.InnerException;
 
-            return Result.Fail(PersistenceErrors.SaveFailed(ex.Message));
+            ApplicationResultError error = PersistenceErrors.SaveFailed(ex.Message);
+            return ApplicationResult.Fail(error);
         }
     }
 }
