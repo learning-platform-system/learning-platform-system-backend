@@ -1,4 +1,4 @@
-﻿namespace LearningPlatformSystem.Application.Shared.Results;
+﻿namespace LearningPlatformSystem.Application.Shared;
 
 public enum ErrorTypes
 {
