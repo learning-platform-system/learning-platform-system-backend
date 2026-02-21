@@ -12,11 +12,15 @@ public abstract class EntityBaseConfiguration<TEntity> : IEntityTypeConfiguratio
     {
         builder.Property(e => e.CreatedAt)
            .IsRequired()
-           .HasColumnType("datetime2(0)");
+           .HasColumnType("datetime2(0)")
+           .HasDefaultValueSql("SYSUTCDATETIME()")
+           .ValueGeneratedOnAdd();
 
         builder.Property(e => e.ModifiedAt)
             .IsRequired()
-            .HasColumnType("datetime2(0)");
+            .HasColumnType("datetime2(0)")
+            .HasDefaultValueSql("SYSUTCDATETIME()")
+            .ValueGeneratedOnAdd();
 
         builder.Property(e => e.RowVersion)
             .IsRowVersion();

@@ -18,7 +18,11 @@ public static class InfrastructureDependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
-        services.AddScoped<IUnitOfWork, LearningPlatformDbContext>();
+
+        services.AddScoped<IUnitOfWork>(sp =>
+            sp.GetRequiredService<LearningPlatformDbContext>());
+
+        //services.AddScoped<IUnitOfWork, LearningPlatformDbContext>();
 
         services.AddScoped<IClassroomRepository, ClassroomRepository>();
 

@@ -2,6 +2,7 @@
 using LearningPlatformSystem.Application.Shared.Exceptions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC;
 public class LearningPlatformDbContext : DbContext, IUnitOfWork
@@ -33,12 +34,30 @@ public class LearningPlatformDbContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LearningPlatformDbContext).Assembly);
     }
 
-    // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en generell PersistenceException som kan hanteras i applikationslagret.
+    // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en PersistenceException som kan hanteras i applikationslagret.
     public override async Task<int> SaveChangesAsync(CancellationToken ct)
     {
         try
         {
-            return await base.SaveChangesAsync(ct);
+            // hämtar aktuell tid 
+            DateTime utcNow = DateTime.UtcNow;
+
+            // hämtar alla entiteter som ärver EntityBase som EF spårar i den aktuella DbContext-instansen och sätter timestamps.
+            foreach (EntityEntry<EntityBase> entry in ChangeTracker.Entries<EntityBase>())
+            {
+                // kontrollera om entitetens tillstånd är Added eller Modified
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = utcNow;
+                    entry.Entity.ModifiedAt = utcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.ModifiedAt = utcNow;
+                }
+            }
+
+            return await base.SaveChangesAsync(ct);  
         }
         catch (DbUpdateException ex)
         {
