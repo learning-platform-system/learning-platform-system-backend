@@ -1,4 +1,6 @@
-﻿namespace LearningPlatformSystem.Domain.Shared;
+﻿using System.Linq.Expressions;
+
+namespace LearningPlatformSystem.Domain.Shared;
 
 public interface IRepositoryBase<TAggregate, TId> 
 {

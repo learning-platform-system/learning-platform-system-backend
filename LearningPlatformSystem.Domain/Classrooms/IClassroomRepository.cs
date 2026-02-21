@@ -4,6 +4,6 @@ namespace LearningPlatformSystem.Domain.Classrooms;
 
 public interface IClassroomRepository : IRepositoryBase<Classroom, Guid>
 {
-    Task<IReadOnlyList<Classroom>> GetClassroomByTypeAsync(ClassroomType type, CancellationToken ct);
-
+    Task<IReadOnlyList<Classroom>> GetByTypeAsync(ClassroomType type, CancellationToken ct);
+    Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
 }

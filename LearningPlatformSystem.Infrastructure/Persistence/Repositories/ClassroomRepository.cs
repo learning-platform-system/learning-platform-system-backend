@@ -2,6 +2,7 @@
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 
@@ -16,7 +17,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         await _context.Classrooms.AddAsync(classroomEntity, ct);
     }
 
-    public async Task<IReadOnlyList<Classroom>> GetClassroomByTypeAsync(ClassroomType type, CancellationToken ct)
+    public async Task<IReadOnlyList<Classroom>> GetByTypeAsync(ClassroomType type, CancellationToken ct)
     {
        List<Classroom> classrooms = await _context.Classrooms
             .AsNoTracking()
@@ -87,5 +88,10 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         };
 
         return classroomEntity;
+    }
+
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)
+    {
+       return await _context.Classrooms.AsNoTracking().AnyAsync(classroomEntity => classroomEntity.Name == name);
     }
 }
