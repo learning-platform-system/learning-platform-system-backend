@@ -7,23 +7,25 @@ namespace LearningPlatformSystem.API.Classrooms.Create;
 
 public static class CreateClassroomEndpoint
 {
-    public static IEndpointRouteBuilder MapCreateClassroomEndpoint(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapCreateClassroomEndpoint(this RouteGroupBuilder group)
     {
-        var group = app.MapGroup("Classrooms").WithTags("Classroom");
-
         group.MapPost("", HandleAsync).WithName("CreateClassroom");
 
-        return app;
+        return group;
 
     }
 
-    private static async Task<IResult> HandleAsync(CreateClassroomRequest request, IClassroomService service)
+    private static async Task<IResult> HandleAsync(CreateClassroomRequest request, IClassroomService service, CancellationToken ct)
     {
-        ApplicationResult result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), CancellationToken.None);
+        ApplicationResult result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
 
-        // Func<IResult> onSuccess = () => Results.Created();
+        if(!result.IsSuccess)
+        {
+            return result.ToHttpFailResult();
+        }
+
         // Results.Created(string location, object? value). location =  URL:en till den nyskapade Classroom i endpointen GetById. Value är det som skickas tillbaka i response body
-        return result.ToHttpResult(() => Results.Created());
+        return Results.Created();
     }
 
 

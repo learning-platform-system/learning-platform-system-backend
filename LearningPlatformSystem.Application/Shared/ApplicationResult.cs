@@ -2,16 +2,16 @@
 
 public sealed record ApplicationResult
 {
-    public bool Success { get; }
+    public bool IsSuccess { get; }
     public ApplicationResultError? Error { get; }
 
-    private ApplicationResult(bool success, ApplicationResultError? error = null)
+    private ApplicationResult(bool isSuccess, ApplicationResultError? error = null)
     {
-        Success = success;
+        IsSuccess = isSuccess;
         Error = error;
     }
 
-    public static ApplicationResult Ok() => new(true);
+    public static ApplicationResult Success() => new(true);
 
     public static ApplicationResult Fail(ApplicationResultError error) =>
         new ApplicationResult(false, error);
@@ -19,18 +19,18 @@ public sealed record ApplicationResult
 
 public sealed record Result<T>
 {
-    public bool Success { get; }
+    public bool IsSuccess { get; }
     public T? Data { get; }
     public ApplicationResultError? Error { get; }
 
-    private Result(bool success, T? data = default, ApplicationResultError? error = null)
+    private Result(bool isSuccess, T? data = default, ApplicationResultError? error = null)
     {
-        Success = success;
+        IsSuccess = isSuccess;
         Data = data;
         Error = error;
     }
 
-    public static Result<T> Ok(T data) =>
+    public static Result<T> Success(T data) =>
         new(true, data);
 
     public static Result<T> Fail(ApplicationResultError error) =>

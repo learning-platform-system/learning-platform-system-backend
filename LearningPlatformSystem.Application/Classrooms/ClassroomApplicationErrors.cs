@@ -1,10 +1,11 @@
 ﻿using LearningPlatformSystem.Application.Shared;
+using System.Xml.Linq;
 
 namespace LearningPlatformSystem.Application.Classrooms;
 
 public static class ClassroomApplicationErrors
 {
-    public static ApplicationResultError ClassroomNotFound(Guid classroomId) =>
+    public static ApplicationResultError CouldNotBeFound(Guid classroomId) =>
         new ApplicationResultError(ErrorTypes.NotFound, $"Klassrummet med id {classroomId} kunde inte hittas.");
 
     public static ApplicationResultError BadRequest(string message) => new ApplicationResultError(ErrorTypes.BadRequest, message);

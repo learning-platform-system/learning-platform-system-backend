@@ -6,12 +6,8 @@ public static class ResultExtensions
 {
     // IResult - interface i ASP.NET minimal API, som innehåller Results.
     // Func - en delegerad typ (callback), representerar en metod som inte tar några argument och returnerar ett värde av typen IResult.
-    public static IResult ToHttpResult(this ApplicationResult result, Func<IResult> onSuccess)
+    public static IResult ToHttpFailResult(this ApplicationResult result)
     {
-        if (result.Success)
-        {
-            return onSuccess();
-        }
 
         switch (result.Error!.Type)
         {

@@ -2,7 +2,6 @@
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 
@@ -57,6 +56,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         }
 
         _context.Classrooms.Remove(entity);
+
         return true;
     }
 

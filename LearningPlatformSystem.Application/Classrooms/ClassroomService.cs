@@ -14,7 +14,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
     {
         try
         {
-            if (await classroomRepository.ExistsByNameAsync(input.Name, ct))
+            if (await _classroomRepository.ExistsByNameAsync(input.Name, ct))
             {
                 ApplicationResultError error = ClassroomApplicationErrors.NameAlreadyExists(input.Name);
                 return ApplicationResult.Fail(error);
@@ -31,7 +31,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             await _classroomRepository.AddAsync(classroom, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult.Ok();
+            return ApplicationResult.Success();
         }
         catch (DomainException ex) 
         {
@@ -46,6 +46,32 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             return ApplicationResult.Fail(error);
         }
     }
+
+    public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
+    {
+        try
+        {
+            bool exists = await _classroomRepository.RemoveAsync(id, ct);
+
+            if (!exists)
+            {
+                ApplicationResultError error = ClassroomApplicationErrors.CouldNotBeFound(id);
+                return ApplicationResult.Fail(error);
+            }
+
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return ApplicationResult.Success();
+        }
+        catch (PersistenceException ex) 
+        {
+            Exception? originalException = ex.InnerException;
+
+            ApplicationResultError error = PersistenceErrors.SaveFailed(ex.Message);
+            return ApplicationResult.Fail(error);
+        }
+    }
+
 }
 
 /*
