@@ -7,10 +7,9 @@ namespace LearningPlatformSystem.Application.Classrooms;
 
 public interface IClassroomService
 {
-    Task<ApplicationResult<ClassroomOutput>> CreateAsync(CreateClassroomInput input, CancellationToken ct);
+    Task<ApplicationResult<Guid>> CreateAsync(CreateClassroomInput input, CancellationToken ct);
 
     Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
     Task<ApplicationResult<IReadOnlyList<ClassroomOutput>>> GetByTypeAsync(ClassroomType type, CancellationToken ct);
-
-    //Task<Result> UpdateClassroomAsync(Guid id, UpdateClassroomInput input, CancellationToken ct);
+    Task<ApplicationResult> UpdateAsync(UpdateClassroomInput input, CancellationToken ct);
 }

@@ -6,4 +6,5 @@ public interface IClassroomRepository : IRepositoryBase<Classroom, Guid>
 {
     Task<IReadOnlyList<Classroom>> GetByTypeAsync(ClassroomType type, CancellationToken ct);
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
+    Task<bool> ExistsAnotherWithSameNameAsync(string name, Guid classroomId, CancellationToken ct);
 }

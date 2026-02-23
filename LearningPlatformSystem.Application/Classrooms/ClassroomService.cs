@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Classrooms.Inputs;
 using LearningPlatformSystem.Application.Classrooms.Outputs;
 using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Application.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
@@ -13,12 +12,12 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
 {
     private readonly IClassroomRepository _classroomRepository = classroomRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task<ApplicationResult<ClassroomOutput>> CreateAsync(CreateClassroomInput input, CancellationToken ct)
+    public async Task<ApplicationResult<Guid>> CreateAsync(CreateClassroomInput input, CancellationToken ct)
     {
         if (await _classroomRepository.ExistsByNameAsync(input.Name, ct))
         {
             ApplicationResultError error = ClassroomApplicationErrors.NameAlreadyExists(input.Name);
-            return ApplicationResult<ClassroomOutput>.Fail(error);
+            return ApplicationResult<Guid>.Fail(error);
         }
 
         try
@@ -34,18 +33,12 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             await _classroomRepository.AddAsync(classroom, ct);
             await _unitOfWork.SaveChangesAsync(ct);
 
-            ClassroomOutput classroomOutput = new ClassroomOutput(
-            classroom.Id,
-            classroom.Name,
-            classroom.Capacity,
-            classroom.Type);
-
-            return ApplicationResult<ClassroomOutput>.Success(classroomOutput);
+            return ApplicationResult<Guid>.Success(classroom.Id);
         }
         catch (DomainException ex) 
         {
             ApplicationResultError error = ClassroomApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult<ClassroomOutput>.Fail(error);
+            return ApplicationResult<Guid>.Fail(error);
         }
     }
 
@@ -78,18 +71,44 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
 
         return ApplicationResult<IReadOnlyList<ClassroomOutput>>.Success(classroomOutputs);
     }
+
+    // 3 st anrop till datbasen???
+    public async Task<ApplicationResult> UpdateAsync(UpdateClassroomInput input, CancellationToken ct)
+    {
+       Classroom? classroom = await _classroomRepository.GetByIdAsync(input.Id, ct);
+
+        if (classroom == null)
+        {
+            ApplicationResultError error = ClassroomApplicationErrors.CouldNotBeFound(input.Id);
+            return ApplicationResult.Fail(error);
+        }
+
+        if (await _classroomRepository.ExistsAnotherWithSameNameAsync(input.Name, input.Id, ct))
+        {
+            ApplicationResultError error = ClassroomApplicationErrors.NameAlreadyExists(input.Name);
+            return ApplicationResult.Fail(error);
+        }
+
+        try
+        {
+            classroom.Update(input.Name, input.Capacity, input.Type);
+
+            await _classroomRepository.UpdateAsync(classroom, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return ApplicationResult.Success();
+        }
+        catch (DomainException ex)
+        {
+            ApplicationResultError error = ClassroomApplicationErrors.BadRequest(ex.Message);
+            return ApplicationResult.Fail(error);
+        }
+    }
 }
 
 /*
-DbUpdateException kastas när:
-Unique constraint bryts
-Foreign key bryts
-NOT NULL bryts
-Check constraint bryts
+SaveChangesAsyncSkapa CoursePeriod, lägg till: sessions, resources etc.
+Repot anropas vid varje action men ingenting sparas - flera actions buntas ihop i en transaktion, antingen lyckas alla eller misslyckas
 */
 
-/*
-Skapa CoursePeriod, lägg till: sessions, resources etc.
-Repot anropas vid varje action men ingenting sparas - flera actions buntas ihop i en transaktion, antingen lyckas alla eller misslyckas
-*/ 
 

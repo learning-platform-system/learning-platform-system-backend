@@ -15,9 +15,15 @@ public static class GetClassroomsByTypeEndpoint
         return group;
     }
 
-    private static async Task<IResult> HandleAsync(ClassroomType type, IClassroomService service, CancellationToken ct)
+    private static async Task<IResult> HandleAsync(string type, IClassroomService service, CancellationToken ct)
     {
-        ApplicationResult<IReadOnlyList<ClassroomOutput>> result = await service.GetByTypeAsync(type, ct);
+        if (!Enum.TryParse(type, true, out ClassroomType parsedType))
+        {
+            return Results.BadRequest("Ogiltig klassrumstyp.");
+        }
+
+
+        ApplicationResult<IReadOnlyList<ClassroomOutput>> result = await service.GetByTypeAsync(parsedType, ct);
 
         if (!result.IsSuccess)
         {

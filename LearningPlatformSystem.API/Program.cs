@@ -6,17 +6,22 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// För att kunna serialisera enum som string i JSON-request/response
+// För att kunna serialisera enum som string i JSON-request/response body
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.Converters
         .Add(new JsonStringEnumConverter());
 });
 
+// visa string i Swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.UseInlineDefinitionsForEnums();
+});
+
 builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 var services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 
 

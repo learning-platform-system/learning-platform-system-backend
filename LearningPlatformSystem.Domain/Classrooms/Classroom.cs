@@ -22,20 +22,40 @@ public class Classroom
 
     public static Classroom Create(Guid id, string name, int capacity, ClassroomType type)
     {
-        string normalizedName = DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
-            ClassroomErrors.NameIsRequired, ClassroomErrors.NameIsTooLong(ClassroomNameMaxLength));
+        string normalizedName = ValidateName(name);
+        ValidateId(id);
         ValidateCapacity(capacity);
-        
-        DomainValidator.ValidateRequiredGuid(id, ClassroomErrors.IdIsRequired);
 
         Classroom classroom = new(id, normalizedName, capacity, type);
         return classroom;
     }
 
-    private static void ValidateCapacity(int capacity) {
+    public void Update(string name, int capacity, ClassroomType type)
+    {
+        string normalizedName = ValidateName(name);
+        ValidateCapacity(capacity);
+
+        Name = normalizedName;
+        Capacity = capacity;
+        Type = type;
+    }
+
+    private static void ValidateCapacity(int capacity)
+    {
         if (capacity <= 0)
         {
             throw new DomainException(ClassroomErrors.CapacityMustBePositive);
         }
+    }
+
+    private static void ValidateId(Guid id)
+    {
+        DomainValidator.ValidateRequiredGuid(id, ClassroomErrors.IdIsRequired);
+    }
+
+    private static string ValidateName(string name)
+    {
+        return DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
+            ClassroomErrors.NameIsRequired,ClassroomErrors.NameIsTooLong(ClassroomNameMaxLength));
     }
 }

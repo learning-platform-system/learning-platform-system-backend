@@ -74,7 +74,22 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         entity.Capacity = aggregate.Capacity;
 
         return true;
-        // EFC trackar ändringarna på entity och kommer att uppdatera databasen när SaveChangesAsync anropas i UnitOfWork
+    }
+
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)
+    {
+        bool exists = await _context.Classrooms.AsNoTracking().AnyAsync(classroomEntity => classroomEntity.Name == name, ct);
+        return exists;
+    }
+
+    // Finns ett klassrum, med samma namn fast olikt id. Förhindra dubblett.
+    public async Task<bool> ExistsAnotherWithSameNameAsync(string name, Guid classroomId, CancellationToken ct)
+    {
+        bool exists = await _context.Classrooms
+            .AsNoTracking()
+            .AnyAsync(cEntity => cEntity.Name == name && cEntity.Id != classroomId, ct);
+
+        return exists;
     }
 
     private static ClassroomEntity ToEntity(Classroom aggregate)
@@ -90,8 +105,25 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         return classroomEntity;
     }
 
-    public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)
-    {
-       return await _context.Classrooms.AsNoTracking().AnyAsync(classroomEntity => classroomEntity.Name == name);
-    }
 }
+
+/*
+Task<bool> ExistsByNameAsync(string name, Guid? excludeId, CancellationToken ct);
+
+
+return await _context.Classrooms
+    .AnyAsync(c =>
+        c.Name == name &&
+        (excludeId == null || c.Id != excludeId),
+        ct);
+
+// 🔹 Kontrollera duplicate name (exkludera samma Id)
+    if (await _classroomRepository.ExistsByNameAsync(
+            input.Name,
+            input.Id,
+            ct))
+    {
+        return ApplicationResult.Fail(
+            ClassroomApplicationErrors.NameAlreadyExists(input.Name));
+    }
+*/

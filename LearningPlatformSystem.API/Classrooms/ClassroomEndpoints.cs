@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.API.Classrooms.Create;
 using LearningPlatformSystem.API.Classrooms.Delete;
 using LearningPlatformSystem.API.Classrooms.GetByType;
+using LearningPlatformSystem.API.Classrooms.Update;
 
 namespace LearningPlatformSystem.API.Classrooms;
 
@@ -15,6 +16,7 @@ public static class ClassroomEndpoints
         group.MapCreateClassroomEndpoint();
         group.MapDeleteClassroomEndpoint();
         group.MapGetClassroomsByTypeEndpoint();
+        group.MapPutClassroomEndpoint();
 
 
 
