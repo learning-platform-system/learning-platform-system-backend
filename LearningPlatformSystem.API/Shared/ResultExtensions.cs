@@ -5,23 +5,31 @@ namespace LearningPlatformSystem.API.Shared;
 public static class ResultExtensions
 {
     // IResult - interface i ASP.NET minimal API, som innehåller Results.
-    // Func - en delegerad typ (callback), representerar en metod som inte tar några argument och returnerar ett värde av typen IResult.
     public static IResult ToHttpFailResult(this ApplicationResult result)
     {
+        return GetHttpResult(result.Error!.Type, result.Error.Message);
+    }
 
-        switch (result.Error!.Type)
+    public static IResult ToHttpFailResult<T>(this ApplicationResult<T> result)
+    {
+        return GetHttpResult(result.Error!.Type, result.Error.Message);
+    }
+
+    private static IResult GetHttpResult(ErrorTypes errorType, string message)
+    {
+        switch (errorType)
         {
             case ErrorTypes.NotFound:
-                return Results.NotFound(result.Error.Message);
+                return Results.NotFound(message);
 
             case ErrorTypes.BadRequest:
-                return Results.BadRequest(result.Error.Message);
+                return Results.BadRequest(message);
 
             case ErrorTypes.Conflict:
-                return Results.Conflict(result.Error.Message);
+                return Results.Conflict(message);
 
             case ErrorTypes.Unexpected:
-                return Results.Problem(result.Error.Message);
+                return Results.Problem(message);
 
             default:
                 return Results.Problem("Ett okänt fel inträffade");

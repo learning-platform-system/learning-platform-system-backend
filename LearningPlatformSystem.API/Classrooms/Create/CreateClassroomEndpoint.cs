@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.API.Shared;
 using LearningPlatformSystem.Application.Classrooms;
 using LearningPlatformSystem.Application.Classrooms.Inputs;
+using LearningPlatformSystem.Application.Classrooms.Outputs;
 using LearningPlatformSystem.Application.Shared;
 
 namespace LearningPlatformSystem.API.Classrooms.Create;
@@ -17,7 +18,7 @@ public static class CreateClassroomEndpoint
 
     private static async Task<IResult> HandleAsync(CreateClassroomRequest request, IClassroomService service, CancellationToken ct)
     {
-        ApplicationResult result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
+        ApplicationResult<ClassroomOutput> result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
 
         if(!result.IsSuccess)
         {
@@ -25,7 +26,7 @@ public static class CreateClassroomEndpoint
         }
 
         // Results.Created(string location, object? value). location =  URL:en till den nyskapade Classroom i endpointen GetById. Value är det som skickas tillbaka i response body
-        return Results.Created();
+        return Results.Created($"/classrooms/{result.Data!.Id}", result.Data);
     }
 
 

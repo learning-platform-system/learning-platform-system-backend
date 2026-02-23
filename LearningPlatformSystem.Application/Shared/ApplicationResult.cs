@@ -17,22 +17,22 @@ public sealed record ApplicationResult
         new ApplicationResult(false, error);
 }
 
-public sealed record Result<T>
+public sealed record ApplicationResult<T>
 {
     public bool IsSuccess { get; }
     public T? Data { get; }
     public ApplicationResultError? Error { get; }
 
-    private Result(bool isSuccess, T? data = default, ApplicationResultError? error = null)
+    private ApplicationResult(bool isSuccess, T? data = default, ApplicationResultError? error = null)
     {
         IsSuccess = isSuccess;
         Data = data;
         Error = error;
     }
 
-    public static Result<T> Success(T data) =>
+    public static ApplicationResult<T> Success(T data) =>
         new(true, data);
 
-    public static Result<T> Fail(ApplicationResultError error) =>
+    public static ApplicationResult<T> Fail(ApplicationResultError error) =>
         new(false, default, error);
 }

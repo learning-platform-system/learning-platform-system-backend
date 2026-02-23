@@ -1,5 +1,5 @@
 using LearningPlatformSystem.API.Classrooms;
-using LearningPlatformSystem.API.Classrooms.Create;
+using LearningPlatformSystem.API.Extensions;
 using LearningPlatformSystem.Application;
 using LearningPlatformSystem.Infrastructure;
 using System.Text.Json.Serialization;
@@ -19,7 +19,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 
+
+
 var app = builder.Build();
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -27,6 +30,7 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 
+app.UseGlobalExceptionHandling();
 
 app.UseHttpsRedirection();
 

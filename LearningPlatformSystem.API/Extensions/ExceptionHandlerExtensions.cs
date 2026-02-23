@@ -1,6 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.API.Extensions;
 /* Inbyggd felhantering i ASP.Net Core. Fångar upp tekniska fel som inte hanteras någon annanstans i appen.
