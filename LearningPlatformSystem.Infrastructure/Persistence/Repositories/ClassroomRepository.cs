@@ -82,7 +82,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         return exists;
     }
 
-    // Finns ett klassrum, med samma namn fast olikt id. Förhindra dubblett.
+
     public async Task<bool> ExistsAnotherWithSameNameAsync(string name, Guid classroomId, CancellationToken ct)
     {
         bool exists = await _context.Classrooms
@@ -107,23 +107,3 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
 
 }
 
-/*
-Task<bool> ExistsByNameAsync(string name, Guid? excludeId, CancellationToken ct);
-
-
-return await _context.Classrooms
-    .AnyAsync(c =>
-        c.Name == name &&
-        (excludeId == null || c.Id != excludeId),
-        ct);
-
-// 🔹 Kontrollera duplicate name (exkludera samma Id)
-    if (await _classroomRepository.ExistsByNameAsync(
-            input.Name,
-            input.Id,
-            ct))
-    {
-        return ApplicationResult.Fail(
-            ClassroomApplicationErrors.NameAlreadyExists(input.Name));
-    }
-*/

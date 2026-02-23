@@ -4,7 +4,7 @@ using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-// Hanterar affärsregelbrott i exception och förväntade fel (SaveFailed, Conflict...) inte infrastructure- eller systemfel exceptions.
+// Hanterar affärsregelbrott i exception och förväntade fel (Conflict, NotFound...) inte infrastructure- eller systemfel exceptions.
 
 namespace LearningPlatformSystem.Application.Classrooms;
 // I frontend välja i dropdown typ av klassrum sedan kommer alla klassrum av den typen i lista
