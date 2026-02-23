@@ -37,34 +37,34 @@ public class LearningPlatformDbContext : DbContext, IUnitOfWork
     // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en PersistenceException som kan hanteras i applikationslagret.
     public override async Task<int> SaveChangesAsync(CancellationToken ct)
     {
-        try
+        // hämtar aktuell tid 
+        DateTime utcNow = DateTime.UtcNow;
+
+        // hämtar alla entiteter som ärver EntityBase som EF spårar i den aktuella DbContext-instansen och sätter timestamps.
+        foreach (EntityEntry<EntityBase> entry in ChangeTracker.Entries<EntityBase>())
         {
-            // hämtar aktuell tid 
-            DateTime utcNow = DateTime.UtcNow;
-
-            // hämtar alla entiteter som ärver EntityBase som EF spårar i den aktuella DbContext-instansen och sätter timestamps.
-            foreach (EntityEntry<EntityBase> entry in ChangeTracker.Entries<EntityBase>())
+            // kontrollera om entitetens tillstånd är Added eller Modified
+            if (entry.State == EntityState.Added)
             {
-                // kontrollera om entitetens tillstånd är Added eller Modified
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.CreatedAt = utcNow;
-                    entry.Entity.ModifiedAt = utcNow;
-                }
-                else if (entry.State == EntityState.Modified)
-                {
-                    entry.Entity.ModifiedAt = utcNow;
-                }
+                entry.Entity.CreatedAt = utcNow;
+                entry.Entity.ModifiedAt = utcNow;
             }
-
-            return await base.SaveChangesAsync(ct);  
+            else if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.ModifiedAt = utcNow;
+            }
         }
+
+        try 
+        {
+            return await base.SaveChangesAsync(ct);
+        }
+
         catch (DbUpdateException ex)
         {
             throw new PersistenceException("Ett fel uppstod vid sparning.", ex);
         }
     }
-
 }
 
 /*
