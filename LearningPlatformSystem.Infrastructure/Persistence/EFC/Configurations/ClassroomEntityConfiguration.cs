@@ -32,5 +32,9 @@ public class ClassroomEntityConfiguration
             .IsRequired()
             .HasConversion<string>() // Konvertera enum till string i databasen
             .HasMaxLength(20); // maxlängd för string-representationen av enum, SQL Server gör annars nvarchar(max)
+
+        // Index:
+        builder.HasIndex(e => e.Name)
+       .IsUnique();
     }
 }

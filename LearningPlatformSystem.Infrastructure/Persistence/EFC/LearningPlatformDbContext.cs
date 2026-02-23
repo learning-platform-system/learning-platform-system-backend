@@ -1,8 +1,11 @@
-﻿using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Application.Shared.Exceptions;
+using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.EFC;
-public class LearningPlatformDbContext : DbContext
+public class LearningPlatformDbContext : DbContext, IUnitOfWork
 {
     public LearningPlatformDbContext(DbContextOptions<LearningPlatformDbContext> options) : base(options)
     {
@@ -29,6 +32,38 @@ public class LearningPlatformDbContext : DbContext
 
         // EF Core letar efter ALLA klasser i assemblyn (projektet) som implementerar IEntityTypeConfiguration och anropar deras Configure-metod automatiskt.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LearningPlatformDbContext).Assembly);
+    }
+
+    // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en PersistenceException som kan hanteras i applikationslagret.
+    public override async Task<int> SaveChangesAsync(CancellationToken ct)
+    {
+        // hämtar aktuell tid 
+        DateTime utcNow = DateTime.UtcNow;
+
+        // hämtar alla entiteter som ärver EntityBase som EF spårar i den aktuella DbContext-instansen och sätter timestamps.
+        foreach (EntityEntry<EntityBase> entry in ChangeTracker.Entries<EntityBase>())
+        {
+            // kontrollera om entitetens tillstånd är Added eller Modified
+            if (entry.State == EntityState.Added)
+            {
+                entry.Entity.CreatedAt = utcNow;
+                entry.Entity.ModifiedAt = utcNow;
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.ModifiedAt = utcNow;
+            }
+        }
+
+        try 
+        {
+            return await base.SaveChangesAsync(ct);
+        }
+
+        catch (DbUpdateException ex)
+        {
+            throw new PersistenceException("Ett fel uppstod vid sparning.", ex);
+        }
     }
 }
 

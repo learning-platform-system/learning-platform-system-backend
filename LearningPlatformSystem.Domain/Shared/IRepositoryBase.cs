@@ -1,14 +1,14 @@
-﻿namespace LearningPlatformSystem.Application.Shared;
+﻿using System.Linq.Expressions;
 
-public interface IRepositoryBase<T> where T : class
+namespace LearningPlatformSystem.Domain.Shared;
+
+public interface IRepositoryBase<TAggregate, TId> 
 {
-    Task AddAsync(T entity, CancellationToken ct);
+    Task AddAsync(TAggregate aggregate, CancellationToken ct);
 
-    Task<T?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<TAggregate?> GetByIdAsync(TId id, CancellationToken ct);
 
-    Task<IReadOnlyList<T>> GetAllAsync(CancellationToken ct);
+    Task<bool> UpdateAsync(TAggregate aggregate, CancellationToken ct);
 
-    Task UpdateAsync(T entity, CancellationToken ct);
-
-    Task RemoveAsync(T entity, CancellationToken ct);
+    Task<bool> RemoveAsync(TId id, CancellationToken ct);
 }

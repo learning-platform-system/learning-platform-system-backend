@@ -1,6 +1,6 @@
 ﻿namespace LearningPlatformSystem.Domain.Classrooms;
 
-public enum ClassRoomType
+public enum ClassroomType
 {
     LectureHall,
     Laboratory,

@@ -10,9 +10,9 @@ public class Classroom
     public Guid Id { get; private set; }
     public string Name { get; private set; } 
     public int Capacity { get; private set; }
-    public ClassRoomType Type { get; private set; }
+    public ClassroomType Type { get; private set; }
 
-    private Classroom(Guid id, string name, int capacity, ClassRoomType type)
+    private Classroom(Guid id, string name, int capacity, ClassroomType type)
     {
         Id = id;
         Name = name;
@@ -20,21 +20,42 @@ public class Classroom
         Type = type;
     }
 
-    public static Classroom Create(string name, int capacity, ClassRoomType type)
+    public static Classroom Create(Guid id, string name, int capacity, ClassroomType type)
     {
-        string normalizedName = DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
-            ClassroomErrors.ClassroomNameIsRequired, ClassroomErrors.ClassroomNameIsTooLong(ClassroomNameMaxLength));
+        string normalizedName = ValidateName(name);
+        ValidateId(id);
         ValidateCapacity(capacity);
 
-        Guid id = Guid.NewGuid();
         Classroom classroom = new(id, normalizedName, capacity, type);
         return classroom;
     }
 
-    private static void ValidateCapacity(int capacity) {
+    public void Update(string name, int capacity, ClassroomType type)
+    {
+        string normalizedName = ValidateName(name);
+        ValidateCapacity(capacity);
+
+        Name = normalizedName;
+        Capacity = capacity;
+        Type = type;
+    }
+
+    private static void ValidateCapacity(int capacity)
+    {
         if (capacity <= 0)
         {
             throw new DomainException(ClassroomErrors.CapacityMustBePositive);
         }
+    }
+
+    private static void ValidateId(Guid id)
+    {
+        DomainValidator.ValidateRequiredGuid(id, ClassroomErrors.IdIsRequired);
+    }
+
+    private static string ValidateName(string name)
+    {
+        return DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
+            ClassroomErrors.NameIsRequired,ClassroomErrors.NameIsTooLong(ClassroomNameMaxLength));
     }
 }
