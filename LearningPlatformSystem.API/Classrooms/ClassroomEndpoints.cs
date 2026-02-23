@@ -18,9 +18,6 @@ public static class ClassroomEndpoints
         group.MapGetClassroomsByTypeEndpoint();
         group.MapPutClassroomEndpoint();
 
-
-
-
         return app;
     }
 }

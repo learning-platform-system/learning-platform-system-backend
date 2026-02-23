@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.Repositories;
@@ -25,6 +26,7 @@ public static class InfrastructureDependencyInjection
         //services.AddScoped<IUnitOfWork, LearningPlatformDbContext>();
 
         services.AddScoped<IClassroomRepository, ClassroomRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
         return services;

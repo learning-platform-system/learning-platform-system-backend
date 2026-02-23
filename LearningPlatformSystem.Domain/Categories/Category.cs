@@ -25,12 +25,11 @@ public class Category
     }
 
     // skapa upp regler för vad en Category måste vara
-    public static Category Create(string name)
+    public static Category Create(Guid id, string name)
     {
         string normalizedName = DomainValidator.ValidateRequiredString(name, CategoryNameMaxLength, 
             CategoryErrors.CategoryNameIsRequired, CategoryErrors.CategoryNameIsTooLong(CategoryNameMaxLength));
 
-        Guid id = Guid.NewGuid();
         Category category = new(id, normalizedName);
 
         return category;

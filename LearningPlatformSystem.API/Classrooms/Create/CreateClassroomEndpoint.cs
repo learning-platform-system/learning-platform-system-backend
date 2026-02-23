@@ -9,7 +9,7 @@ public static class CreateClassroomEndpoint
 {
     public static RouteGroupBuilder MapCreateClassroomEndpoint(this RouteGroupBuilder group)
     {
-        group.MapPost("", HandleAsync).WithName("CreateClassroom");
+        group.MapPost("", HandleAsync);
 
         return group;
 

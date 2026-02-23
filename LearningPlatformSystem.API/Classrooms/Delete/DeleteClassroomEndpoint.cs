@@ -8,7 +8,7 @@ public static class DeleteClassroomEndpoint
 {
     public static RouteGroupBuilder MapDeleteClassroomEndpoint(this RouteGroupBuilder group)
     {
-        group.MapDelete("/{id:guid}", HandleAsync).WithName("DeleteClassroom");
+        group.MapDelete("/{id:guid}", HandleAsync);
 
         return group;
     }

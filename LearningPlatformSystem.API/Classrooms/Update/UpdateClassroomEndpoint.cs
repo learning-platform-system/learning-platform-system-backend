@@ -10,7 +10,7 @@ public static class UpdateClassroomEndpoint
 {
     public static RouteGroupBuilder MapPutClassroomEndpoint(this RouteGroupBuilder group)
     {
-        group.MapPut("", HandleAsync).WithName("UpdateClassroom");
+        group.MapPut("", HandleAsync);
 
         return group;
     }
