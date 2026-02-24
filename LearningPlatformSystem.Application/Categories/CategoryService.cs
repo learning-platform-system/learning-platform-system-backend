@@ -1,6 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Categories.Inputs;
 using LearningPlatformSystem.Application.Categories.Outputs;
-using LearningPlatformSystem.Application.Classrooms;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
@@ -103,6 +102,32 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
         try
         {
             category.ChangeName(input.Name);
+
+            await _categoryRepository.UpdateAsync(category, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return ApplicationResult.Success();
+        }
+        catch (DomainException ex)
+        {
+            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
+            return ApplicationResult.Fail(error);
+        }
+    }
+
+    public async Task<ApplicationResult> AddSubcategoryAsync(AddSubcategoryInput input, CancellationToken ct)
+    {
+            Category? category = await _categoryRepository.GetByIdAsync(input.CategoryId, ct);
+
+        if (category is null)
+        {
+            ApplicationResultError error = CategoryApplicationErrors.NotFound(input.CategoryId);
+            return ApplicationResult.Fail(error);
+        }
+
+        try
+        { 
+            category.AddSubcategory(input.Name);
 
             await _categoryRepository.UpdateAsync(category, ct);
             await _unitOfWork.SaveChangesAsync(ct);

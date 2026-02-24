@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.API.Categories.Create;
+﻿using LearningPlatformSystem.API.Categories.AddSubcategory;
+using LearningPlatformSystem.API.Categories.Create;
 using LearningPlatformSystem.API.Categories.Delete;
 using LearningPlatformSystem.API.Categories.GetById;
 using LearningPlatformSystem.API.Categories.Update;
@@ -17,6 +18,8 @@ public static class CategoryEndpoints
         group.MapDeleteCategoryEndpoint();
         group.MapGetCategoryEndpoint();
         group.MapPutCategoryNameEndpoint();
+
+        group.MapPostSubcategoryEndpoint();
 
         return app;
     }

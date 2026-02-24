@@ -69,9 +69,29 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
     public async Task UpdateAsync(Category category, CancellationToken ct)
     {
         // SingleAsync - kastar exception om entity inte kan hämtas (systemfel). Den är redan säkrat inte null i service
-        CategoryEntity? entity = await _context.Categories.SingleAsync(cEntity => cEntity.Id == category.Id, ct);
+        CategoryEntity categoryEntity = await _context.Categories
+            .Include(cEntity => cEntity.Subcategories)
+            .SingleAsync(cEntity => cEntity.Id == category.Id, ct);
 
-        entity.Name = category.Name;
+        categoryEntity.Name = category.Name;
+
+        // newSub kommer att innehålla  den subcategory i domain som inte finns i categoryEntity.Subcategories (Any-satsen)
+        Subcategory? newSub = category.Subcategories
+            // Single (returnerar det nya elementet eller kastar exception) - Gå igenom varje subAggregate i category.Subcategories och hitta den ENDA (inte 0, inte 2) som uppfyller villkoret i Any.
+            // Any (returnerar true/false) - Finns det någon subEntity i databasen med samma Id som denna subAggregate?
+            .SingleOrDefault(subAggregate => !categoryEntity.Subcategories.Any(subEntity => subEntity.Id == subAggregate.Id));
+
+        if (newSub != null)
+        {
+            categoryEntity.Subcategories.Add(new SubcategoryEntity
+            {
+                Id = newSub.Id,
+                CategoryId = category.Id,
+                Name = newSub.Name
+            });
+        }
     }
 }
+
+
 

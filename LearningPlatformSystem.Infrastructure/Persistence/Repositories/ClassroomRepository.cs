@@ -63,7 +63,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
 
     public async Task UpdateAsync(Classroom classroom, CancellationToken ct)
     {
-        ClassroomEntity? entity = await _context.Classrooms.SingleAsync(cEntity => cEntity.Id == classroom.Id, ct);
+        ClassroomEntity entity = await _context.Classrooms.SingleAsync(cEntity => cEntity.Id == classroom.Id, ct);
 
         entity.Name = classroom.Name;
         entity.Type = classroom.Type;
