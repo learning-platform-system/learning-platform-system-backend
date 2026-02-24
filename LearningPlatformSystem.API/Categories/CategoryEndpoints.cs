@@ -1,9 +1,6 @@
 ﻿using LearningPlatformSystem.API.Categories.Create;
 using LearningPlatformSystem.API.Categories.Delete;
-using LearningPlatformSystem.API.Classrooms.Create;
-using LearningPlatformSystem.API.Classrooms.Delete;
-using LearningPlatformSystem.API.Classrooms.GetByType;
-using LearningPlatformSystem.API.Classrooms.Update;
+using LearningPlatformSystem.API.Categories.GetById;
 
 namespace LearningPlatformSystem.API.Categories;
 
@@ -17,6 +14,7 @@ public static class CategoryEndpoints
 
         group.MapPostCategoryEndpoint();
         group.MapDeleteCategoryEndpoint();
+        group.MapGetCategoryEndpoint();
 
 
         return app;

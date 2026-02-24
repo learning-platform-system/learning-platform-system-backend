@@ -40,8 +40,7 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
                 sub.Name));
 
         return Category.BuildFromDatabase(categoryEntity.Id, categoryEntity.Name, subcategories);
-
-    }
+    } 
 
     // category får inte tas bort om den har subcategories
     public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)

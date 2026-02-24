@@ -5,7 +5,7 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CourseSessions;
 
-public class CourseSession
+public sealed class CourseSession
 {
     private readonly List<CourseSessionAttendance> _attendances = new();
 

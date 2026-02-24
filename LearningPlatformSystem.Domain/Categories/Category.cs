@@ -4,7 +4,7 @@ using LearningPlatformSystem.Domain.Subcategories;
 
 namespace LearningPlatformSystem.Domain.Categories;
 
-public class Category
+public sealed class Category
 {
     // private - listan är bara tillgänglig inne i category. Readonly, listan är muterbar, men referensen kan inte bytas ut (alltid samma lista-instans)
     private readonly List<Subcategory> _subcategories = new();

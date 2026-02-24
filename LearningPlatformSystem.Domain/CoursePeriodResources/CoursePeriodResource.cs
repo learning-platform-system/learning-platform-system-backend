@@ -3,7 +3,7 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodResources;
 
-public class CoursePeriodResource
+public sealed class CoursePeriodResource
 {
     public const int TitleMaxLength = 200;
     public const int DescriptionMaxLength = 500;

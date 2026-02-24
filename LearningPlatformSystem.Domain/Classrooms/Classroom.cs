@@ -3,7 +3,7 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Classrooms;
 
-public class Classroom
+public sealed class Classroom
 {
     public const int NameMaxLength = 5;
 

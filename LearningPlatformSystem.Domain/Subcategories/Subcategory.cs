@@ -1,9 +1,8 @@
-﻿using LearningPlatformSystem.Domain.Categories;
-using LearningPlatformSystem.Domain.Shared.Validators;
+﻿using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Subcategories;
 
-public class Subcategory
+public sealed class Subcategory
 {
     public const int NameMaxLength = 100;
 

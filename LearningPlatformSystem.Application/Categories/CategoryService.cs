@@ -1,8 +1,9 @@
 ﻿using LearningPlatformSystem.Application.Categories.Inputs;
+using LearningPlatformSystem.Application.Categories.Outputs;
+using LearningPlatformSystem.Application.Classrooms.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
-using LearningPlatformSystem.Domain.Subcategories;
 
 namespace LearningPlatformSystem.Application.Categories;
 
@@ -35,6 +36,25 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
             ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
             return ApplicationResult<Guid>.Fail(error);
         }
+    }
+
+    public async Task<ApplicationResult<CategoryOutput>> GetByIdAsync(Guid id, CancellationToken ct)
+    {
+        Category? category = await _categoryRepository.GetByIdAsync(id, ct);
+
+        if (category == null)
+        {
+            ApplicationResultError error = CategoryApplicationErrors.NotFound(id);
+            return ApplicationResult<CategoryOutput>.Fail(error);
+        }
+
+        CategoryOutput? categoryOutput = new CategoryOutput(
+                category.Id,
+                category.Name,
+                category.Subcategories
+            .Select(sub => new SubcategoryOutput(sub.Id, sub.CategoryId, sub.Name)));
+                
+        return ApplicationResult<CategoryOutput>.Success(categoryOutput);
     }
 
     public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)

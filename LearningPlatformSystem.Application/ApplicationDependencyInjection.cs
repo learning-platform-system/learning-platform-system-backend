@@ -12,6 +12,7 @@ namespace LearningPlatformSystem.Application;
 
 public static class ApplicationDependencyInjection
 {
+    //configuration och ihostenvironment???
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<ICampusService, CampusService>();
