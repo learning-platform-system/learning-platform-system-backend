@@ -23,7 +23,7 @@ public class ClassroomEntityConfiguration
 
         builder.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(Classroom.ClassroomNameMaxLength);
+            .HasMaxLength(Classroom.NameMaxLength);
 
         builder.Property(e => e.Capacity)
             .IsRequired();

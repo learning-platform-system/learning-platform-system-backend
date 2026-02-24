@@ -1,10 +1,11 @@
-﻿using LearningPlatformSystem.Domain.Shared.Validators;
+﻿using LearningPlatformSystem.Domain.Categories;
+using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Subcategories;
 
 public class Subcategory
 {
-    public const int SubcategoryNameMaxLength = 100;
+    public const int NameMaxLength = 100;
 
     public Guid Id { get; private set; }
     public Guid CategoryId { get; private set; }
@@ -18,16 +19,21 @@ public class Subcategory
     }
 
     // internal, måste skapas via category (application kommer inte åt), en subcategory måste tillhöra en category
-    internal static Subcategory Create(Guid categoryId, string name)
+    internal static Subcategory Create(Guid id, Guid categoryId, string name)
     {
         DomainValidator.ValidateRequiredGuid(categoryId, SubcategoryErrors.CategoryIdIsRequired);
 
-        string normalizedName = DomainValidator.ValidateRequiredString(name, SubcategoryNameMaxLength, 
-            SubcategoryErrors.SubcategoryNameIsRequired, SubcategoryErrors.SubcategoryNameIsTooLong(SubcategoryNameMaxLength));
+        string normalizedName = DomainValidator.ValidateRequiredString(name, NameMaxLength, 
+            SubcategoryErrors.NameIsRequired, SubcategoryErrors.SubcategoryNameIsTooLong(NameMaxLength));
 
-        Guid id = Guid.NewGuid();
         Subcategory subcategory = new(id, categoryId, normalizedName);
 
         return subcategory;
+    }
+
+    // Används endast av CategoryRepository för att bygga upp objekt från databasen
+    internal static Subcategory BuildFromDatabase(Guid id, Guid categoryId, string name)
+    {
+        return new Subcategory(id, categoryId, name);
     }
 }

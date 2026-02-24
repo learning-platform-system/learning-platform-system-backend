@@ -11,5 +11,5 @@ public interface ICategoryService
 
     //Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct);
 
-    //Task<ApplicationResult> RemoveAsync(Guid id, CancellationToken ct);
+    Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
 }

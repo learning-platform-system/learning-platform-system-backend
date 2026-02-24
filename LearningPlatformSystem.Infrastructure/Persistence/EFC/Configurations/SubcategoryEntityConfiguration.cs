@@ -18,7 +18,7 @@ public class SubcategoryEntityConfiguration : EntityBaseConfiguration<Subcategor
             .ValueGeneratedNever();
 
         builder.Property(e => e.Name)
-            .HasMaxLength(Subcategory.SubcategoryNameMaxLength)
+            .HasMaxLength(Subcategory.NameMaxLength)
             .IsRequired();
 
         builder.HasOne(e => e.Category)

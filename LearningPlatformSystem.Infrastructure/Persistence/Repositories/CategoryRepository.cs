@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Domain.Categories;
+using LearningPlatformSystem.Domain.Subcategories;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -22,14 +23,38 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
         return exists;  
     }
 
-    public Task<Category?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Category?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CategoryEntity? categoryEntity = await _context.Categories
+            .AsNoTracking()
+            .Include(e => e.Subcategories)
+            .SingleOrDefaultAsync(e => e.Id == id, ct);
+
+        if (categoryEntity == null)
+            return null;
+
+        IEnumerable<Subcategory> subcategories = categoryEntity.Subcategories
+            .Select(sub => Subcategory.BuildFromDatabase(
+                sub.Id,
+                sub.CategoryId,
+                sub.Name));
+
+        return Category.BuildFromDatabase(categoryEntity.Id, categoryEntity.Name, subcategories);
+
     }
 
-    public Task<bool> RemoveAsync(Guid id, CancellationToken ct)
+    // category får inte tas bort om den har subcategories
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CategoryEntity? entity = await _context.Categories.SingleOrDefaultAsync(entity => entity.Id == id, ct);
+
+        if (entity == null)
+        {
+            return false;
+        }
+
+        _context.Categories.Remove(entity);
+        return true;
     }
 
     public Task<bool> UpdateAsync(Category aggregate, CancellationToken ct)
