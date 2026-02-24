@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Domain.Categories;
+using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Subcategories;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
@@ -21,6 +22,15 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
         bool exists = await _context.Categories.AnyAsync(cEntity => cEntity.Name == name, ct);
 
         return exists;  
+    }
+
+    public async Task<bool> ExistsAnotherWithSameNameAsync(string name, Guid categoryId, CancellationToken ct)
+    {
+        bool exists = await _context.Categories
+            .AsNoTracking()
+            .AnyAsync(cEntity => cEntity.Name == name && cEntity.Id != categoryId, ct);
+
+        return exists;
     }
 
     public async Task<Category?> GetByIdAsync(Guid id, CancellationToken ct)
@@ -56,8 +66,12 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
         return true;
     }
 
-    public Task<bool> UpdateAsync(Category aggregate, CancellationToken ct)
+    public async Task UpdateAsync(Category category, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        // SingleAsync - kastar exception om entity inte kan hämtas (systemfel). Den är redan säkrat inte null i service
+        CategoryEntity? entity = await _context.Categories.SingleAsync(cEntity => cEntity.Id == category.Id, ct);
+
+        entity.Name = category.Name;
     }
 }
+

@@ -10,7 +10,7 @@ public interface ICategoryService
 
     Task<ApplicationResult<CategoryOutput>> GetByIdAsync(Guid id, CancellationToken ct);
 
-    //Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct);
+    Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct);
 
     Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
 }

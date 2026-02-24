@@ -1,6 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Categories.Inputs;
 using LearningPlatformSystem.Application.Categories.Outputs;
-using LearningPlatformSystem.Application.Classrooms.Outputs;
+using LearningPlatformSystem.Application.Classrooms;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
@@ -42,7 +42,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
     {
         Category? category = await _categoryRepository.GetByIdAsync(id, ct);
 
-        if (category == null)
+        if (category is null)
         {
             ApplicationResultError error = CategoryApplicationErrors.NotFound(id);
             return ApplicationResult<CategoryOutput>.Fail(error);
@@ -63,7 +63,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
         {
             Category? category = await _categoryRepository.GetByIdAsync(id, ct);
             
-            if (category == null)
+            if (category is null)
             {
                 ApplicationResultError error = CategoryApplicationErrors.NotFound(id);
                 return ApplicationResult.Fail(error);
@@ -83,4 +83,38 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
             return ApplicationResult.Fail(error);
         }
     }
+
+    public async Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct)
+    {
+        Category? category = await _categoryRepository.GetByIdAsync(input.Id, ct);
+
+        if (category is null)
+        {
+            ApplicationResultError error = CategoryApplicationErrors.NotFound(input.Id);
+            return ApplicationResult.Fail(error);
+        }
+
+        if (await _categoryRepository.ExistsAnotherWithSameNameAsync(input.Name, input.Id, ct))
+        {
+            ApplicationResultError error = CategoryApplicationErrors.NameAlreadyExists(input.Name);
+            return ApplicationResult.Fail(error);
+        }
+
+        try
+        {
+            category.ChangeName(input.Name);
+
+            await _categoryRepository.UpdateAsync(category, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return ApplicationResult.Success();
+        }
+        catch (DomainException ex)
+        {
+            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
+            return ApplicationResult.Fail(error);
+        }
+    }
 }
+
+

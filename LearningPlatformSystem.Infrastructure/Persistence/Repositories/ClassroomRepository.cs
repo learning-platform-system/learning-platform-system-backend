@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.Domain.Classrooms;
+﻿using LearningPlatformSystem.Domain.Categories;
+using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -60,20 +61,13 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
         return true;
     }
 
-    public async Task<bool> UpdateAsync(Classroom aggregate, CancellationToken ct)
+    public async Task UpdateAsync(Classroom classroom, CancellationToken ct)
     {
-        ClassroomEntity? entity = await _context.Classrooms.SingleOrDefaultAsync(cEntity => cEntity.Id == aggregate.Id, ct);
+        ClassroomEntity? entity = await _context.Classrooms.SingleAsync(cEntity => cEntity.Id == classroom.Id, ct);
 
-        if (entity is null)
-        {
-            return false;
-        }
-
-        entity.Name = aggregate.Name;
-        entity.Type = aggregate.Type;
-        entity.Capacity = aggregate.Capacity;
-
-        return true;
+        entity.Name = classroom.Name;
+        entity.Type = classroom.Type;
+        entity.Capacity = classroom.Capacity;
     }
 
     public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)

@@ -27,12 +27,21 @@ public sealed class Category
 
     public static Category Create(Guid id, string name)
     {
-        string normalizedName = DomainValidator.ValidateRequiredString(name, NameMaxLength, 
-            CategoryErrors.NameIsRequired, CategoryErrors.NameIsTooLong(NameMaxLength));
+        string normalizedName = ValidateName(name);
 
         Category category = new(id, normalizedName);
 
         return category;
+    }
+
+    public void ChangeName(string name)
+    {
+        string normalizedName = ValidateName(name);
+
+        if (Name == normalizedName)
+            return;
+
+        Name = normalizedName;
     }
 
     // för att infrastructure ska kunna återskapa domänobjektet från databasen 
@@ -55,5 +64,13 @@ public sealed class Category
     {
         if (_subcategories.Any())
             throw new DomainException(CategoryErrors.CannotBeRemoved);
+    }
+
+    private static string ValidateName(string name)
+    {
+        string normalizedName = DomainValidator.ValidateRequiredString(name, NameMaxLength,
+            CategoryErrors.NameIsRequired, CategoryErrors.NameIsTooLong(NameMaxLength));
+
+        return normalizedName;
     }
 }

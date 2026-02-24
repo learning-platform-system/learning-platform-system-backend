@@ -10,12 +10,12 @@ public static class UpdateClassroomEndpoint
 {
     public static RouteGroupBuilder MapPutClassroomEndpoint(this RouteGroupBuilder group)
     {
-        group.MapPut("", HandleAsync);
+        group.MapPut("{id:guid}", HandleAsync);
 
         return group;
     }
 
-    private static async Task<IResult> HandleAsync(UpdateClassroomRequest request, IClassroomService service, CancellationToken ct)
+    private static async Task<IResult> HandleAsync(Guid id, UpdateClassroomRequest request, IClassroomService service, CancellationToken ct)
     {
         if (!Enum.TryParse(request.Type, true, out ClassroomType parsedType))
         {

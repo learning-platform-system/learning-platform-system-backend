@@ -6,4 +6,6 @@ namespace LearningPlatformSystem.Domain.Categories;
 public interface ICategoryRepository : IRepositoryBase<Category, Guid>
 {
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
+    Task<bool> ExistsAnotherWithSameNameAsync(string name, Guid id, CancellationToken ct);
+
 }
