@@ -2,7 +2,7 @@
 
 namespace LearningPlatformSystem.Domain.CoursePeriodReviews;
 
-public class CoursePeriodReview
+public sealed class CoursePeriodReview
 {
     public const int CommentMaxLength = 500;
 

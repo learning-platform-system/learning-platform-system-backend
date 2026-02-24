@@ -8,7 +8,7 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriods;
 
-public class CoursePeriod
+public sealed class CoursePeriod
 {
     // === Fields ===
     private readonly List<CourseSession> _sessions = new();

@@ -1,3 +1,4 @@
+using LearningPlatformSystem.API.Categories;
 using LearningPlatformSystem.API.Classrooms;
 using LearningPlatformSystem.API.Extensions;
 using LearningPlatformSystem.Application;
@@ -43,6 +44,7 @@ app.UseHttpsRedirection();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapClassroomEndpoints();
+app.MapCategoryEndpoints();
 
 
 app.Run();

@@ -10,7 +10,7 @@ public static class GetClassroomsByTypeEndpoint
 {
     public static RouteGroupBuilder MapGetClassroomsByTypeEndpoint(this RouteGroupBuilder group)
     {
-        group.MapGet("", HandleAsync).WithName("GetClassroomsByType");
+        group.MapGet("", HandleAsync);
 
         return group;
     }

@@ -5,7 +5,7 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Courses;
 
-public class Course
+public sealed class Course
 {
     // Listan: skapas direkt (new), är muterbar (readonly), kan aldrig bli null (new), går ej att göra new på -->är alltid samma instans (readonly)
     private readonly List<CoursePeriod> _coursePeriods = new();

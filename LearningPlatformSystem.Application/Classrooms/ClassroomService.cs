@@ -77,7 +77,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
     {
        Classroom? classroom = await _classroomRepository.GetByIdAsync(input.Id, ct);
 
-        if (classroom == null)
+        if (classroom is null)
         {
             ApplicationResultError error = ClassroomApplicationErrors.CouldNotBeFound(input.Id);
             return ApplicationResult.Fail(error);

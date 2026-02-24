@@ -5,7 +5,7 @@ using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 
 namespace LearningPlatformSystem.Domain.Teachers;
 
-public class Teacher
+public sealed class Teacher
 {
     public Guid Id { get; private set; }
     public PersonName Name { get; private set; } 

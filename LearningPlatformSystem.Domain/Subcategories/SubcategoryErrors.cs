@@ -2,8 +2,8 @@
 
 public static class SubcategoryErrors
 {
-    public const string SubcategoryNameIsRequired = "Subkategorins namn måste anges.";
-    public static string SubcategoryNameIsTooLong(int subcategoryNameMaxLength) => $"Subkategorins namn får inte vara längre än {subcategoryNameMaxLength} tecken.";
+    public const string NameIsRequired = "Subkategorins namn måste anges.";
+    public static string SubcategoryNameIsTooLong(int nameMaxLength) => $"Subkategorins namn får inte vara längre än {nameMaxLength} tecken.";
 
 
     public const string CategoryIdIsRequired = "Kategori-id måste anges.";

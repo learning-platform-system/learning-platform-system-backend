@@ -19,7 +19,7 @@ public class CategoryEntityConfiguration : EntityBaseConfiguration<CategoryEntit
 
         builder.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(Category.CategoryNameMaxLength);
+            .HasMaxLength(Category.NameMaxLength);
 
         builder.HasMany(e => e.Subcategories) // en Category har många Subcategories
             .WithOne(s => s.Category) // varje Subcategory har exakt en Category

@@ -3,7 +3,7 @@
 namespace LearningPlatformSystem.Domain.CourseSessionAttendances;
 // En viss elevs närvarostatus på ett visst kurstillfälle, inom en viss kursperiod.
 // PK: StudentId FK + CourseSessionId FK + CoursePeriodId FK
-public class CourseSessionAttendance
+public sealed class CourseSessionAttendance
 {
     public Guid StudentId { get; private set; }
     public Guid CourseSessionId { get; private set; }

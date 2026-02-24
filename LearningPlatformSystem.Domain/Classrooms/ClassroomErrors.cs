@@ -8,6 +8,6 @@ public static class ClassroomErrors
 
     public const string IdIsRequired = "Klassrummets id måste anges.";
 
-    public static string NameIsTooLong(int classroomNameMaxLength) => 
-        $"Klassrummets namn får inte vara längre än {classroomNameMaxLength} tecken.";
+    public static string NameIsTooLong(int nameMaxLength) => 
+        $"Klassrummets namn får inte vara längre än {nameMaxLength} tecken.";
 }

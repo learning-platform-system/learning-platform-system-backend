@@ -3,9 +3,9 @@ using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.Classrooms;
 
-public class Classroom
+public sealed class Classroom
 {
-    public const int ClassroomNameMaxLength = 5;
+    public const int NameMaxLength = 5;
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } 
@@ -55,7 +55,7 @@ public class Classroom
 
     private static string ValidateName(string name)
     {
-        return DomainValidator.ValidateRequiredString(name, ClassroomNameMaxLength, 
-            ClassroomErrors.NameIsRequired,ClassroomErrors.NameIsTooLong(ClassroomNameMaxLength));
+        return DomainValidator.ValidateRequiredString(name, NameMaxLength, 
+            ClassroomErrors.NameIsRequired,ClassroomErrors.NameIsTooLong(NameMaxLength));
     }
 }

@@ -5,7 +5,7 @@ using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 
 namespace LearningPlatformSystem.Domain.Campuses;
 
-public class Campus
+public sealed class Campus
 {
     public const int CampusNameMaxLength = 50;
 

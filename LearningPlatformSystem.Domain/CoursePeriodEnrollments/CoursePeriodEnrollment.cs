@@ -2,7 +2,7 @@
 
 namespace LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 
-public class CoursePeriodEnrollment
+public sealed class CoursePeriodEnrollment
 {
     // 2 FK, Student x är inskriven i period y
     public Guid StudentId { get; private set; }
