@@ -202,6 +202,21 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
         return ApplicationResult.Success();
     }
+
+    public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
+    {
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(id, ct);
+
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(id));
+
+       await _coursePeriodRepository.RemoveAsync(id, ct);        
+
+        await _unitOfWork.SaveChangesAsync(ct);
+        _cache.Remove(GetByCourseIdCacheKey(coursePeriod.CourseId));
+
+        return ApplicationResult.Success();
+    }
 }
 
 

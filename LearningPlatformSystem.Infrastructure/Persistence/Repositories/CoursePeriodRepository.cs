@@ -31,9 +31,12 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
         await _context.CoursePeriods.AddAsync(coursePeriodEntity, ct);
     }
 
-    public Task<CoursePeriod?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<CoursePeriod?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+            .SingleOrDefaultAsync(coursePeriodEntity => coursePeriodEntity.Id == id, ct);
+
+        return entity is null ? null : entity.ToDomainModel();
     }
 
     public Task<bool> RemoveAsync(Guid id, CancellationToken ct)

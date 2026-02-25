@@ -15,6 +15,5 @@ public interface ICoursePeriodService
     Task<ApplicationResult> SetGradeAsync(SetGradeInput input, CancellationToken ct);
     Task<ApplicationResult> AddAttendanceAsync(AddCourseSessionAttendanceInput input, CancellationToken ct);
     Task<ApplicationResult<IReadOnlyList<CoursePeriodOutput>>> GetByCourseIdAsync(Guid courseId, CancellationToken ct);
-
-
+    Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
 }
