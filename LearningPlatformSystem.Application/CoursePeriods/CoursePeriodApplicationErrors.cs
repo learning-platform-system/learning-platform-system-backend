@@ -9,13 +9,18 @@ public static class CoursePeriodApplicationErrors
         return new ApplicationResultError(ErrorTypes.NotFound, $"Kurs med id: {courseId} kunde inte hittas.");
     }
 
-    internal static ApplicationResultError CampusNotFound(Guid? campusId)
+    public static ApplicationResultError CampusNotFound(Guid? campusId)
     {
-        throw new NotImplementedException();
+        return new ApplicationResultError(ErrorTypes.NotFound, $"Campus med id: {campusId} kunde inte hittas.");
     }
 
-    internal static ApplicationResultError TeacherNotFound(Guid teacherId)
+    public static ApplicationResultError NotFound(Guid coursePeriodId)
     {
-        throw new NotImplementedException();
+        return new ApplicationResultError(ErrorTypes.NotFound, $"Kursperiod med id: {coursePeriodId} kunde inte hittas.");
+    }
+
+    public static ApplicationResultError TeacherNotFound(Guid teacherId)
+    {
+        return new ApplicationResultError(ErrorTypes.NotFound, $"Lärare med id: {teacherId} kunde inte hittas.");
     }
 }

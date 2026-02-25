@@ -14,8 +14,6 @@
     <Folder Include="Campuses\Inputs\" />
     <Folder Include="Campuses\Outputs\" />
     <Folder Include="CoursePeriods\Outputs\" />
-    <Folder Include="CourseSessions\Inputs\" />
-    <Folder Include="CourseSessions\Outputs\" />
     <Folder Include="Courses\Inputs\" />
     <Folder Include="Courses\Outputs\" />
     <Folder Include="Students\Inputs\" />

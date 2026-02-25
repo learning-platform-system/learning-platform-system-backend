@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.API.CoursePeriods.Create;
+﻿using LearningPlatformSystem.API.CoursePeriods.AddCourseSession;
+using LearningPlatformSystem.API.CoursePeriods.Create;
 
 namespace LearningPlatformSystem.API.CoursePeriods;
 
@@ -11,6 +12,7 @@ public static class CoursePeriodEndpoints
             .WithTags("CoursePeriods");
 
         group.MapPostCoursePeriodEndpoint();
+        group.MapPostCourseSessionEndpoint();
 
 
         return app;

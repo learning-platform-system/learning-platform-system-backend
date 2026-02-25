@@ -1,6 +1,8 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 
@@ -34,8 +36,33 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(CoursePeriod aggregate, CancellationToken ct)
+    public async Task UpdateAsync(CoursePeriod aggregate, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CoursePeriodEntity cPeriodEntity  = await _context.CoursePeriods.FirstAsync(cp => cp.Id == aggregate.Id, ct);
+
+        cPeriodEntity.StartDate = aggregate.StartDate;
+        cPeriodEntity.EndDate = aggregate.EndDate;
+    }
+
+    public async Task AddSessionAsync(CoursePeriod aggregate, CancellationToken ct)
+    {
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Sessions)
+            .SingleAsync(cp => cp.Id == aggregate.Id, ct);
+
+        // Hitta den session som finns i aggregate-listan men ínte i entity-listan
+        CourseSession newSession = aggregate.Sessions
+            .Single(s => !entity.Sessions.Any(e => e.Id == s.Id));
+
+        entity.Sessions.Add(new CourseSessionEntity
+        {
+            Id = newSession.Id,
+            CoursePeriodId = newSession.CoursePeriodId,
+            ClassroomId = newSession.ClassroomId,
+            Date = newSession.Date,
+            StartTime = newSession.StartTime,
+            EndTime = newSession.EndTime,
+            Format = newSession.Format
+        });
     }
 }

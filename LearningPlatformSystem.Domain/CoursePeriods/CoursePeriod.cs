@@ -70,7 +70,7 @@ public sealed class CoursePeriod
 
 
     // === Sessions ===
-    public void AddSession(CourseFormat format, Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    public void AddSession(CourseFormat format, Guid? classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         CourseSession session = CourseSession.Create(this.Id, format, classroomId, date, startTime, endTime);
 
