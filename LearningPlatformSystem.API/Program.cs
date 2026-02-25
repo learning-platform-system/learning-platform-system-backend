@@ -23,7 +23,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
-var services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
+
+builder.Services.AddMemoryCache();
+
+IServiceCollection services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 
 
 

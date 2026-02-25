@@ -233,4 +233,18 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
 
     }
 
+    public async Task<IReadOnlyList<CoursePeriod>> GetByCourseIdAsync(Guid courseId, CancellationToken ct)
+    {
+        List<CoursePeriodEntity> entities = await _context.CoursePeriods
+            .AsNoTracking() 
+            .Where(coursePeriodEntity => coursePeriodEntity.CourseId == courseId)
+            .ToListAsync(ct);
+
+        List<CoursePeriod> coursePeriods = entities
+            .Select(entity => entity.ToDomainModel())
+            .ToList();
+
+        return coursePeriods;
+    }
+
 }

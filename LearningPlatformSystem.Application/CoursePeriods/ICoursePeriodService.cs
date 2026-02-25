@@ -1,5 +1,7 @@
 ﻿using LearningPlatformSystem.Application.CoursePeriods.Inputs;
+using LearningPlatformSystem.Application.CoursePeriods.Outputs;
 using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.CoursePeriods;
 
 namespace LearningPlatformSystem.Application.CoursePeriods;
 
@@ -12,7 +14,7 @@ public interface ICoursePeriodService
     Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct);
     Task<ApplicationResult> SetGradeAsync(SetGradeInput input, CancellationToken ct);
     Task<ApplicationResult> AddAttendanceAsync(AddCourseSessionAttendanceInput input, CancellationToken ct);
-    //Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
-    //Task<ApplicationResult<CoursePeriod?>> GetByIdAsync(Guid id, CancellationToken ct);
-    //Task<ApplicationResult> UpdateAsync(CoursePeriod input, CancellationToken ct);
+    Task<ApplicationResult<IReadOnlyList<CoursePeriodOutput>>> GetByCourseIdAsync(Guid courseId, CancellationToken ct);
+
+
 }
