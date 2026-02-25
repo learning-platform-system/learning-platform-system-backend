@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriods;
+﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
+using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
@@ -44,15 +45,15 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
         cPeriodEntity.EndDate = aggregate.EndDate;
     }
 
-    public async Task AddSessionAsync(CoursePeriod aggregate, CancellationToken ct)
+    public async Task AddSessionAsync(CoursePeriod coursePeriod, CancellationToken ct)
     {
         CoursePeriodEntity entity = await _context.CoursePeriods
             .Include(cp => cp.Sessions)
-            .SingleAsync(cp => cp.Id == aggregate.Id, ct);
+            .SingleAsync(cp => cp.Id == coursePeriod.Id, ct);
 
         // Hitta den session som finns i aggregate-listan men ínte i entity-listan
-        CourseSession newSession = aggregate.Sessions
-            .Single(s => !entity.Sessions.Any(e => e.Id == s.Id));
+        CourseSession newSession = coursePeriod.Sessions
+            .Single(session => !entity.Sessions.Any(entitySession => entitySession.Id == session.Id));
 
         entity.Sessions.Add(new CourseSessionEntity
         {
@@ -63,6 +64,25 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
             StartTime = newSession.StartTime,
             EndTime = newSession.EndTime,
             Format = newSession.Format
+        });
+    }
+
+    public async Task AddResourceAsync(CoursePeriod coursePeriod, CancellationToken ct)
+    {
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Resources)
+            .SingleAsync(cp => cp.Id == coursePeriod.Id, ct);
+
+        CoursePeriodResource newResource = coursePeriod.Resources
+            .Single(resource => !entity.Resources.Any(resourceEntity => resourceEntity.Id == resource.Id));
+
+        entity.Resources.Add(new CoursePeriodResourceEntity
+        {
+            Id = newResource.Id,
+            CoursePeriodId = newResource.CoursePeriodId,
+            Title = newResource.Title,
+            Url = newResource.Url,
+            Description = newResource.Description
         });
     }
 }
