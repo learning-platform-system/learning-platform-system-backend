@@ -10,4 +10,6 @@ public class CoursePeriodEnrollmentErrors
 
     public const string StudentAlreadyEnrolled =
         "Studenten är redan inskriven i denna kursperiod.";
+
+    public const string GradeAlreadySet = "Betyg har redan satts för denna inskrivning.";
 }

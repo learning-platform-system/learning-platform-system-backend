@@ -94,7 +94,6 @@ public sealed class CoursePeriod
         _enrollments.Add(enrollment);
     }
 
-
     // === Reviews ===
     public void AddReview(Guid studentId, int ratingValue, string? comment)
     {
@@ -110,16 +109,5 @@ public sealed class CoursePeriod
     {
         CoursePeriodResource resource = CoursePeriodResource.Create(this.Id, title, url, description);
         _resources.Add(resource);
-    }
-
-    public void RemoveResource(Guid resourceId)
-    {
-        CoursePeriodResource? resource = _resources.FirstOrDefault(r => r.Id == resourceId);
-        if (resource is null)
-        {
-            throw new DomainException(CoursePeriodResourceErrors.CoursePeriodResourceNotFound);
-        }
-
-        _resources.Remove(resource);
     }
 }

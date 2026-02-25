@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
+﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
+using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.CourseSessions;
@@ -102,6 +103,23 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
             StudentId = newReview.StudentId,
             Rating = newReview.Rating,
             Comment = newReview.Comment
+        });
+    }
+
+    public async Task AddEnrollmentAsync(CoursePeriod coursePeriod, CancellationToken ct)
+    {
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Enrollments)
+            .SingleAsync(cp => cp.Id == coursePeriod.Id, ct);
+
+        CoursePeriodEnrollment newEnrollment = coursePeriod.Enrollments
+            .Single(enrollment => !entity.Enrollments.Any(enrollmentEntity => enrollmentEntity.StudentId == enrollment.StudentId));
+
+        entity.Enrollments.Add(new CoursePeriodEnrollmentEntity 
+        { 
+            StudentId = newEnrollment.StudentId, 
+            CoursePeriodId = newEnrollment.CoursePeriodId, 
+            Grade = newEnrollment.Grade 
         });
     }
 }

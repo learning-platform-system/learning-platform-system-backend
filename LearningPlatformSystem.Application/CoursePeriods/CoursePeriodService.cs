@@ -10,6 +10,21 @@ namespace LearningPlatformSystem.Application.CoursePeriods;
 // CACHING: GetByIdAsync, GetByCourseIdAsync. TTL-gräns 30-60sek min. Cache.Remove för Add/Update/Delete, IMemoryCache
 public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository, ICourseRepository _courseRepository, ITeacherRepository _teacherRepository, ICampusRepository _campusRepository, IUnitOfWork _unitOfWork) : ICoursePeriodService
 {
+    public async Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct)
+    {
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
+
+        coursePeriod.EnrollStudent(input.StudentId);
+
+        await _coursePeriodRepository.AddEnrollmentAsync(coursePeriod, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
+
     public async Task<ApplicationResult> AddResourceAsync(AddCoursePeriodResourceInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);

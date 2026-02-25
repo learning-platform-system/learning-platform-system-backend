@@ -17,6 +17,7 @@ public static class CoursePeriodEndpoints
         group.MapPostCourseSessionEndpoint();
         group.MapPostCoursePeriodResourceEndpoint();
         group.MapPostCoursePeriodReviewEndpoint();
+        group.MapPostCoursePeriodEnrollmentEndpoint();
 
 
         return app;
