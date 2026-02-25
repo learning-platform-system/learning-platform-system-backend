@@ -82,6 +82,11 @@ public sealed class CoursePeriod
         _sessions.Add(session);
     }
 
+    internal void RehydrateSessions(IEnumerable<CourseSession> sessions)
+    {
+        _sessions.AddRange(sessions);
+    }
+
 
     // === Enrollments ===
     public void EnrollStudent(Guid studentId)
@@ -100,10 +105,9 @@ public sealed class CoursePeriod
     }
 
     // === Rehydrering enrollments ===
-    internal void RehydrateEnrollment(Guid studentId, Grade grade)
+    internal void RehydrateEnrollments(IEnumerable<CoursePeriodEnrollment> enrollments)
     {
-        CoursePeriodEnrollment enrollment = CoursePeriodEnrollment.Rehydrate(studentId, this.Id, grade);
-        _enrollments.Add(enrollment);
+        _enrollments.AddRange(enrollments);
     }
 
     public void SetStudentGrade(Guid studentId, Grade grade)
@@ -129,11 +133,21 @@ public sealed class CoursePeriod
         _reviews.Add(review);
     }
 
+    internal void RehydrateReviews(IEnumerable<CoursePeriodReview> reviews)
+    {
+        _reviews.AddRange(reviews);
+    }   
+
 
     // === Resources ===
     public void AddResource(string title, string url, string? description)
     {
         CoursePeriodResource resource = CoursePeriodResource.Create(this.Id, title, url, description);
         _resources.Add(resource);
+    }
+
+    internal void RehydrateResources(IEnumerable<CoursePeriodResource> resources)
+    {
+        _resources.AddRange(resources);
     }
 }

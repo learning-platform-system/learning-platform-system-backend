@@ -5,6 +5,7 @@ using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
+using LearningPlatformSystem.Infrastructure.Persistence.Mapping.CoursePeriodMappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
@@ -132,31 +133,49 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
         if (entity is null)
             return null;
 
-        CoursePeriod coursePeriod = CoursePeriod.Rehydrate(
-             entity.Id,
-             entity.CourseId,
-             entity.TeacherId,
-             entity.StartDate,
-             entity.EndDate,
-             entity.Format
-         );
+        CoursePeriod coursePeriod = entity.ToDomainModel();
 
-        foreach (CoursePeriodEnrollmentEntity enrollmentEntity in entity.Enrollments)
-        {
-            coursePeriod.RehydrateEnrollment(enrollmentEntity.StudentId, enrollmentEntity.Grade);
-        }
+        IEnumerable<CoursePeriodEnrollment> enrollments = entity.Enrollments.ToDomainModel();
+
+        coursePeriod.RehydrateEnrollments(enrollments);        
 
         return coursePeriod;
     }
 
-    public Task<CoursePeriod?> GetByIdWithResourcesAsync(Guid coursePeriodId, CancellationToken ct)
+    public async Task<CoursePeriod?> GetByIdWithResourcesAsync(Guid coursePeriodId, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+            .Include(cp => cp.Resources)
+            .SingleOrDefaultAsync(cp => cp.Id == coursePeriodId, ct);
+
+        if (entity is null) return null;
+
+        // Mappar grunddata
+        CoursePeriod coursePeriod = entity.ToDomainModel();
+
+        IEnumerable<CoursePeriodResource> resources = entity.Resources.ToDomainModel();
+
+        // lägg till i coursePeriods recource-domainlista 
+        coursePeriod.RehydrateResources(resources);
+
+        return coursePeriod;
     }
 
-    public Task<CoursePeriod?> GetByIdWithReviewsAsync(Guid coursePeriodId, CancellationToken ct)
+    public async Task<CoursePeriod?> GetByIdWithReviewsAsync(Guid coursePeriodId, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+            .Include(cp => cp.Reviews)
+            .SingleOrDefaultAsync(cp => cp.Id == coursePeriodId, ct);
+
+        if (entity is null) return null;
+
+        CoursePeriod coursePeriod = entity.ToDomainModel();
+
+        IEnumerable<CoursePeriodReview> reviews = entity.Reviews.ToDomainModel();
+
+        coursePeriod.RehydrateReviews(reviews);
+
+        return coursePeriod;
     }
 
     public async Task UpdateEnrollmentAsync(CoursePeriod coursePeriod, CancellationToken ct)
@@ -170,5 +189,22 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
             // Hämta motsvarande domainEnrollment via id och uppdatera grade i entityn
             enrollmentEntity.Grade = coursePeriod.Enrollments.Single(domainEnrollment => domainEnrollment.StudentId == enrollmentEntity.StudentId).Grade;
         }
+    }
+
+    public async Task<CoursePeriod?> GetByIdWithSessionsAsync(Guid coursePeriodId, CancellationToken ct)
+    {
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+            .Include(cp => cp.Sessions)
+            .SingleOrDefaultAsync(cp => cp.Id == coursePeriodId, ct);
+
+        if (entity is null) return null;
+
+        CoursePeriod coursePeriod = entity.ToDomainModel();
+
+        IEnumerable<CourseSession> sessions = entity.Sessions.ToDomainModel();
+
+        coursePeriod.RehydrateSessions(sessions);
+
+        return coursePeriod;
     }
 }

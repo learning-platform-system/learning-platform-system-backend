@@ -45,6 +45,12 @@ public sealed class CourseSession
         return courseSession;
     }
 
+    internal static CourseSession Rehydrate(Guid id, Guid coursePeriodId, CourseFormat format, Guid? classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    {
+        CourseSession courseSession = new(id, format, coursePeriodId, classroomId, date, startTime, endTime);
+        return courseSession;
+    }
+
     private static void ValidateSessionTimes(TimeOnly startTime, TimeOnly endTime)
     {
         if (endTime <= startTime)
