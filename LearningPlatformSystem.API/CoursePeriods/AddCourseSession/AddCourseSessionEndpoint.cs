@@ -3,6 +3,7 @@ using LearningPlatformSystem.Application.CoursePeriods;
 using LearningPlatformSystem.Application.CoursePeriods.Inputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Shared.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearningPlatformSystem.API.CoursePeriods.AddCourseSession;
 
@@ -14,7 +15,7 @@ public static class AddCourseSessionEndpoint
         return group;
     }
 
-    private static async Task<IResult> HandleAsync(Guid coursePeriodId, AddCourseSessionRequest request, ICoursePeriodService service, CancellationToken ct)
+    private static async Task<IResult> HandleAsync([FromRoute] Guid coursePeriodId, [FromBody] AddCourseSessionRequest request, ICoursePeriodService service, CancellationToken ct)
     {
         if (!Enum.TryParse(request.Format, true, out CourseFormat parsedFormat))
         {
@@ -31,7 +32,7 @@ public static class AddCourseSessionEndpoint
 
         ApplicationResult result = await service.AddSessionAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

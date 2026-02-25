@@ -20,7 +20,7 @@ public static class AddSubcategoryEndpoint
 
         ApplicationResult result = await service.AddSubcategoryAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

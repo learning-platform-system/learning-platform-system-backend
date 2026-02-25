@@ -24,7 +24,7 @@ public static class UpdateCategoryNameEndpoint
 
         ApplicationResult result = await service.UpdateNameAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

@@ -32,7 +32,7 @@ public static class UpdateClassroomEndpoint
 
         ApplicationResult result = await service.UpdateAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

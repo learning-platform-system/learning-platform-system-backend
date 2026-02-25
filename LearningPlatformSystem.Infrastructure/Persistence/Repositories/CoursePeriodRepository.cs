@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
+using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
@@ -83,6 +84,24 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
             Title = newResource.Title,
             Url = newResource.Url,
             Description = newResource.Description
+        });
+    }
+
+    public async Task AddReviewAsync(CoursePeriod coursePeriod, CancellationToken ct)
+    {
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Reviews)
+            .SingleAsync(cp => cp.Id == coursePeriod.Id, ct);
+
+        CoursePeriodReview newReview = coursePeriod.Reviews
+            .Single(review => !entity.Reviews.Any(reviewEntity => reviewEntity.Id == review.Id));
+        entity.Reviews.Add(new CoursePeriodReviewEntity
+        {
+            Id = newReview.Id,
+            CoursePeriodId = newReview.CoursePeriodId,
+            StudentId = newReview.StudentId,
+            Rating = newReview.Rating,
+            Comment = newReview.Comment
         });
     }
 }

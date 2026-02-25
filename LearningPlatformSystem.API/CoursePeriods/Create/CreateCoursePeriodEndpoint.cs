@@ -24,7 +24,7 @@ public static class CreateCoursePeriodEndpoint
         CreateCoursePeriodInput input = new(request.CourseId, request.TeacherId, request.CampusId, request.StartDate, request.EndDate, courseFormat);
         ApplicationResult<Guid> result = await service.CreateAsync(input, ct); 
 
-        if(!result.IsSuccess)
+        if(result.IsFailure)
         {
             result.ToHttpFailResult();
         }

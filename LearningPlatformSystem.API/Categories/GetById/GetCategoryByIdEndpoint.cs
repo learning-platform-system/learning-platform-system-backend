@@ -20,7 +20,7 @@ public static class GetCategoryByIdEndpoint
 
         ApplicationResult<CategoryOutput> result = await service.GetByIdAsync(id, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

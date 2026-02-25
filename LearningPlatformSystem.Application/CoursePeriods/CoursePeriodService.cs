@@ -13,11 +13,9 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
     public async Task<ApplicationResult> AddResourceAsync(AddCoursePeriodResourceInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+
         if (coursePeriod is null)
-        {
-            ApplicationResultError error = CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId);
-            return ApplicationResult.Fail(error);
-        }
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
 
         coursePeriod.AddResource(input.Title, input.Url, input.Description);
 
@@ -27,16 +25,28 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         return ApplicationResult.Success();
     }
 
+    public async Task<ApplicationResult> AddReviewAsync(AddCoursePeriodReviewInput input, CancellationToken ct)
+    {
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
+
+        coursePeriod.AddReview(input.StudentId, input.Rating.Value, input.Comment);
+
+        await _coursePeriodRepository.AddReviewAsync(coursePeriod, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
+
     public async Task<ApplicationResult> AddSessionAsync(AddCourseSessionInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
-        if (coursePeriod is null)
-        {
-            ApplicationResultError error = CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId);
-            return ApplicationResult.Fail(error);
 
-        }
-        //CourseFormat format, Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
+
         coursePeriod.AddSession(input.Format, input.ClassroomId, input.Date, input.StartTime, input.EndTime);
 
         await _coursePeriodRepository.AddSessionAsync(coursePeriod, ct);
@@ -53,19 +63,13 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         bool courseExists = await _courseRepository.ExistsAsync(input.CourseId, ct);
 
         if (!courseExists) 
-        {
-            ApplicationResultError error = CoursePeriodApplicationErrors.CourseNotFound(coursePeriod.CourseId);
-            return ApplicationResult<Guid>.Fail(error);
-        }
+            return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CourseNotFound(coursePeriod.CourseId));
 
         // TEACHER EXISTS
         bool teacherExists = await _teacherRepository.ExistsAsync(input.TeacherId, ct);
 
         if (!teacherExists)
-        {
-            ApplicationResultError error = CoursePeriodApplicationErrors.TeacherNotFound(coursePeriod.TeacherId);
-            return ApplicationResult<Guid>.Fail(error);
-        }
+            return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.TeacherNotFound(coursePeriod.TeacherId));
 
         // CAMPUS EXISTS/ADD
         if (input.Format is CourseFormat.Onsite && input.CampusId.HasValue)
@@ -73,10 +77,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
             bool campusExists = await _campusRepository.ExistsAsync(input.CampusId!.Value, ct);
 
             if (!campusExists)
-            {
-                ApplicationResultError error = CoursePeriodApplicationErrors.CampusNotFound(coursePeriod.CampusId);
-                return ApplicationResult<Guid>.Fail(error);
-            }
+                return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CampusNotFound(coursePeriod.CampusId));
 
             coursePeriod.ConnectToCampus(input.CampusId!.Value);
         }

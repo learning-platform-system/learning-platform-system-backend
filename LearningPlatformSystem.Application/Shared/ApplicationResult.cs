@@ -3,6 +3,7 @@
 public sealed record ApplicationResult
 {
     public bool IsSuccess { get; }
+    public bool IsFailure => !IsSuccess;    
     public ApplicationResultError? Error { get; }
 
     private ApplicationResult(bool isSuccess, ApplicationResultError? error = null)
@@ -20,6 +21,7 @@ public sealed record ApplicationResult
 public sealed record ApplicationResult<T>
 {
     public bool IsSuccess { get; }
+    public bool IsFailure => !IsSuccess;
     public T? Data { get; }
     public ApplicationResultError? Error { get; }
 

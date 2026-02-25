@@ -20,7 +20,7 @@ public static class AddCoursePeriodResourceEndpoint
         AddCoursePeriodResourceInput input = new(coursePeriodId, request.Title, request.Url, request.Description);
         ApplicationResult result = await service.AddResourceAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }
