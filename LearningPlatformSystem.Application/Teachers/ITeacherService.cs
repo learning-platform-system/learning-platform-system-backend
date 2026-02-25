@@ -1,5 +1,9 @@
-﻿namespace LearningPlatformSystem.Application.Teachers;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Teachers;
+
+namespace LearningPlatformSystem.Application.Teachers;
 
 public interface ITeacherService
 {
+
 }

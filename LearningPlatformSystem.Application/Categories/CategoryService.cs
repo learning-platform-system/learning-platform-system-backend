@@ -2,7 +2,6 @@
 using LearningPlatformSystem.Application.Categories.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
-using LearningPlatformSystem.Domain.Shared.Exceptions;
 
 namespace LearningPlatformSystem.Application.Categories;
 
@@ -21,20 +20,13 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
             return ApplicationResult<Guid>.Fail(error);
         }
 
-        try
-        {
-            Category category = Category.Create(Guid.NewGuid(), input.Name);
+        Category category = Category.Create(Guid.NewGuid(), input.Name);
 
-            await _categoryRepository.AddAsync(category, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
+        await _categoryRepository.AddAsync(category, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult<Guid>.Success(category.Id);
-        }
-        catch (DomainException ex)
-        {
-            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult<Guid>.Fail(error);
-        }
+        return ApplicationResult<Guid>.Success(category.Id);
+
     }
 
     public async Task<ApplicationResult<CategoryOutput>> GetByIdAsync(Guid id, CancellationToken ct)
@@ -58,29 +50,20 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
 
     public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
     {
-        try
-        {
-            Category? category = await _categoryRepository.GetByIdAsync(id, ct);
+        Category? category = await _categoryRepository.GetByIdAsync(id, ct);
             
-            if (category is null)
-            {
-                ApplicationResultError error = CategoryApplicationErrors.NotFound(id);
-                return ApplicationResult.Fail(error);
-            }
-
-            category.EnsureCanBeRemoved();
-
-            await _categoryRepository.RemoveAsync(category.Id, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
-
-            return ApplicationResult.Success();
-
-        }
-        catch (DomainException ex)
+        if (category is null)
         {
-            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
+            ApplicationResultError error = CategoryApplicationErrors.NotFound(id);
             return ApplicationResult.Fail(error);
         }
+
+        category.EnsureCanBeRemoved();
+
+        await _categoryRepository.RemoveAsync(category.Id, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
     }
 
     public async Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct)
@@ -99,20 +82,12 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
             return ApplicationResult.Fail(error);
         }
 
-        try
-        {
-            category.ChangeName(input.Name);
+        category.ChangeName(input.Name);
 
-            await _categoryRepository.UpdateAsync(category, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
+        await _categoryRepository.UpdateAsync(category, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult.Success();
-        }
-        catch (DomainException ex)
-        {
-            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult.Fail(error);
-        }
+        return ApplicationResult.Success();
     }
 
     public async Task<ApplicationResult> AddSubcategoryAsync(AddSubcategoryInput input, CancellationToken ct)
@@ -125,20 +100,12 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
             return ApplicationResult.Fail(error);
         }
 
-        try
-        { 
-            category.AddSubcategory(input.Name);
+        category.AddSubcategory(input.Name);
 
-            await _categoryRepository.UpdateAsync(category, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
+        await _categoryRepository.UpdateAsync(category, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult.Success();
-        }
-        catch (DomainException ex)
-        {
-            ApplicationResultError error = CategoryApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult.Fail(error);
-        }
+        return ApplicationResult.Success();
     }
 }
 

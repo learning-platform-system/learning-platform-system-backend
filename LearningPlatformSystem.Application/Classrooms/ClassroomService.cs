@@ -20,26 +20,18 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             return ApplicationResult<Guid>.Fail(error);
         }
 
-        try
-        {
-            Classroom classroom = Classroom.Create
-            (
-            Guid.NewGuid(),
-            input.Name,
-            input.Capacity,
-            input.Type
-            );
+        Classroom classroom = Classroom.Create
+        (
+        Guid.NewGuid(),
+        input.Name,
+        input.Capacity,
+        input.Type
+        );
 
-            await _classroomRepository.AddAsync(classroom, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
+        await _classroomRepository.AddAsync(classroom, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult<Guid>.Success(classroom.Id);
-        }
-        catch (DomainException ex) 
-        {
-            ApplicationResultError error = ClassroomApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult<Guid>.Fail(error);
-        }
+        return ApplicationResult<Guid>.Success(classroom.Id);
     }
 
     public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
@@ -89,20 +81,12 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
             return ApplicationResult.Fail(error);
         }
 
-        try
-        {
-            classroom.Update(input.Name, input.Capacity, input.Type);
+        classroom.Update(input.Name, input.Capacity, input.Type);
 
-            await _classroomRepository.UpdateAsync(classroom, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
+        await _classroomRepository.UpdateAsync(classroom, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
 
-            return ApplicationResult.Success();
-        }
-        catch (DomainException ex)
-        {
-            ApplicationResultError error = ClassroomApplicationErrors.BadRequest(ex.Message);
-            return ApplicationResult.Fail(error);
-        }
+        return ApplicationResult.Success();
     }
 }
 

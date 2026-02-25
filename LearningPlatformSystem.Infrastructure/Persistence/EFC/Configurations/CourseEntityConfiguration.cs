@@ -37,11 +37,6 @@ public class CourseEntityConfiguration : EntityBaseConfiguration<CourseEntity>
             .HasForeignKey(e => e.SubcategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(e => e.CoursePeriods)
-            .WithOne(cp => cp.Course)
-            .HasForeignKey(cp => cp.CourseId)
-            .OnDelete(DeleteBehavior.Restrict); // Course kan inte tas bort om det finns CoursePeriods som refererar till den
-
         // Index: 
         // Visa alla kurser inom en viss subkategori-sökning
         builder.HasIndex(e => e.SubcategoryId);

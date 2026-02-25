@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Campuses\Inputs\" />
     <Folder Include="Campuses\Outputs\" />
-    <Folder Include="CoursePeriods\Inputs\" />
     <Folder Include="CoursePeriods\Outputs\" />
     <Folder Include="CourseSessions\Inputs\" />
     <Folder Include="CourseSessions\Outputs\" />

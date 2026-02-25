@@ -46,7 +46,7 @@ public sealed class CoursePeriod
 
 
     // === Factory Method ===
-    internal static CoursePeriod Create(Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
+    public static CoursePeriod Create(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
         DomainValidator.ValidateRequiredGuid(courseId, CoursePeriodErrors.CourseIdIsRequired);
         DomainValidator.ValidateRequiredGuid(teacherId, CoursePeriodErrors.TeacherIdIsRequired);
@@ -55,8 +55,6 @@ public sealed class CoursePeriod
         {
             throw new DomainException(CoursePeriodErrors.InvalidPeriodDates);
         }
-
-        Guid id = Guid.NewGuid();
 
         return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
     }

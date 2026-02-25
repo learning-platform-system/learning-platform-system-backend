@@ -28,9 +28,9 @@ public class CoursePeriodEntityConfiguration : EntityBaseConfiguration<CoursePer
             .HasMaxLength(10); // maxlängd för string-representationen av enum, SQL Server gör annars nvarchar(max)
 
         builder.HasOne(e => e.Course)
-            .WithMany(c => c.CoursePeriods)
+            .WithMany()
             .HasForeignKey(e => e.CourseId)
-            .OnDelete(DeleteBehavior.Cascade); // tas kursen bort ska alla dess kursperioder också tas bort
+            .OnDelete(DeleteBehavior.Restrict); 
 
         builder.HasOne(e => e.Teacher)
             .WithMany() // courseperiod har bara beroende av läraren

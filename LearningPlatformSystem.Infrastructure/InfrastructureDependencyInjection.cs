@@ -1,6 +1,8 @@
 ﻿using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Classrooms;
+using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +22,12 @@ public static class InfrastructureDependencyInjection
         });
 
 
-        services.AddScoped<IUnitOfWork>(sp =>
-            sp.GetRequiredService<LearningPlatformDbContext>());
-
-        //services.AddScoped<IUnitOfWork, LearningPlatformDbContext>();
+        services.AddScoped<IUnitOfWork, LearningPlatformDbContext>(); 
 
         services.AddScoped<IClassroomRepository, ClassroomRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICoursePeriodRepository, CoursePeriodRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
 
 
         return services;

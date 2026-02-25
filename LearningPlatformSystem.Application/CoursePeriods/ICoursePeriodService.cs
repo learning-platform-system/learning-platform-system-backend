@@ -1,5 +1,12 @@
-﻿namespace LearningPlatformSystem.Application.CoursePeriods;
+﻿using LearningPlatformSystem.Application.CoursePeriods.Inputs;
+using LearningPlatformSystem.Application.Shared;
 
-public interface ICoursePeriodService
+namespace LearningPlatformSystem.Application.CoursePeriods;
+
+public interface ICoursePeriodService 
 {
+    Task<ApplicationResult<Guid>> CreateAsync(CreateCoursePeriodInput input, CancellationToken ct);
+    //Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
+    //Task<ApplicationResult<CoursePeriod?>> GetByIdAsync(Guid id, CancellationToken ct);
+    //Task<ApplicationResult> UpdateAsync(CoursePeriod input, CancellationToken ct);
 }

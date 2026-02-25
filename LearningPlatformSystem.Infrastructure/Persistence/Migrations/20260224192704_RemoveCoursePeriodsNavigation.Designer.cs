@@ -4,6 +4,7 @@ using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(LearningPlatformDbContext))]
-    partial class LearningPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260224192704_RemoveCoursePeriodsNavigation")]
+    partial class RemoveCoursePeriodsNavigation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
