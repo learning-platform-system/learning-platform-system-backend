@@ -11,6 +11,7 @@ public interface ICoursePeriodService
     Task<ApplicationResult> AddReviewAsync(AddCoursePeriodReviewInput input, CancellationToken ct);
     Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct);
     Task<ApplicationResult> SetGradeAsync(SetGradeInput input, CancellationToken ct);
+    Task<ApplicationResult> AddAttendanceAsync(AddCourseSessionAttendanceInput input, CancellationToken ct);
     //Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
     //Task<ApplicationResult<CoursePeriod?>> GetByIdAsync(Guid id, CancellationToken ct);
     //Task<ApplicationResult> UpdateAsync(CoursePeriod input, CancellationToken ct);

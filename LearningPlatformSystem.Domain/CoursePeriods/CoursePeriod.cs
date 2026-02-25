@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
+using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
@@ -87,6 +88,17 @@ public sealed class CoursePeriod
         _sessions.AddRange(sessions);
     }
 
+    public void AddSessionAttendance(Guid courseSessionId, Guid studentId, AttendanceStatus status)
+    {
+        CourseSession? session = _sessions.SingleOrDefault(session => session.Id == courseSessionId);
+
+        if (session is null)
+        {
+            throw new DomainException(CoursePeriodErrors.CourseSessionNotFound(courseSessionId));
+        }
+
+        session.AddAttendance(studentId, status);
+    }
 
     // === Enrollments ===
     public void EnrollStudent(Guid studentId)

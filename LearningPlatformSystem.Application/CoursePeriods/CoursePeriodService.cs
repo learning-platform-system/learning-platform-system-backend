@@ -10,6 +10,23 @@ namespace LearningPlatformSystem.Application.CoursePeriods;
 // CACHING: GetByIdAsync, GetByCourseIdAsync. TTL-gräns 30-60sek min. Cache.Remove för Add/Update/Delete, IMemoryCache
 public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository, ICourseRepository _courseRepository, ITeacherRepository _teacherRepository, ICampusRepository _campusRepository, IUnitOfWork _unitOfWork) : ICoursePeriodService
 {
+    public async Task<ApplicationResult> AddAttendanceAsync(AddCourseSessionAttendanceInput input, CancellationToken ct)
+    {
+        // Hämtar enbart sessionerna för den aktuella coursePeriod. Inga attendances inkluderas, vilket betyder att alla courseSession attendance-listor är tomma.
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdWithSessionsAsync(input.CoursePeriodId, ct);
+
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
+
+        // Lägger till exakt 1 attendance på exakt 1 session. Attendance-data finns enbart på den aktuella courseSession.
+        coursePeriod.AddSessionAttendance(input.CourseSessionId, input.StudentId, input.Status);  
+        
+        await _coursePeriodRepository.AddSessionAttendanceAsync(coursePeriod, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
+
     public async Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdWithEnrollmentsAsync(input.CoursePeriodId, ct);

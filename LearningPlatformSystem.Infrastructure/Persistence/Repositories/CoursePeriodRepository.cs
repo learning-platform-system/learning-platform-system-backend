@@ -2,6 +2,7 @@
 using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
@@ -207,4 +208,29 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
 
         return coursePeriod;
     }
+
+    public async Task AddSessionAttendanceAsync(CoursePeriod coursePeriod, CancellationToken ct)
+    {
+        // Hämtar motsvarande entity med inkluderade sessions (tomma attendance-listor)
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Sessions)
+            .SingleAsync(cPEntity => cPEntity.Id == coursePeriod.Id);
+
+        // Hittar den session som fått en ny attendance i den aktuella coursePeriod. 
+        CourseSession domainSession = coursePeriod.Sessions.First(session => session.Attendances.Any());
+
+        // Hämtar den attendance som finns i sessionen (finns bara en)
+        CourseSessionAttendance attendance = domainSession.Attendances.First();
+
+        CourseSessionEntity sessionEntity = entity.Sessions.First(sessionEntity => sessionEntity.Id == domainSession.Id);
+
+        sessionEntity.Attendances.Add(new CourseSessionAttendanceEntity
+        {
+            StudentId = attendance.StudentId,
+            CourseSessionId = sessionEntity.Id,
+            Status = attendance.Status
+        });
+
+    }
+
 }

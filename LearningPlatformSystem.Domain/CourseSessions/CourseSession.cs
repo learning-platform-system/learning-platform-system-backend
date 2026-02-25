@@ -48,6 +48,7 @@ public sealed class CourseSession
     internal static CourseSession Rehydrate(Guid id, Guid coursePeriodId, CourseFormat format, Guid? classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         CourseSession courseSession = new(id, format, coursePeriodId, classroomId, date, startTime, endTime);
+
         return courseSession;
     }
 

@@ -2,6 +2,7 @@
 using LearningPlatformSystem.API.CoursePeriods.AddCoursePeriodResource;
 using LearningPlatformSystem.API.CoursePeriods.AddCoursePeriodReview;
 using LearningPlatformSystem.API.CoursePeriods.AddCourseSession;
+using LearningPlatformSystem.API.CoursePeriods.AddCourseSessionAttendace;
 using LearningPlatformSystem.API.CoursePeriods.Create;
 using LearningPlatformSystem.API.CoursePeriods.SetGrade;
 
@@ -21,6 +22,7 @@ public static class CoursePeriodEndpoints
         group.MapPostCoursePeriodReviewEndpoint();
         group.MapPostCoursePeriodEnrollmentEndpoint();
         group.MapPutGradeEndpoint();
+        group.MapPostCourseSessionAttendanceEndpoint();
 
 
         return app;

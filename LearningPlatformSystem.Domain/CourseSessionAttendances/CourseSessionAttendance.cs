@@ -7,26 +7,28 @@ public sealed class CourseSessionAttendance
 {
     public Guid StudentId { get; private set; }
     public Guid CourseSessionId { get; private set; }
-    public Guid CoursePeriodId { get; private set; }
     public AttendanceStatus Status { get; private set; }
 
-    private CourseSessionAttendance(Guid studentId, Guid courseSessionId, Guid coursePeriodId, AttendanceStatus status)
+    private CourseSessionAttendance(Guid studentId, Guid courseSessionId, AttendanceStatus status)
     {
         StudentId = studentId;
         CourseSessionId = courseSessionId;
-        CoursePeriodId = coursePeriodId;
         Status = status;
     }
 
     // skapande via CourseSession
-    internal static CourseSessionAttendance Create(Guid studentId, Guid courseSessionId, Guid coursePeriodId, AttendanceStatus status)
+    internal static CourseSessionAttendance Create(Guid studentId, Guid courseSessionId, AttendanceStatus status)
     {
         DomainValidator.ValidateRequiredGuid(studentId, CourseSessionAttendanceErrors.StudentIdIsRequired);
         DomainValidator.ValidateRequiredGuid(courseSessionId, CourseSessionAttendanceErrors.CourseSessionIdIsRequired);
-        DomainValidator.ValidateRequiredGuid(coursePeriodId, CourseSessionAttendanceErrors.CoursePeriodIdIsRequired);
 
-        CourseSessionAttendance attendance = new(studentId, courseSessionId, coursePeriodId, status);
+        CourseSessionAttendance attendance = new(studentId, courseSessionId, status);
         return attendance;
+    }
+
+    internal static CourseSessionAttendance Rehydrate(Guid studentId, Guid courseSessionId, AttendanceStatus status)
+    {
+        return new CourseSessionAttendance(studentId, courseSessionId, status);
     }
 
     public void ChangeAttendanceStatus(AttendanceStatus newStatus)
