@@ -7,8 +7,6 @@ using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Teachers;
 using Microsoft.Extensions.Caching.Memory;
-using System.Reflection;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LearningPlatformSystem.Application.CoursePeriods;
 // CACHING: GetByIdAsync, GetByCourseIdAsync. TTL-gräns 30-60sek min. Cache.Remove för Add/Update/Delete, IMemoryCache
@@ -30,7 +28,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
     public async Task<ApplicationResult<IReadOnlyList<CoursePeriodOutput>>> GetByCourseIdAsync(Guid courseId, CancellationToken ct)
     {
-        // // Skapar en unik nyckel (unik sträng) för kursen. Nyckeln visar platsen där värdet (CoursePeriods för en specifik Course) är cachad. 
+        // Skapar en unik nyckel (unik sträng) för kursen. Nyckeln visar platsen där värdet (CoursePeriods för en specifik Course) är cachad. 
         string cacheKey = GetByCourseIdCacheKey(courseId);
 
         // Kollar om cache redan innehåller värdet för nyckeln. Om ja -> skicka direkt. 
@@ -39,7 +37,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
             return ApplicationResult<IReadOnlyList<CoursePeriodOutput>>.Success(cachedValue!);
         }
 
-        // 5. Annars hämta från databasen.  kan man ge tydligare namn på repot så att de skiljers sig?
+        // Annars hämta från databasen
         IReadOnlyList<CoursePeriod> coursePeriodsFromDatabase = await _coursePeriodRepository.GetByCourseIdAsync(courseId, ct);
 
         IReadOnlyList<CoursePeriodOutput> coursePeriodOutputs = coursePeriodsFromDatabase.Select(cp => new CoursePeriodOutput(

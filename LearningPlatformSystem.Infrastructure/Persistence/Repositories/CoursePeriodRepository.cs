@@ -39,9 +39,17 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
         return entity is null ? null : entity.ToDomainModel();
     }
 
-    public Task<bool> RemoveAsync(Guid id, CancellationToken ct)
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+        .SingleOrDefaultAsync(cp => cp.Id == id, ct);
+
+        if (entity is null)
+            return false;
+
+        _context.CoursePeriods.Remove(entity);
+
+        return true;
     }
 
     public async Task UpdateAsync(CoursePeriod aggregate, CancellationToken ct)
