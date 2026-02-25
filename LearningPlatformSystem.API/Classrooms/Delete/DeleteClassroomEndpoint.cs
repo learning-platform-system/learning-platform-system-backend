@@ -17,7 +17,7 @@ public static class DeleteClassroomEndpoint
     {
         ApplicationResult result = await service.DeleteAsync(id, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

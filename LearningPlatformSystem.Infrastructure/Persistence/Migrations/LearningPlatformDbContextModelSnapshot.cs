@@ -28,10 +28,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -59,10 +63,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,10 +100,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,6 +127,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Classrooms", (string)null);
                 });
 
@@ -124,7 +139,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<int>("Credits")
                         .HasColumnType("int");
@@ -134,7 +151,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -172,7 +191,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Grade")
                         .IsRequired()
@@ -180,7 +201,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -207,7 +230,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
@@ -218,7 +243,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -254,14 +281,18 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -299,10 +330,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -335,10 +370,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -370,7 +409,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
@@ -384,7 +425,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -410,10 +453,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -438,10 +485,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -470,10 +521,14 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2(0)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(0)")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -588,9 +643,9 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities.CourseEntity", "Course")
-                        .WithMany("CoursePeriods")
+                        .WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities.TeacherEntity", "Teacher")
@@ -883,11 +938,6 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities.CategoryEntity", b =>
                 {
                     b.Navigation("Subcategories");
-                });
-
-            modelBuilder.Entity("LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities.CourseEntity", b =>
-                {
-                    b.Navigation("CoursePeriods");
                 });
 
             modelBuilder.Entity("LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities.CoursePeriodEntity", b =>

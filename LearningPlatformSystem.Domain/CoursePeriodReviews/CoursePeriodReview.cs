@@ -34,4 +34,9 @@ public sealed class CoursePeriodReview
 
         return new CoursePeriodReview(id, studentId, coursePeriodId, rating, normalizedComment);
     }
+
+    internal static CoursePeriodReview Rehydrate(Guid id, Guid studentId, Guid coursePeriodId, Rating rating, string? comment)
+    {
+        return new CoursePeriodReview(id, studentId, coursePeriodId, rating, comment);
+    }
 }

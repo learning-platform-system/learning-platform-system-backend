@@ -52,4 +52,10 @@ public sealed class CoursePeriodResource
         }
         return normalizedUrl;
     }
+
+    internal static CoursePeriodResource Rehydrate(Guid id, Guid coursePeriodId, string title, string url, string? description)
+    {
+        CoursePeriodResource resource = new(id, coursePeriodId, title, url, description);
+        return resource;
+    }
 }

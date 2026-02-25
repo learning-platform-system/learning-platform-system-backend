@@ -19,7 +19,7 @@ public static class CreateClassroomEndpoint
     {
         ApplicationResult<Guid> result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
 
-        if(!result.IsSuccess)
+        if(result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

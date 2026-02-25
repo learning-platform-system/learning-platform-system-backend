@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.CoursePeriodReviews;
+using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
@@ -46,7 +47,7 @@ public sealed class CoursePeriod
 
 
     // === Factory Method ===
-    internal static CoursePeriod Create(Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
+    public static CoursePeriod Create(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
     {
         DomainValidator.ValidateRequiredGuid(courseId, CoursePeriodErrors.CourseIdIsRequired);
         DomainValidator.ValidateRequiredGuid(teacherId, CoursePeriodErrors.TeacherIdIsRequired);
@@ -56,12 +57,15 @@ public sealed class CoursePeriod
             throw new DomainException(CoursePeriodErrors.InvalidPeriodDates);
         }
 
-        Guid id = Guid.NewGuid();
-
         return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
     }
 
-    
+    internal static CoursePeriod Rehydrate(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
+    {
+        return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
+    }
+
+
     // === Campus ===
     public void ConnectToCampus(Guid campusId) 
     {
@@ -72,13 +76,29 @@ public sealed class CoursePeriod
 
 
     // === Sessions ===
-    public void AddSession(CourseFormat format, Guid classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+    public void AddSession(CourseFormat format, Guid? classroomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
     {
         CourseSession session = CourseSession.Create(this.Id, format, classroomId, date, startTime, endTime);
 
         _sessions.Add(session);
     }
 
+    internal void RehydrateSessions(IEnumerable<CourseSession> sessions)
+    {
+        _sessions.AddRange(sessions);
+    }
+
+    public void AddSessionAttendance(Guid courseSessionId, Guid studentId, AttendanceStatus status)
+    {
+        CourseSession? session = _sessions.SingleOrDefault(session => session.Id == courseSessionId);
+
+        if (session is null)
+        {
+            throw new DomainException(CoursePeriodErrors.CourseSessionNotFound(courseSessionId));
+        }
+
+        session.AddAttendance(studentId, status);
+    }
 
     // === Enrollments ===
     public void EnrollStudent(Guid studentId)
@@ -96,6 +116,25 @@ public sealed class CoursePeriod
         _enrollments.Add(enrollment);
     }
 
+    // === Rehydrering enrollments ===
+    internal void RehydrateEnrollments(IEnumerable<CoursePeriodEnrollment> enrollments)
+    {
+        _enrollments.AddRange(enrollments);
+    }
+
+    public void SetStudentGrade(Guid studentId, Grade grade)
+    {
+        DomainValidator.ValidateRequiredGuid(studentId, CoursePeriodEnrollmentErrors.StudentIdIsRequired);
+
+        CoursePeriodEnrollment? enrollment = _enrollments.SingleOrDefault(enrollment => enrollment.StudentId == studentId);
+
+        if (enrollment is null)
+        {
+            throw new DomainException(CoursePeriodEnrollmentErrors.StudentNotEnrolled);
+        }
+
+        enrollment.SetGrade(grade);
+    }
 
     // === Reviews ===
     public void AddReview(Guid studentId, int ratingValue, string? comment)
@@ -106,6 +145,11 @@ public sealed class CoursePeriod
         _reviews.Add(review);
     }
 
+    internal void RehydrateReviews(IEnumerable<CoursePeriodReview> reviews)
+    {
+        _reviews.AddRange(reviews);
+    }   
+
 
     // === Resources ===
     public void AddResource(string title, string url, string? description)
@@ -114,14 +158,8 @@ public sealed class CoursePeriod
         _resources.Add(resource);
     }
 
-    public void RemoveResource(Guid resourceId)
+    internal void RehydrateResources(IEnumerable<CoursePeriodResource> resources)
     {
-        CoursePeriodResource? resource = _resources.FirstOrDefault(r => r.Id == resourceId);
-        if (resource is null)
-        {
-            throw new DomainException(CoursePeriodResourceErrors.CoursePeriodResourceNotFound);
-        }
-
-        _resources.Remove(resource);
+        _resources.AddRange(resources);
     }
 }

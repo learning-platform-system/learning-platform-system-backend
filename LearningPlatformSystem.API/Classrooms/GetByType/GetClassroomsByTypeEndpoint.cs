@@ -25,7 +25,7 @@ public static class GetClassroomsByTypeEndpoint
 
         ApplicationResult<IReadOnlyList<ClassroomOutput>> result = await service.GetByTypeAsync(parsedType, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

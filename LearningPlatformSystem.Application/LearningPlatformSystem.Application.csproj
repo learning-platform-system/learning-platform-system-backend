@@ -13,10 +13,6 @@
   <ItemGroup>
     <Folder Include="Campuses\Inputs\" />
     <Folder Include="Campuses\Outputs\" />
-    <Folder Include="CoursePeriods\Inputs\" />
-    <Folder Include="CoursePeriods\Outputs\" />
-    <Folder Include="CourseSessions\Inputs\" />
-    <Folder Include="CourseSessions\Outputs\" />
     <Folder Include="Courses\Inputs\" />
     <Folder Include="Courses\Outputs\" />
     <Folder Include="Students\Inputs\" />
@@ -26,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
   </ItemGroup>
 

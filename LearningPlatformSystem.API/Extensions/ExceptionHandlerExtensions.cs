@@ -1,10 +1,16 @@
 ﻿using LearningPlatformSystem.Application.Shared.Exceptions;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace LearningPlatformSystem.API.Extensions;
-/* Inbyggd felhantering i ASP.Net Core. Fångar upp tekniska fel som inte hanteras någon annanstans i appen.
-   Presentations ansvar är att se till att tekniska oväntade fel 500 (t.ex. databasfel) returnerar rätt HTTP-svar. 
-   Behöver då bara try catch för DomainExceptions i Application (affärsregelbrott).*/
+/* (UseExceptionHandler - inbyggd ASP.NET) 
+   Global felhantering:
+   - DomainException => 400 (bruten affärsregel)
+   - PersistenceException => 500 (tekniskt fel vid datalagring)
+   - Övriga fel => 500
+   Detta gör att services kan fokusera på affärslogik och returnera ApplicationResult
+   för förväntade applikationsfel (t.ex. NotFound, Conflict).
+*/
 public static class ExceptionHandlerExtensions
 {
     public static void UseGlobalExceptionHandling(this WebApplication app)
@@ -21,6 +27,15 @@ public static class ExceptionHandlerExtensions
 
                 switch (exception)
                 {
+                    // DomainException från domain-lagret (bruten affärsregel)
+                    case DomainException domainEx:
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            message = domainEx.Message
+                        });
+                        break;
+
                     // DbUpdateException från SaveChangesAsync
                     case PersistenceException:
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;

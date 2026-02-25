@@ -20,7 +20,7 @@ public static class CreateCategoryEndpoint
 
         ApplicationResult<Guid> result = await service.CreateAsync(input, ct);
 
-        if (!result.IsSuccess)
+        if (result.IsFailure)
         {
             return result.ToHttpFailResult();
         }

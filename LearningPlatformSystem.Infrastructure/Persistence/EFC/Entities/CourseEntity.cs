@@ -10,6 +10,4 @@ public sealed class CourseEntity : EntityBase
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public int Credits { get; set; }
-    public ICollection<CoursePeriodEntity> CoursePeriods { get; set; } = [];
-
 }
