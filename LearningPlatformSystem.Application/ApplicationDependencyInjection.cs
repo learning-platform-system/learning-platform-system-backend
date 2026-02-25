@@ -3,7 +3,6 @@ using LearningPlatformSystem.Application.Categories;
 using LearningPlatformSystem.Application.Classrooms;
 using LearningPlatformSystem.Application.CoursePeriods;
 using LearningPlatformSystem.Application.Courses;
-using LearningPlatformSystem.Application.CourseSessions;
 using LearningPlatformSystem.Application.Students;
 using LearningPlatformSystem.Application.Teachers;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +19,8 @@ public static class ApplicationDependencyInjection
         services.AddScoped<IClassroomService, ClassroomService>();
         services.AddScoped<ICoursePeriodService, CoursePeriodService>();
         services.AddScoped<ICourseService, CourseService>();
-        services.AddScoped<ICourseSessionService, CourseSessionService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ITeacherService, TeacherService>();
-        
 
         return services;
     }

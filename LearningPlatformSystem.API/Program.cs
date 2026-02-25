@@ -1,5 +1,7 @@
 using LearningPlatformSystem.API.Categories;
 using LearningPlatformSystem.API.Classrooms;
+using LearningPlatformSystem.API.CoursePeriods;
+using LearningPlatformSystem.API.Courses;
 using LearningPlatformSystem.API.Extensions;
 using LearningPlatformSystem.Application;
 using LearningPlatformSystem.Infrastructure;
@@ -26,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddMemoryCache();
 
-IServiceCollection services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
+var services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 
 
 
@@ -48,6 +50,8 @@ app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapClassroomEndpoints();
 app.MapCategoryEndpoints();
+app.MapCourseEndpoints();
+app.MapCoursePeriodEndpoints();
 
 
 app.Run();

@@ -3,7 +3,7 @@ using LearningPlatformSystem.Domain.Teachers;
 
 namespace LearningPlatformSystem.Application.Teachers;
 
-public class TeacherService
+public class TeacherService : ITeacherService
 {
 
 }

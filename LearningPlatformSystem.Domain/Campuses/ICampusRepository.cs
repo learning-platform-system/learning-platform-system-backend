@@ -1,6 +1,8 @@
-﻿namespace LearningPlatformSystem.Domain.Campuses;
+﻿using LearningPlatformSystem.Domain.Shared;
 
-public interface ICampusRepository
+namespace LearningPlatformSystem.Domain.Campuses;
+
+public interface ICampusRepository : IRepositoryBase<Campus, Guid>
 {
     Task<bool> ExistsAsync(Guid id, CancellationToken ct);
 }
