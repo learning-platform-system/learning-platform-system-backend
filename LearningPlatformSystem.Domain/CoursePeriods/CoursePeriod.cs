@@ -59,7 +59,12 @@ public sealed class CoursePeriod
         return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
     }
 
-    
+    internal static CoursePeriod Rehydrate(Guid id, Guid courseId, Guid teacherId, DateOnly startDate, DateOnly endDate, CourseFormat format)
+    {
+        return new CoursePeriod(id, courseId, teacherId, startDate, endDate, format);
+    }
+
+
     // === Campus ===
     public void ConnectToCampus(Guid campusId) 
     {
@@ -92,6 +97,27 @@ public sealed class CoursePeriod
         var enrollment = CoursePeriodEnrollment.Create(this.Id, studentId);
 
         _enrollments.Add(enrollment);
+    }
+
+    // === Rehydrering enrollments ===
+    internal void RehydrateEnrollment(Guid studentId, Grade grade)
+    {
+        CoursePeriodEnrollment enrollment = CoursePeriodEnrollment.Rehydrate(studentId, this.Id, grade);
+        _enrollments.Add(enrollment);
+    }
+
+    public void SetStudentGrade(Guid studentId, Grade grade)
+    {
+        DomainValidator.ValidateRequiredGuid(studentId, CoursePeriodEnrollmentErrors.StudentIdIsRequired);
+
+        CoursePeriodEnrollment? enrollment = _enrollments.SingleOrDefault(enrollment => enrollment.StudentId == studentId);
+
+        if (enrollment is null)
+        {
+            throw new DomainException(CoursePeriodEnrollmentErrors.StudentNotEnrolled);
+        }
+
+        enrollment.SetGrade(grade);
     }
 
     // === Reviews ===

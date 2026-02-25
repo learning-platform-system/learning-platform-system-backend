@@ -122,4 +122,53 @@ public class CoursePeriodRepository(LearningPlatformDbContext context) : ICourse
             Grade = newEnrollment.Grade 
         });
     }
+
+    public async Task<CoursePeriod?> GetByIdWithEnrollmentsAsync(Guid coursePeriodId, CancellationToken ct)
+    {
+        CoursePeriodEntity? entity = await _context.CoursePeriods
+            .Include(cp => cp.Enrollments)
+            .SingleOrDefaultAsync(cp => cp.Id == coursePeriodId, ct);
+
+        if (entity is null)
+            return null;
+
+        CoursePeriod coursePeriod = CoursePeriod.Rehydrate(
+             entity.Id,
+             entity.CourseId,
+             entity.TeacherId,
+             entity.StartDate,
+             entity.EndDate,
+             entity.Format
+         );
+
+        foreach (CoursePeriodEnrollmentEntity enrollmentEntity in entity.Enrollments)
+        {
+            coursePeriod.RehydrateEnrollment(enrollmentEntity.StudentId, enrollmentEntity.Grade);
+        }
+
+        return coursePeriod;
+    }
+
+    public Task<CoursePeriod?> GetByIdWithResourcesAsync(Guid coursePeriodId, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<CoursePeriod?> GetByIdWithReviewsAsync(Guid coursePeriodId, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateEnrollmentAsync(CoursePeriod coursePeriod, CancellationToken ct)
+    {
+        CoursePeriodEntity entity = await _context.CoursePeriods
+            .Include(cp => cp.Enrollments)
+            .SingleAsync(cp => cp.Id == coursePeriod.Id, ct);
+
+        foreach (CoursePeriodEnrollmentEntity enrollmentEntity in entity.Enrollments)
+        {
+            // Hämta motsvarande domainEnrollment via id och uppdatera grade i entityn
+            enrollmentEntity.Grade = coursePeriod.Enrollments.Single(domainEnrollment => domainEnrollment.StudentId == enrollmentEntity.StudentId).Grade;
+        }
+    }
 }

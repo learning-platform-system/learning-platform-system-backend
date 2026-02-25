@@ -1,4 +1,6 @@
-﻿using LearningPlatformSystem.Domain.Shared.Validators;
+﻿using LearningPlatformSystem.Domain.CoursePeriods;
+using LearningPlatformSystem.Domain.Shared.Exceptions;
+using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 
@@ -26,4 +28,17 @@ public sealed class CoursePeriodEnrollment
         return enrollment;
     }
 
+    public void SetGrade(Grade grade)
+    {
+        if (Grade is not Grade.NotSet)
+            throw new DomainException(CoursePeriodEnrollmentErrors.GradeAlreadySet);
+
+        Grade = grade;
+    }
+
+    internal static CoursePeriodEnrollment Rehydrate(Guid studentId, Guid coursePeriodId, Grade grade)
+    {
+        return new CoursePeriodEnrollment(studentId, coursePeriodId, grade);
+
+    }
 }

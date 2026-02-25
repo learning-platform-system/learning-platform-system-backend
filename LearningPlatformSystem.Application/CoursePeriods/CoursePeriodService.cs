@@ -12,7 +12,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 {
     public async Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct)
     {
-        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetForAddEnrollmentAsync(input.CoursePeriodId, ct);
 
         if (coursePeriod is null)
             return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
@@ -27,7 +27,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
     public async Task<ApplicationResult> AddResourceAsync(AddCoursePeriodResourceInput input, CancellationToken ct)
     {
-        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetForAddResourceAsync(input.CoursePeriodId, ct);
 
         if (coursePeriod is null)
             return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
@@ -42,7 +42,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
     public async Task<ApplicationResult> AddReviewAsync(AddCoursePeriodReviewInput input, CancellationToken ct)
     {
-        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetForAddReviewAsync(input.CoursePeriodId, ct);
 
         if (coursePeriod is null)
             return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
@@ -57,7 +57,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
     public async Task<ApplicationResult> AddSessionAsync(AddCourseSessionInput input, CancellationToken ct)
     {
-        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(input.CoursePeriodId, ct);
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetForAddSessionAsync(input.CoursePeriodId, ct);
 
         if (coursePeriod is null)
             return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
@@ -101,6 +101,21 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         await _unitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult<Guid>.Success(coursePeriod.Id);
+    }
+
+    public async Task<ApplicationResult> SetGradeAsync(SetGradeInput input, CancellationToken ct)
+    {
+        CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdWithEnrollmentsAsync(input.CoursePeriodId, ct);
+
+        if (coursePeriod is null)
+            return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
+
+        coursePeriod.SetStudentGrade(input.StudentId, input.Grade); 
+
+        await _coursePeriodRepository.UpdateEnrollmentAsync(coursePeriod, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
     }
 }
 
