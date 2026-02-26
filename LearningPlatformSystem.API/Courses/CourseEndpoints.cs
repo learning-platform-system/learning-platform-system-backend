@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.API.Courses.Create;
 using LearningPlatformSystem.API.Courses.Delete;
 using LearningPlatformSystem.API.Courses.GetById;
+using LearningPlatformSystem.API.Courses.SearchCourses;
 
 namespace LearningPlatformSystem.API.Courses;
 
@@ -15,6 +16,7 @@ public static class CourseEndpoints
         group.MapPostCourseEndpoint();
         group.MapGetCourseByIdEndpoint();
         group.MapDeleteCourseEndpoint();
+        group.MapSearchCoursesEndpoint();
 
         return app;
     }

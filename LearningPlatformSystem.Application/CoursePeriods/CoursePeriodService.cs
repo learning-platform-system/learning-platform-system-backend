@@ -79,6 +79,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         return ApplicationResult.Success();
     }
 
+
     public async Task<ApplicationResult> AddEnrollmentAsync(AddCoursePeriodEnrollmentInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdWithEnrollmentsAsync(input.CoursePeriodId, ct);

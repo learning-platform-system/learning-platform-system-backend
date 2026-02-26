@@ -1,7 +1,6 @@
 ﻿using LearningPlatformSystem.Application.CoursePeriods.Inputs;
 using LearningPlatformSystem.Application.CoursePeriods.Outputs;
 using LearningPlatformSystem.Application.Shared;
-using LearningPlatformSystem.Domain.CoursePeriods;
 
 namespace LearningPlatformSystem.Application.CoursePeriods;
 

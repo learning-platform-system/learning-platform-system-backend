@@ -61,8 +61,30 @@ public class CourseRepository(LearningPlatformDbContext context) : ICourseReposi
         return true;
     }
 
-    public Task UpdateAsync(Course aggregate, CancellationToken ct)
+    public async Task<IReadOnlyList<Course>> SearchAsync(string? title, Guid? subcategoryId, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        /* Filter = '%' + @värde + '*' = matchar alla sekvenser som börjar, slutar eller innehåller det angivna värdet 
+           @ anger att det är en inparameter
+           om IS NULL = true ignoreras filtreringen - satsen blir true och allt om finns i Courses matchar = returneras
+        */
+        List<CourseEntity> entities = await _context.Courses
+            .FromSqlInterpolated($@"
+                SELECT *
+                FROM Courses cEntity
+                WHERE ({title} IS NULL OR cEntity.Title LIKE '%' + {title} + '%')
+                AND ({subcategoryId} IS NULL OR cEntity.SubcategoryId = {subcategoryId})
+            ")
+            .AsNoTracking()
+            .ToListAsync(ct);
+
+        IReadOnlyList<Course> courses = entities.Select(entity => Course.Rehydrate(
+                entity.Id,
+                entity.SubcategoryId,
+                entity.Title,
+                entity.Description,
+                entity.Credits))
+            .ToList();
+        
+        return courses;
     }
 }

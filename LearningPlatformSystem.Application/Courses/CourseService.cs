@@ -30,6 +30,7 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
         return ApplicationResult<Guid>.Success(course.Id);
     }
 
+
     public async Task<ApplicationResult> DeleteCourseAsync(Guid id, CancellationToken ct)
     {
         Course? course = await _courseRepository.GetByIdAsync(id, ct);
@@ -44,6 +45,7 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
 
         return ApplicationResult.Success();
     }
+
 
     public async Task<ApplicationResult<CourseOutput>> GetCourseById(Guid courseId, CancellationToken ct)
     {
@@ -64,5 +66,21 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
         );
 
         return ApplicationResult<CourseOutput>.Success(courseOutput);
+    }
+
+    public async Task<ApplicationResult<IReadOnlyList<CourseOutput>>> SearchCoursesAsync(SearchCoursesInput input, CancellationToken ct)
+    {
+        IReadOnlyList<Course> courses = await _courseRepository.SearchAsync(input.Title, input.SubcategoryId, ct);
+
+        IReadOnlyList<CourseOutput> courseOutputs = courses.Select(course => new CourseOutput
+        (
+            course.Id,
+            course.SubcategoryId,
+            course.Title,
+            course.Description,
+            course.Credits
+        )).ToList();
+
+        return ApplicationResult<IReadOnlyList<CourseOutput>>.Success(courseOutputs);
     }
 }
