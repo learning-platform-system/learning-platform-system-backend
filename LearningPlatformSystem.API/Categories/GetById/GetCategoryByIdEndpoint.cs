@@ -18,7 +18,7 @@ public static class GetCategoryByIdEndpoint
     private static async Task<IResult> HandleAsync(Guid id, ICategoryService service, CancellationToken ct)
     {
 
-        ApplicationResult<CategoryOutput> result = await service.GetByIdAsync(id, ct);
+        ApplicationResult<CategoryOutput> result = await service.GetCategoryByIdAsync(id, ct);
 
         if (result.IsFailure)
         {

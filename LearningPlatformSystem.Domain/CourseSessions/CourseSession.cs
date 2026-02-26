@@ -69,7 +69,7 @@ public sealed class CourseSession
             throw new DomainException(CourseSessionAttendanceErrors.AttendanceAlreadyRegistered);
         }
 
-        CourseSessionAttendance attendance = CourseSessionAttendance.Create(this.Id, studentId, CoursePeriodId, status);
+        CourseSessionAttendance attendance = CourseSessionAttendance.Create(studentId, this.Id, status);
         _attendances.Add(attendance);
     }
 

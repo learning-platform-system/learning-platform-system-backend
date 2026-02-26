@@ -13,7 +13,7 @@ public static class DeleteCoursePeriodEndpoint
     }
     private static async Task<IResult> HandleAsync(Guid id, ICoursePeriodService service, CancellationToken ct)
     {
-        ApplicationResult result = await service.DeleteAsync(id, ct);
+        ApplicationResult result = await service.DeleteCoursePeriodAsync(id, ct);
 
         if (result.IsFailure)
         {

@@ -16,4 +16,5 @@ public interface ICoursePeriodRepository : IRepositoryBase<CoursePeriod, Guid>
     Task<CoursePeriod?> GetByIdWithReviewsAsync(Guid coursePeriodId, CancellationToken ct);
     Task<CoursePeriod?> GetByIdWithSessionsAsync(Guid coursePeriodId, CancellationToken ct);
     Task UpdateEnrollmentAsync(CoursePeriod coursePeriod, CancellationToken ct);
+    Task<bool> RemoveAsync(Guid id, CancellationToken ct);
 }

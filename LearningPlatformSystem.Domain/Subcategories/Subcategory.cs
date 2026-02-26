@@ -31,7 +31,7 @@ public sealed class Subcategory
     }
 
     // Används endast av CategoryRepository för att bygga upp objekt från databasen
-    internal static Subcategory BuildFromDatabase(Guid id, Guid categoryId, string name)
+    internal static Subcategory Rehydrate(Guid id, Guid categoryId, string name)
     {
         return new Subcategory(id, categoryId, name);
     }

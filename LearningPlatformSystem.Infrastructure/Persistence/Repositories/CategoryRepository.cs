@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.Categories;
-using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Subcategories;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
@@ -44,12 +43,12 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
             return null;
 
         IEnumerable<Subcategory> subcategories = categoryEntity.Subcategories
-            .Select(sub => Subcategory.BuildFromDatabase(
+            .Select(sub => Subcategory.Rehydrate(
                 sub.Id,
                 sub.CategoryId,
                 sub.Name));
 
-        return Category.BuildFromDatabase(categoryEntity.Id, categoryEntity.Name, subcategories);
+        return Category.Rehydrate(categoryEntity.Id, categoryEntity.Name, subcategories);
     } 
 
     // category får inte tas bort om den har subcategories
@@ -90,6 +89,13 @@ public class CategoryRepository(LearningPlatformDbContext context) : ICategoryRe
                 Name = newSub.Name
             });
         }
+    }
+
+    public async Task<bool> SubcategoryExistsAsync(Guid subcategoryId, CancellationToken ct)
+    {
+        return await _context
+            .Set<SubcategoryEntity>()
+            .AnyAsync(subEntity => subEntity.Id == subcategoryId, ct);
     }
 }
 

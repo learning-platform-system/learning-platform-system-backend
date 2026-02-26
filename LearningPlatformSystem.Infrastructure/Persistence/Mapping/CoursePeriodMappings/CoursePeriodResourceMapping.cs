@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
-using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Mapping.CoursePeriodMappings;

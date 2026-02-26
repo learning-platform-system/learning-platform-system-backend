@@ -15,7 +15,7 @@ public static class GetByCourseIdEndpoint
     }
     private static async Task<IResult> HandleAsync([FromBody]Guid courseId, ICoursePeriodService service, CancellationToken ct)
     {
-        ApplicationResult<IReadOnlyList<CoursePeriodOutput>> result = await service.GetByCourseIdAsync(courseId, ct);
+        ApplicationResult<IReadOnlyList<CoursePeriodOutput>> result = await service.GetCoursePeriodByCourseIdAsync(courseId, ct);
 
         if (result.IsFailure)
         {

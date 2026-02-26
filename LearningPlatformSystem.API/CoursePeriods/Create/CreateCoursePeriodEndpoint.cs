@@ -22,7 +22,7 @@ public static class CreateCoursePeriodEndpoint
         }
 
         CreateCoursePeriodInput input = new(request.CourseId, request.TeacherId, request.CampusId, request.StartDate, request.EndDate, courseFormat);
-        ApplicationResult<Guid> result = await service.CreateAsync(input, ct); 
+        ApplicationResult<Guid> result = await service.CreateCoursePeriodAsync(input, ct); 
 
         if(result.IsFailure)
         {

@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.Application.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Text.Json;
 
 namespace LearningPlatformSystem.API.Extensions;
 /* (UseExceptionHandler - inbyggd ASP.NET) 
@@ -15,6 +16,8 @@ public static class ExceptionHandlerExtensions
 {
     public static void UseGlobalExceptionHandling(this WebApplication app)
     {
+        bool isDevelopment = app.Environment.IsDevelopment();
+
         app.UseExceptionHandler(errorApp =>
         {
             errorApp.Run(async context =>
@@ -27,6 +30,17 @@ public static class ExceptionHandlerExtensions
 
                 switch (exception)
                 {
+                    // Ogiltig JSON / model binding (t.ex. Guid-format)
+                    case BadHttpRequestException or JsonException:
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            message = isDevelopment && exception is not null
+                                ? exception.Message
+                                : "Ogiltig request. Kontrollera JSON och datatyper (t.ex. Guid-format)."
+                        });
+                        break;
+
                     // DomainException från domain-lagret (bruten affärsregel)
                     case DomainException domainEx:
                         context.Response.StatusCode = StatusCodes.Status400BadRequest;

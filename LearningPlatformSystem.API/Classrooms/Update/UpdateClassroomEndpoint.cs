@@ -30,7 +30,7 @@ public static class UpdateClassroomEndpoint
             Type: parsedType
             );
 
-        ApplicationResult result = await service.UpdateAsync(input, ct);
+        ApplicationResult result = await service.UpdateClassroomAsync(input, ct);
 
         if (result.IsFailure)
         {

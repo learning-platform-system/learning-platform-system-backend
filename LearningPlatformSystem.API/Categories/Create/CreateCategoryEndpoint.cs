@@ -18,7 +18,7 @@ public static class CreateCategoryEndpoint
     {
         CreateCategoryInput input = new(request.Name);
 
-        ApplicationResult<Guid> result = await service.CreateAsync(input, ct);
+        ApplicationResult<Guid> result = await service.CreateCategoryAsync(input, ct);
 
         if (result.IsFailure)
         {

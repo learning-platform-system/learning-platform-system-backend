@@ -1,8 +1,10 @@
 ﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Domain.Campuses;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.Courses;
+using LearningPlatformSystem.Domain.Teachers;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ namespace LearningPlatformSystem.Infrastructure;
 
 public static class InfrastructureDependencyInjection
 {
-    // configuration används för att läsa in inställningar från appsettings.json eller andra konfigurationskällor, ex. connection string för databasen.
+    // configuration används för att läsa in inställningar från appsettings.json ex connectionstring för databasen
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<LearningPlatformDbContext>(options =>
@@ -22,12 +24,14 @@ public static class InfrastructureDependencyInjection
         });
 
 
-        services.AddScoped<IUnitOfWork, LearningPlatformDbContext>(); 
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LearningPlatformDbContext>());
 
-        services.AddScoped<IClassroomRepository, ClassroomRepository>();
+        services.AddScoped<IClassroomRepository, ClassroomRepository>();    
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICoursePeriodRepository, CoursePeriodRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
+        services.AddScoped<ICampusRepository, CampusRepository>();
 
 
         return services;

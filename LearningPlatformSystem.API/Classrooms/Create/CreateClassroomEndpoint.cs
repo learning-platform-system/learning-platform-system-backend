@@ -17,7 +17,7 @@ public static class CreateClassroomEndpoint
 
     private static async Task<IResult> HandleAsync(CreateClassroomRequest request, IClassroomService service, CancellationToken ct)
     {
-        ApplicationResult<Guid> result = await service.CreateAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
+        ApplicationResult<Guid> result = await service.CreateClassroomAsync(new CreateClassroomInput(request.Name, request.Capacity, request.Type), ct);
 
         if(result.IsFailure)
         {

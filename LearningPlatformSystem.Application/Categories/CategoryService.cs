@@ -10,7 +10,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
     private readonly ICategoryRepository _categoryRepository = categoryRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<ApplicationResult<Guid>> CreateAsync(CreateCategoryInput input, CancellationToken ct)
+    public async Task<ApplicationResult<Guid>> CreateCategoryAsync(CreateCategoryInput input, CancellationToken ct)
     {
         bool exists = await _categoryRepository.ExistsByNameAsync(input.Name, ct);
 
@@ -29,7 +29,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
 
     }
 
-    public async Task<ApplicationResult<CategoryOutput>> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<ApplicationResult<CategoryOutput>> GetCategoryByIdAsync(Guid id, CancellationToken ct)
     {
         Category? category = await _categoryRepository.GetByIdAsync(id, ct);
 
@@ -48,7 +48,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
         return ApplicationResult<CategoryOutput>.Success(categoryOutput);
     }
 
-    public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
+    public async Task<ApplicationResult> DeleteCategoryAsync(Guid id, CancellationToken ct)
     {
         Category? category = await _categoryRepository.GetByIdAsync(id, ct);
             
@@ -66,7 +66,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IUnitOfWork
         return ApplicationResult.Success();
     }
 
-    public async Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct)
+    public async Task<ApplicationResult> UpdateCategoryNameAsync(UpdateCategoryNameInput input, CancellationToken ct)
     {
         Category? category = await _categoryRepository.GetByIdAsync(input.Id, ct);
 

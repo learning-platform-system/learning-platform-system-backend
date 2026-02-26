@@ -23,7 +23,7 @@ public static class GetClassroomsByTypeEndpoint
         }
 
 
-        ApplicationResult<IReadOnlyList<ClassroomOutput>> result = await service.GetByTypeAsync(parsedType, ct);
+        ApplicationResult<IReadOnlyList<ClassroomOutput>> result = await service.GetClassroomByTypeAsync(parsedType, ct);
 
         if (result.IsFailure)
         {

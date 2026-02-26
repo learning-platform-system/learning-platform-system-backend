@@ -45,7 +45,7 @@ public sealed class Category
     }
 
     // för att infrastructure ska kunna återskapa domänobjektet från databasen 
-    internal static Category BuildFromDatabase(Guid id, string name, IEnumerable<Subcategory> subCategories)
+    internal static Category Rehydrate(Guid id, string name, IEnumerable<Subcategory> subCategories)
     {
         Category category = new Category(id, name);
 

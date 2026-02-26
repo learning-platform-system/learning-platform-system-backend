@@ -15,7 +15,7 @@ public static class DeleteClassroomEndpoint
 
     private static async Task<IResult> HandleAsync(Guid id, IClassroomService service, CancellationToken ct)
     {
-        ApplicationResult result = await service.DeleteAsync(id, ct);
+        ApplicationResult result = await service.DeleteClassroomAsync(id, ct);
 
         if (result.IsFailure)
         {
