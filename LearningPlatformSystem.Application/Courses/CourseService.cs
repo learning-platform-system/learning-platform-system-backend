@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Courses.Inputs;
+using LearningPlatformSystem.Application.Courses.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Courses;
@@ -7,7 +8,7 @@ namespace LearningPlatformSystem.Application.Courses;
 // RawSql: sök kurser på del av kursnamn, filtrera på subcategory, returnera lista. LIKE
 public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUnitOfWork, ICategoryRepository _categoryRepository) : ICourseService
 {
-    public async Task<ApplicationResult<Guid>> CreateAsync(CreateCourseInput input, CancellationToken ct)
+    public async Task<ApplicationResult<Guid>> CreateCourseAsync(CreateCourseInput input, CancellationToken ct)
     {
         Course course = Course.Create(input.SubcategoryId, input.Title, input.Description, input.Credits);
 
@@ -27,5 +28,41 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
         await _iUnitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult<Guid>.Success(course.Id);
+    }
+
+    public async Task<ApplicationResult> DeleteCourseAsync(Guid id, CancellationToken ct)
+    {
+        Course? course = await _courseRepository.GetByIdAsync(id, ct);
+
+        if (course is null)
+        {
+            return ApplicationResult.Fail(CourseApplicationErrors.NotFound(id));
+        }
+
+        await _courseRepository.RemoveAsync(course.Id, ct);
+        await _iUnitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
+
+    public async Task<ApplicationResult<CourseOutput>> GetCourseById(Guid courseId, CancellationToken ct)
+    {
+        Course? course = await _courseRepository.GetByIdAsync(courseId, ct);
+
+        if(course is null)
+        {
+            return ApplicationResult<CourseOutput>.Fail(CourseApplicationErrors.NotFound(courseId));
+        }
+
+        CourseOutput courseOutput = new CourseOutput
+        (
+            courseId,
+            course.SubcategoryId,
+            course.Title,
+            course.Description,
+            course.Credits
+        );
+
+        return ApplicationResult<CourseOutput>.Success(courseOutput);
     }
 }

@@ -22,7 +22,7 @@ public static class CreateCourseEndpoint
             Credits: request.Credits
         );
 
-        ApplicationResult<Guid> result = await service.CreateAsync(input, ct);
+        ApplicationResult<Guid> result = await service.CreateCourseAsync(input, ct);
 
         if (result.IsFailure)
         {

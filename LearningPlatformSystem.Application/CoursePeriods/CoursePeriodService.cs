@@ -26,7 +26,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         SlidingExpiration = TimeSpan.FromSeconds(30)
     };
 
-    public async Task<ApplicationResult<IReadOnlyList<CoursePeriodOutput>>> GetByCourseIdAsync(Guid courseId, CancellationToken ct)
+    public async Task<ApplicationResult<IReadOnlyList<CoursePeriodOutput>>> GetCoursePeriodByCourseIdAsync(Guid courseId, CancellationToken ct)
     {
         // Skapar en unik nyckel (unik sträng) för kursen. Nyckeln visar platsen där värdet (CoursePeriods för en specifik Course) är cachad. 
         string cacheKey = GetByCourseIdCacheKey(courseId);
@@ -149,7 +149,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
     
 
-    public async Task<ApplicationResult<Guid>> CreateAsync(CreateCoursePeriodInput input, CancellationToken ct)
+    public async Task<ApplicationResult<Guid>> CreateCoursePeriodAsync(CreateCoursePeriodInput input, CancellationToken ct)
     {
         CoursePeriod coursePeriod = CoursePeriod.Create(Guid.NewGuid(), input.CourseId, input.TeacherId, input.StartDate, input.EndDate, input.Format);
 
@@ -184,7 +184,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         return ApplicationResult<Guid>.Success(coursePeriod.Id);
     }
 
-    public async Task<ApplicationResult> SetGradeAsync(SetGradeInput input, CancellationToken ct)
+    public async Task<ApplicationResult> SetCoursePeriodGradeAsync(SetGradeInput input, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdWithEnrollmentsAsync(input.CoursePeriodId, ct);
 
@@ -201,7 +201,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         return ApplicationResult.Success();
     }
 
-    public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
+    public async Task<ApplicationResult> DeleteCoursePeriodAsync(Guid id, CancellationToken ct)
     {
         CoursePeriod? coursePeriod = await _coursePeriodRepository.GetByIdAsync(id, ct);
 

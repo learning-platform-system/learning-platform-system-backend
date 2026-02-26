@@ -22,7 +22,7 @@ public static class UpdateCategoryNameEndpoint
             Name: request.Name
             );
 
-        ApplicationResult result = await service.UpdateNameAsync(input, ct);
+        ApplicationResult result = await service.UpdateCategoryNameAsync(input, ct);
 
         if (result.IsFailure)
         {

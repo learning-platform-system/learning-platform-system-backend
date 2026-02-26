@@ -16,7 +16,7 @@ public static class DeleteCategoryEndpoint
     private static async Task<IResult> HandleAsync(Guid id, ICategoryService service, CancellationToken ct)
     {
 
-        ApplicationResult result = await service.DeleteAsync(id, ct);
+        ApplicationResult result = await service.DeleteCategoryAsync(id, ct);
 
         if (result.IsFailure)
         {

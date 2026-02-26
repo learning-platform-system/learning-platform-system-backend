@@ -21,8 +21,4 @@
     <ProjectReference Include="..\LearningPlatformSystem.Infrastructure\LearningPlatformSystem.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CoursePeriods\GetAll\" />
-  </ItemGroup>
-
 </Project>

@@ -32,14 +32,33 @@ public class CourseRepository(LearningPlatformDbContext context) : ICourseReposi
 
     }
 
-    public Task<Course?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Course?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CourseEntity? entity = await _context.Courses
+            .AsNoTracking()
+            .SingleOrDefaultAsync(course => course.Id == id, ct);
+
+        if (entity is null) return null;
+
+        Course course = Course.Rehydrate 
+        (
+            id: entity.Id,
+            subcategoryId: entity.SubcategoryId,
+            title: entity.Title,
+            description: entity.Description,
+            credits: entity.Credits
+        );
+
+        return course;
     }
 
-    public Task<bool> RemoveAsync(Guid id, CancellationToken ct)
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CourseEntity? entity = await _context.Courses.SingleOrDefaultAsync(course => course.Id == id, ct);
+        if (entity is null) return false;
+
+        _context.Courses.Remove(entity);
+        return true;
     }
 
     public Task UpdateAsync(Course aggregate, CancellationToken ct)

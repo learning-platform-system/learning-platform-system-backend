@@ -2,7 +2,6 @@
 using LearningPlatformSystem.Application.Classrooms.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Classrooms;
-using LearningPlatformSystem.Domain.Shared.Exceptions;
 
 // Hanterar affärsregelbrott i exception och förväntade fel (Conflict, NotFound...) inte infrastructure- eller systemfel exceptions.
 
@@ -12,7 +11,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
 {
     private readonly IClassroomRepository _classroomRepository = classroomRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task<ApplicationResult<Guid>> CreateAsync(CreateClassroomInput input, CancellationToken ct)
+    public async Task<ApplicationResult<Guid>> CreateClassroomAsync(CreateClassroomInput input, CancellationToken ct)
     {
         if (await _classroomRepository.ExistsByNameAsync(input.Name, ct))
         {
@@ -34,7 +33,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
         return ApplicationResult<Guid>.Success(classroom.Id);
     }
 
-    public async Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct)
+    public async Task<ApplicationResult> DeleteClassroomAsync(Guid id, CancellationToken ct)
     {
         bool exists = await _classroomRepository.RemoveAsync(id, ct);
 
@@ -49,7 +48,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
         return ApplicationResult.Success();
     }
 
-    public async Task<ApplicationResult<IReadOnlyList<ClassroomOutput>>> GetByTypeAsync(ClassroomType type, CancellationToken ct)
+    public async Task<ApplicationResult<IReadOnlyList<ClassroomOutput>>> GetClassroomByTypeAsync(ClassroomType type, CancellationToken ct)
     {
         IReadOnlyList<Classroom> classrooms = await _classroomRepository.GetByTypeAsync(type, ct);
 
@@ -65,7 +64,7 @@ public class ClassroomService(IClassroomRepository classroomRepository, IUnitOfW
     }
 
     // 3 st anrop till datbasen???
-    public async Task<ApplicationResult> UpdateAsync(UpdateClassroomInput input, CancellationToken ct)
+    public async Task<ApplicationResult> UpdateClassroomAsync(UpdateClassroomInput input, CancellationToken ct)
     {
        Classroom? classroom = await _classroomRepository.GetByIdAsync(input.Id, ct);
 

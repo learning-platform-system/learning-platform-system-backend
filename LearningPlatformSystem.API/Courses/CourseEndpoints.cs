@@ -1,5 +1,6 @@
-﻿using LearningPlatformSystem.API.CoursePeriods.Create;
-using LearningPlatformSystem.API.Courses.Create;
+﻿using LearningPlatformSystem.API.Courses.Create;
+using LearningPlatformSystem.API.Courses.Delete;
+using LearningPlatformSystem.API.Courses.GetById;
 
 namespace LearningPlatformSystem.API.Courses;
 
@@ -12,7 +13,8 @@ public static class CourseEndpoints
             .WithTags("Courses");
 
         group.MapPostCourseEndpoint();
-
+        group.MapGetCourseByIdEndpoint();
+        group.MapDeleteCourseEndpoint();
 
         return app;
     }

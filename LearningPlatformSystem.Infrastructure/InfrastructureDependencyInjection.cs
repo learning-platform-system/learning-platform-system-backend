@@ -15,7 +15,7 @@ namespace LearningPlatformSystem.Infrastructure;
 
 public static class InfrastructureDependencyInjection
 {
-    // configuration används för att läsa in inställningar från appsettings.json eller andra konfigurationskällor, ex. connection string för databasen.
+    // configuration används för att läsa in inställningar från appsettings.json ex connectionstring för databasen
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<LearningPlatformDbContext>(options =>
@@ -24,9 +24,9 @@ public static class InfrastructureDependencyInjection
         });
 
 
-        services.AddScoped<IUnitOfWork, LearningPlatformDbContext>(); 
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LearningPlatformDbContext>());
 
-        services.AddScoped<IClassroomRepository, ClassroomRepository>();
+        services.AddScoped<IClassroomRepository, ClassroomRepository>();    
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICoursePeriodRepository, CoursePeriodRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();

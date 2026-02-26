@@ -6,13 +6,12 @@ namespace LearningPlatformSystem.Application.Categories;
 
 public interface ICategoryService
 {
-    Task<ApplicationResult<Guid>> CreateAsync(CreateCategoryInput input, CancellationToken ct);
+    Task<ApplicationResult<Guid>> CreateCategoryAsync(CreateCategoryInput input, CancellationToken ct);
 
-    Task<ApplicationResult<CategoryOutput>> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<ApplicationResult<CategoryOutput>> GetCategoryByIdAsync(Guid id, CancellationToken ct);
 
-    Task<ApplicationResult> UpdateNameAsync(UpdateCategoryNameInput input, CancellationToken ct);
+    Task<ApplicationResult> UpdateCategoryNameAsync(UpdateCategoryNameInput input, CancellationToken ct);
 
-    Task<ApplicationResult> DeleteAsync(Guid id, CancellationToken ct);
-
+    Task<ApplicationResult> DeleteCategoryAsync(Guid id, CancellationToken ct);
     Task<ApplicationResult> AddSubcategoryAsync(AddSubcategoryInput input, CancellationToken ct);
 }

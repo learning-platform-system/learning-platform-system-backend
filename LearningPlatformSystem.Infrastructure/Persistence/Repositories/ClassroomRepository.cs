@@ -51,7 +51,7 @@ public class ClassroomRepository(LearningPlatformDbContext context) : IClassroom
     {
         ClassroomEntity? entity = await _context.Classrooms.SingleOrDefaultAsync(cEntity => cEntity.Id == id, ct);   
 
-        if (entity == null)
+        if (entity is null)
         {
             return false;
         }

@@ -27,7 +27,7 @@ public static class SetGradeEndpoint
             Grade: parsedGrade
             );
 
-        ApplicationResult result = await service.SetGradeAsync(input, ct);
+        ApplicationResult result = await service.SetCoursePeriodGradeAsync(input, ct);
 
         if (result.IsFailure)
         {

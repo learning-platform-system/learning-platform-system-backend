@@ -13,4 +13,9 @@ public static class CourseApplicationErrors
     {
         return new ApplicationResultError(ErrorTypes.NotFound, $"Subkategorin med id {id} hittades inte.");
     }
+
+    public static ApplicationResultError NotFound(Guid id)
+    {
+        return new ApplicationResultError(ErrorTypes.NotFound, $"Kursen med id {id} hittades inte.");
+    }
 }

@@ -42,6 +42,11 @@ public sealed class Course
         return new Course(id, subcategoryId, normalizedTitle, normalizedDescription, credits);
     }
 
+    internal static Course Rehydrate(Guid id, Guid subcategoryId, string title, string? description, int credits)
+    {
+        return new Course(id, subcategoryId, title, description, credits);
+    }
+
     private static void ValidateCredits(int credits)
     {
         if (credits < CreditsMinValue || credits > CreditsMaxValue)
