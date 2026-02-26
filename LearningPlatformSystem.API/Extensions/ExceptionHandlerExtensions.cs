@@ -1,6 +1,8 @@
 ﻿using LearningPlatformSystem.Application.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace LearningPlatformSystem.API.Extensions;
@@ -47,6 +49,20 @@ public static class ExceptionHandlerExtensions
                         await context.Response.WriteAsJsonAsync(new
                         {
                             message = domainEx.Message
+                        });
+                        break;
+
+                    // Mot Race-condition / unika index (t.ex. två samtidiga skapanden med samma unika värde)
+                    case PersistenceException persistenceEx
+                         when persistenceEx.InnerException is DbUpdateException dbEx &&
+                             dbEx.InnerException is SqlException sqlEx &&
+                             (sqlEx.Number == 2601 || sqlEx.Number == 2627):
+
+                        context.Response.StatusCode = StatusCodes.Status409Conflict;
+
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            message = "Resursen bryter mot en unikhetsregel."
                         });
                         break;
 

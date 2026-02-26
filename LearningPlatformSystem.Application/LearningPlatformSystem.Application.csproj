@@ -15,7 +15,6 @@
     <Folder Include="Campuses\Outputs\" />
     <Folder Include="Students\Inputs\" />
     <Folder Include="Students\Outputs\" />
-    <Folder Include="Teachers\Inputs\" />
     <Folder Include="Teachers\Outputs\" />
   </ItemGroup>
 

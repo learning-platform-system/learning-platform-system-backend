@@ -3,6 +3,7 @@ using LearningPlatformSystem.API.Classrooms;
 using LearningPlatformSystem.API.CoursePeriods;
 using LearningPlatformSystem.API.Courses;
 using LearningPlatformSystem.API.Extensions;
+using LearningPlatformSystem.API.Teachers;
 using LearningPlatformSystem.Application;
 using LearningPlatformSystem.Infrastructure;
 using System.Text.Json.Serialization;
@@ -52,6 +53,7 @@ app.MapClassroomEndpoints();
 app.MapCategoryEndpoints();
 app.MapCourseEndpoints();
 app.MapCoursePeriodEndpoints();
+app.MapTeacherEndpoints();
 
 
 app.Run();
