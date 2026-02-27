@@ -1,5 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Application.Students.Inputs;
+using LearningPlatformSystem.Application.Students.Outputs;
 using LearningPlatformSystem.Domain.Students;
 
 namespace LearningPlatformSystem.Application.Students;
@@ -50,5 +51,21 @@ public class StudentService(IStudentRepository _studentRepository, IUnitOfWork _
         await _iUnitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult.Success();
+    }
+
+    public async Task<ApplicationResult<IReadOnlyList<StudentOutput>>> GetAllStudentsAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Student> students = await _studentRepository.GetAllAsync(ct);
+
+        IReadOnlyList<StudentOutput> studentOutputs = students.Select(student => new StudentOutput
+        (
+            Id: student.Id,
+            FirstName: student.Name.FirstName,
+            LastName: student.Name.LastName,
+            Email: student.ContactInformation.Email,
+            PhoneNumber: student.ContactInformation.PhoneNumber
+        )).ToList();
+
+        return ApplicationResult<IReadOnlyList<StudentOutput>>.Success(studentOutputs);
     }
 }

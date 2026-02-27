@@ -1,11 +1,9 @@
 ﻿using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 using LearningPlatformSystem.Domain.Students;
-using LearningPlatformSystem.Domain.Teachers;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 
@@ -39,6 +37,16 @@ public class StudentRepository(LearningPlatformDbContext _context) : IStudentRep
     public async Task<bool> ExistsWithTheSameEmailAsync(string email, CancellationToken ct)
     {
         return await _context.Students.AnyAsync(studentEntity => studentEntity.ContactInformation.Email == email, ct);
+    }
+
+    public async Task<IReadOnlyList<Student>> GetAllAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Student> students = await _context.Students
+            .AsNoTracking()
+            .Select(studentEntity => Student.Rehydrate(studentEntity.Id, studentEntity.Name, studentEntity.ContactInformation, studentEntity.Address))
+            .ToListAsync(ct);  
+        
+        return students;
     }
 
     public async Task<Student?> GetByIdAsync(Guid id, CancellationToken ct)
