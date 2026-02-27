@@ -6,38 +6,85 @@ namespace LearningPlatsformSystem.Domain.Tests.DomainValidation;
 public class DomainValidatorTests
 {
     [Fact]
-    public void ValidateRequiredString_ShouldThrow_WhenValueIsNullOrEmpty()
+    public void ValidateRequiredString_ShouldThrowDomainException_WhenValueIsEmpty()
     {
         // Arrange
         string? value = " ";
         int maxLength = 10;
+        string requiredErrorMessage = "Value is required";
+        string tooLongErrorMessage = "Value is too long";
 
         // Act
-        Action act = () => DomainValidator.ValidateRequiredString(
-            value,
-            maxLength,
-            "Value is required",
-            "Value is too long");
+        DomainException? exception = Assert.Throws<DomainException>(() =>
+            DomainValidator.ValidateRequiredString(
+                value,
+                maxLength,
+                requiredErrorMessage,
+                tooLongErrorMessage));
 
         // Assert
-        Assert.Throws<DomainException>(act);
+        Assert.Equal(requiredErrorMessage, exception.Message);
     }
 
     [Fact]
-    public void ValidateOptionalString_ShouldThrow_WhenTooLong()
+    public void ValidateOptionalString_ShouldThrowDomainException_WhenTooLong()
     {
         // Arrange
-        string value = "This string is definitely too long";
+        string value = "This text is too long";
         int maxLength = 5;
+        string tooLongErrorMessage = "Value is too long";
 
         // Act
-        Action act = () => DomainValidator.ValidateOptionalString(
-            value,
-            maxLength,
-            "Too long");
+        DomainException? exception = Assert.Throws<DomainException>(() =>
+            DomainValidator.ValidateOptionalString(
+                value,
+                maxLength,
+                tooLongErrorMessage));
 
         // Assert
-        Assert.Throws<DomainException>(act);
+        Assert.Equal(tooLongErrorMessage, exception.Message);
+    }
+
+    [Fact]
+    public void ValidateRequiredStringWithLengthRange_ShouldThrowDomainException_WhenTooShort()
+    {
+        // Arrange
+        string value = "A";
+        int minLength = 2;
+        int maxLength = 10;
+        string requiredErrorMessage = "Value is required";
+        string tooShortErrorMessage = "Value is too short";
+        string tooLongErrorMessage = "Value is too long";
+
+        // Act
+        DomainException? exception = Assert.Throws<DomainException>(() =>
+            DomainValidator.ValidateRequiredStringWithLengthRange(
+                value,
+                minLength,
+                maxLength,
+                requiredErrorMessage,
+                tooShortErrorMessage,
+                tooLongErrorMessage));
+
+        // Assert
+        Assert.Equal(tooShortErrorMessage, exception.Message);
+    }
+
+    [Fact]
+    public void ValidateRequiredGuid_ShouldThrowDomainException_WhenGuidIsEmpty()
+    {
+        // Arrange
+        Guid id = Guid.Empty;
+        string errorMessage = "Id is required";
+
+        // Act
+        DomainException? exception = Assert.Throws<DomainException>(() =>
+            DomainValidator.ValidateRequiredGuid(
+                id,
+                errorMessage));
+
+        // Assert
+        Assert.Equal(errorMessage, exception.Message);
     }
 
     [Fact]
@@ -51,41 +98,5 @@ public class DomainValidatorTests
 
         // Assert
         Assert.Null(result);
-    }
-
-    [Fact]
-    public void ValidateRequiredStringWithLengthRange_ShouldThrow_WhenTooShort()
-    {
-        // Arrange
-        string value = "A";
-        int minLength = 2;
-        int maxLength = 10;
-
-        // Act
-        Action act = () => DomainValidator.ValidateRequiredStringWithLengthRange(
-            value,
-            minLength,
-            maxLength,
-            "Required",
-            "Too short",
-            "Too long");
-
-        // Assert
-        Assert.Throws<DomainException>(act);
-    }
-
-    [Fact]
-    public void ValidateRequiredGuid_ShouldThrow_WhenGuidIsEmpty()
-    {
-        // Arrange
-        Guid id = Guid.Empty;
-
-        // Act
-        Action act = () => DomainValidator.ValidateRequiredGuid(
-            id,
-            "Id is required");
-
-        // Assert
-        Assert.Throws<DomainException>(act);
     }
 }
