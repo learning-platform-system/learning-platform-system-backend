@@ -1,5 +1,9 @@
-﻿namespace LearningPlatformSystem.Application.Campuses;
+﻿using LearningPlatformSystem.Application.Campuses.Inputs;
+using LearningPlatformSystem.Application.Shared;
+
+namespace LearningPlatformSystem.Application.Campuses;
 
 public interface ICampusService
 {
+    Task<ApplicationResult<Guid>> CreateCampusAsync(CreateCampusInput input, CancellationToken ct);
 }

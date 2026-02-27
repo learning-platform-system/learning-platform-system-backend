@@ -1,3 +1,4 @@
+using LearningPlatformSystem.API.Campuses;
 using LearningPlatformSystem.API.Categories;
 using LearningPlatformSystem.API.Classrooms;
 using LearningPlatformSystem.API.CoursePeriods;
@@ -56,6 +57,7 @@ app.MapCourseEndpoints();
 app.MapCoursePeriodEndpoints();
 app.MapTeacherEndpoints();
 app.MapStudentEndpoints();
+app.MapCampusEndpoints();
 
 
 app.Run();

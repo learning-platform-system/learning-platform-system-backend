@@ -2,6 +2,7 @@
 using LearningPlatformSystem.Application.CoursePeriods.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Campuses;
+using LearningPlatformSystem.Domain.CoursePeriodReviews;
 using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Domain.Shared.Enums;
@@ -121,7 +122,9 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         if (coursePeriod is null)
             return ApplicationResult.Fail(CoursePeriodApplicationErrors.NotFound(input.CoursePeriodId));
 
-        coursePeriod.AddReview(input.StudentId, input.Rating.Value, input.Comment);
+        Rating rating = Rating.Create(input.Rating);
+
+        coursePeriod.AddReview(input.StudentId, rating, input.Comment);
 
         await _coursePeriodRepository.AddReviewAsync(coursePeriod, ct);
 
@@ -147,7 +150,7 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
         return ApplicationResult.Success();
     }
-
+    // API skickar string för att undvika att swagger lägger på Z 
     
 
     public async Task<ApplicationResult<Guid>> CreateCoursePeriodAsync(CreateCoursePeriodInput input, CancellationToken ct)

@@ -15,7 +15,7 @@ public static class AddCoursePeriodEnrollmentEndpoint
 
     private static async Task<IResult> HandleAsync(Guid coursePeriodId, AddCoursePeriodEnrollmentRequest request, ICoursePeriodService service, CancellationToken ct)
     {
-        AddCoursePeriodEnrollmentInput input = new(coursePeriodId, request.StudentId);
+        AddCoursePeriodEnrollmentInput input = new(request.StudentId, coursePeriodId);
 
         ApplicationResult result = await service.AddEnrollmentAsync(input, ct);
 

@@ -116,7 +116,7 @@ public sealed class CoursePeriod
             throw new DomainException(CoursePeriodEnrollmentErrors.StudentAlreadyEnrolled);
         }
 
-        var enrollment = CoursePeriodEnrollment.Create(this.Id, studentId);
+        var enrollment = CoursePeriodEnrollment.Create(studentId, this.Id);
 
         _enrollments.Add(enrollment);
     }
@@ -142,11 +142,9 @@ public sealed class CoursePeriod
     }
 
     // === Reviews ===
-    public void AddReview(Guid studentId, int ratingValue, string? comment)
+    public void AddReview(Guid studentId, Rating rating, string? comment)
     {
-        Rating rating = Rating.Create(ratingValue);
-
-        CoursePeriodReview review = CoursePeriodReview.Create(this.Id, studentId, rating, comment);
+        CoursePeriodReview review = CoursePeriodReview.Create(studentId, this.Id, rating, comment);
         _reviews.Add(review);
     }
 
