@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
-namespace LearningPlatsformSystem.Domain.Tests.DomainValidation;
+namespace LearningPlatsformSystem.Domain.Tests.Shared.DomainValidation;
 
 public class DomainValidatorTests
 {
