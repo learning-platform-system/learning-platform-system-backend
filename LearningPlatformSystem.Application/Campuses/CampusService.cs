@@ -22,4 +22,16 @@ public class CampusService(ICampusRepository _campusRepository, IUnitOfWork _uni
 
         return ApplicationResult<Guid>.Success(campus.Id);
     }
+
+    public async Task<ApplicationResult> DeleteCampusAsync(Guid id, CancellationToken ct)
+    {
+        bool isRemoved = await _campusRepository.RemoveAsync(id, ct);
+
+        if (!isRemoved)
+            return ApplicationResult.Fail(CampusApplicationErrors.NotFound(id));
+        
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
 }

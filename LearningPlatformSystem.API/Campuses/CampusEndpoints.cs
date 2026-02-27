@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.API.Campuses.Create;
+using LearningPlatformSystem.API.Campuses.Delete;
 
 namespace LearningPlatformSystem.API.Campuses;
 
@@ -11,7 +12,7 @@ public static class CampusEndpoints
             .WithTags("Campuses");
 
         group.MapPostCampusEndpoint();
-        //group.MapDeleteCampusEndpoint();
+        group.MapDeleteCampusEndpoint();
         //group.MapGetAllCampusesEndpoint();
 
         return app;

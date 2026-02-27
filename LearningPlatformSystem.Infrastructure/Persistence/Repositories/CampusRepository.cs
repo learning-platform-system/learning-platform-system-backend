@@ -35,9 +35,14 @@ public class CampusRepository(LearningPlatformDbContext context) : ICampusReposi
         throw new NotImplementedException();
     }
 
-    public Task<bool> RemoveAsync(Guid id, CancellationToken ct)
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CampusEntity? entity = await _context.Campuses.SingleOrDefaultAsync(campus => campus.Id == id, ct);
+
+        if (entity is null) return false;
+
+        _context.Campuses.Remove(entity);
+        return true;
     }
 
     public Task UpdateAsync(Campus aggregate, CancellationToken ct)
