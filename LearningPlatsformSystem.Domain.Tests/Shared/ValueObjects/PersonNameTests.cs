@@ -53,5 +53,19 @@ public class PersonNameTests
         Assert.Equal("Anna", personName.FirstName);
         Assert.Equal("Andersson", personName.LastName);
     }
+
+    [Fact]
+    public void TwoPersonNames_ShouldBeEqual_WhenValuesAreSame()
+    {
+        // Arrange
+        PersonName first = PersonName.Create("Anna", "Andersson");
+        PersonName second = PersonName.Create("Anna", "Andersson");
+
+        // Act
+        bool areEqual = first.Equals(second);
+
+        // Assert
+        Assert.True(areEqual);
+    }
 }
 
