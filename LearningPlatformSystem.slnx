@@ -3,5 +3,5 @@
   <Project Path="LearningPlatformSystem.Application/LearningPlatformSystem.Application.csproj" />
   <Project Path="LearningPlatformSystem.Domain/LearningPlatformSystem.Domain.csproj" />
   <Project Path="LearningPlatformSystem.Infrastructure/LearningPlatformSystem.Infrastructure.csproj" />
-  <Project Path="LearningPlatformSystem.Tests/LearningPlatformSystem.Tests.csproj" />
+  <Project Path="LearningPlatsformSystem.Domain.Tests/LearningPlatsformSystem.Domain.Tests.csproj" Id="3b633c92-9e18-4142-9730-8a9de53436ab" />
 </Solution>
