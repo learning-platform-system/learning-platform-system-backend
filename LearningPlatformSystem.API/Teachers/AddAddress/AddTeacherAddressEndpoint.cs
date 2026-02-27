@@ -9,7 +9,7 @@ public static class AddTeacherAddressEndpoint
 {
     public static RouteGroupBuilder MapPostTeacherAddressEndpoint(this RouteGroupBuilder group)
     {
-        group.MapPost("/{TeacherId:guid}/addresses", HandleAsync);
+        group.MapPost("/{Id:guid}/address", HandleAsync);
         return group;
     }
 

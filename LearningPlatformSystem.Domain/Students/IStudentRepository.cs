@@ -7,4 +7,5 @@ public interface IStudentRepository : IRepositoryBase<Student, Guid>
 {
     Task<bool> ExistsAsync(Guid id, CancellationToken ct);
     Task<bool> ExistsWithTheSameEmailAsync(string email, CancellationToken ct);
+    Task UpdateAsync(Student student, CancellationToken ct);
 }

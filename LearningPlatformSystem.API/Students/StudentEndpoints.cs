@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.API.Students.Create;
+﻿using LearningPlatformSystem.API.Students.AddAddress;
+using LearningPlatformSystem.API.Students.Create;
 using LearningPlatformSystem.API.Students.Delete;
 
 namespace LearningPlatformSystem.API.Students;
@@ -13,6 +14,7 @@ public static class StudentEndpoints
 
         group.MapPostStudentEndpoint();
         group.MapDeleteStudentEndpoint();
+        group.MapPostStudentAddressEndPoint();
 
         return app;
     }
