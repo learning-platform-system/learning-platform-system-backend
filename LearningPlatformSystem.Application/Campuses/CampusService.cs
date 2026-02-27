@@ -7,6 +7,22 @@ namespace LearningPlatformSystem.Application.Campuses;
 
 public class CampusService(ICampusRepository _campusRepository, IUnitOfWork _unitOfWork) : ICampusService
 {
+    public async Task<ApplicationResult> AddCampusContactInformationAsync(AddCampusContactInformationInput input, CancellationToken ct)
+    {
+        Campus? campus = await _campusRepository.GetByIdAsync(input.Id, ct);
+
+        if (campus is null)
+            return ApplicationResult.Fail(CampusApplicationErrors.NotFound(input.Id));
+        
+
+        campus.AddContactInformation(input.Email, input.PhoneNumber);
+
+        await _campusRepository.UpdateAsync(campus, ct);
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
+    }
+
     public async Task<ApplicationResult<Guid>> CreateCampusAsync(CreateCampusInput input, CancellationToken ct)
     {
         bool exists = await _campusRepository.ExistsByNameAsync(input.Name, ct);

@@ -40,9 +40,15 @@ public class CampusRepository(LearningPlatformDbContext _context) : ICampusRepos
         return campuses;
     }
 
-    public Task<Campus?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Campus?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CampusEntity? entity = await _context.Campuses
+            .AsNoTracking()
+            .SingleOrDefaultAsync(campus => campus.Id == id, ct);
+
+        if (entity is null) return null;
+
+        return Campus.Rehydrate(entity.Id, entity.Name, entity.Address, entity.ContactInformation);
     }
 
     public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
@@ -55,8 +61,10 @@ public class CampusRepository(LearningPlatformDbContext _context) : ICampusRepos
         return true;
     }
 
-    public Task UpdateAsync(Campus aggregate, CancellationToken ct)
+    public async Task UpdateAsync(Campus aggregate, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        CampusEntity? entity = await _context.Campuses.SingleAsync(campus => campus.Id == aggregate.Id, ct);
+
+        entity.ContactInformation = aggregate.ContactInformation;
     }
 }

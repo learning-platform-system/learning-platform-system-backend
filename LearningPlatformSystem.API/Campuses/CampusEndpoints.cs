@@ -1,4 +1,5 @@
-﻿using LearningPlatformSystem.API.Campuses.Create;
+﻿using LearningPlatformSystem.API.Campuses.AddContactInformation;
+using LearningPlatformSystem.API.Campuses.Create;
 using LearningPlatformSystem.API.Campuses.Delete;
 using LearningPlatformSystem.API.Campuses.GetAll;
 
@@ -15,6 +16,7 @@ public static class CampusEndpoints
         group.MapPostCampusEndpoint();
         group.MapDeleteCampusEndpoint();
         group.MapGetAllCampusesEndpoint();
+        group.MapPostCampusContactInformationEndpoint();
 
         return app;
     }   
