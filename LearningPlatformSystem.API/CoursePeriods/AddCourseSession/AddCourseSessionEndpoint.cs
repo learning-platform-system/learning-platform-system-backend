@@ -15,7 +15,7 @@ public static class AddCourseSessionEndpoint
         return group;
     }
 
-    private static async Task<IResult> HandleAsync([FromRoute] Guid coursePeriodId, [FromBody] AddCourseSessionRequest request, ICoursePeriodService service, CancellationToken ct)
+    private static async Task<IResult> HandleAsync(Guid coursePeriodId, AddCourseSessionRequest request, ICoursePeriodService service, CancellationToken ct)
     {
         if (!Enum.TryParse(request.Format, true, out CourseFormat parsedFormat))
         {

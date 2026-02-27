@@ -71,6 +71,11 @@ public sealed class CoursePeriod
     {
         DomainValidator.ValidateRequiredGuid(campusId, CoursePeriodErrors.CampusIdIsRequired);
 
+        if (Format == CourseFormat.Online)
+        {
+            throw new DomainException(CoursePeriodErrors.CannotConnectCampusWhenFormatOnline);
+        }
+
         CampusId = campusId;
     }
 

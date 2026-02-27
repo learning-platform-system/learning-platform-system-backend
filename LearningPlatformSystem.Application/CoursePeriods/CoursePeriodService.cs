@@ -162,16 +162,17 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
         if (!teacherExists)
             return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.TeacherNotFound(input.TeacherId));
 
-        // CAMPUS EXISTS/ADD
-        bool campusExists = await _campusRepository.ExistsAsync(input.CampusId!.Value, ct);
-        if (!campusExists)
-            return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CampusNotFound(input.CampusId));
-
         CoursePeriod coursePeriod = CoursePeriod.Create(Guid.NewGuid(), input.CourseId, input.TeacherId, input.StartDate, input.EndDate, input.Format);
 
-        if (input.Format is CourseFormat.Onsite && input.CampusId.HasValue)
+
+        if (coursePeriod.Format is CourseFormat.Onsite)
         {
-            coursePeriod.ConnectToCampus(input.CampusId!.Value);
+            coursePeriod.ConnectToCampus(input.CampusId);
+
+            // CAMPUS EXISTS
+            bool campusExists = await _campusRepository.ExistsAsync(input.CampusId, ct);
+            if (!campusExists)
+                return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CampusNotFound(input.CampusId));
         }
 
         await _coursePeriodRepository.AddAsync(coursePeriod, ct);

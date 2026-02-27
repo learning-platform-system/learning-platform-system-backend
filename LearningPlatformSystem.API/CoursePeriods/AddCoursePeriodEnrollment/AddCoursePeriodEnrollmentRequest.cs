@@ -1,3 +1,3 @@
 ﻿namespace LearningPlatformSystem.API.CoursePeriods.AddCoursePeriodEnrollment;
 
-public sealed record AddCoursePeriodEnrollmentRequest(Guid StudentId, Guid CoursePeriodId);
+public sealed record AddCoursePeriodEnrollmentRequest(Guid StudentId);
