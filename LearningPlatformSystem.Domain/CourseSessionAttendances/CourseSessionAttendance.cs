@@ -1,6 +1,8 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CourseSessionAttendances;
+// CourseSessionAttendance är child entity i CourseSession aggregate.
+
 // En viss elevs närvarostatus på ett visst kurstillfälle, inom en viss kursperiod.
 // PK: StudentId FK + CourseSessionId FK + CoursePeriodId FK
 public sealed class CourseSessionAttendance
