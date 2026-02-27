@@ -8,4 +8,9 @@ public static class StudentApplicationErrors
     {
         return new ApplicationResultError(ErrorTypes.Conflict, $"En student med email {email} finns redan.");
     }
+
+    public static ApplicationResultError NotFound(Guid id)
+    {
+        return new ApplicationResultError(ErrorTypes.NotFound, $"Ingen student med id {id} hittades.");
+    }
 }

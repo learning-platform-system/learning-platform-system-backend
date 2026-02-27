@@ -29,6 +29,11 @@ public class StudentRepository(LearningPlatformDbContext _context) : IStudentRep
         await _context.Students.AddAsync(studentEntity, ct);
     }
 
+    public async Task<bool> ExistsAsync(Guid id, CancellationToken ct)
+    {
+        return await _context.Students.AnyAsync(student => student.Id == id, ct);
+    }
+
     public async Task<bool> ExistsWithTheSameEmailAsync(string email, CancellationToken ct)
     {
         return await _context.Students.AnyAsync(studentEntity => studentEntity.ContactInformation.Email == email, ct);
@@ -41,6 +46,12 @@ public class StudentRepository(LearningPlatformDbContext _context) : IStudentRep
 
     public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        StudentEntity? studentEntity = await _context.Students.SingleOrDefaultAsync(studentEntity => studentEntity.Id == id, ct);
+        
+        if (studentEntity == null) return false;
+
+        _context.Students.Remove(studentEntity);
+
+        return true;
     }
 }

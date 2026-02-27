@@ -4,6 +4,7 @@ using LearningPlatformSystem.Domain.Students;
 
 namespace LearningPlatformSystem.Application.Students;
 
+// GetAll-metod
 public class StudentService(IStudentRepository _studentRepository, IUnitOfWork _iUnitOfWork) : IStudentService
 {
     public async Task<ApplicationResult<Guid>> CreateStudentAsync(CreateStudentInput input, CancellationToken ct)
@@ -19,5 +20,19 @@ public class StudentService(IStudentRepository _studentRepository, IUnitOfWork _
         await _iUnitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult<Guid>.Success(student.Id);
+    }
+
+    public async Task<ApplicationResult> DeleteStudentAsync(Guid id, CancellationToken ct)
+    {
+        bool removed = await _studentRepository.RemoveAsync(id, ct);
+
+        if (!removed)
+        {
+            return ApplicationResult.Fail(StudentApplicationErrors.NotFound(id));
+        }
+
+        await _iUnitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult.Success();
     }
 }
