@@ -1,5 +1,4 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriods;
-using LearningPlatformSystem.Domain.Shared.Exceptions;
+﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodEnrollments;

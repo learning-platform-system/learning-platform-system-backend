@@ -16,8 +16,8 @@ public static class AddCoursePeriodReviewEndpoint
         private static async Task<IResult> HandleAsync(Guid coursePeriodId, AddCoursePeriodReviewRequest request, ICoursePeriodService service, CancellationToken ct)
         {
             AddCoursePeriodReviewInput input = new(
-                coursePeriodId,
                 request.StudentId,
+                coursePeriodId,
                 request.Rating,
                 request.Comment
             );

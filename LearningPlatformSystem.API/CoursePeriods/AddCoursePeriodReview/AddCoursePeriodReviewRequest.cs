@@ -1,6 +1,4 @@
-﻿using LearningPlatformSystem.Domain.CoursePeriodReviews;
+﻿namespace LearningPlatformSystem.API.CoursePeriods.AddCoursePeriodReview;
 
-namespace LearningPlatformSystem.API.CoursePeriods.AddCoursePeriodReview;
-
-public sealed record AddCoursePeriodReviewRequest(Guid StudentId, Rating Rating, string? Comment);
+public sealed record AddCoursePeriodReviewRequest(Guid StudentId, int Rating, string? Comment);
 

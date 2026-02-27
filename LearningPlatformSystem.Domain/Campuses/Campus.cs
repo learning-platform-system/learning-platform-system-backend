@@ -33,6 +33,17 @@ public sealed class Campus
         return campus;
     }
 
+    internal static Campus Rehydrate(Guid id, string name, Address address, ContactInformation? contactInformation)
+    {
+        Campus campus = new(id, name, address)
+        {
+            ContactInformation = contactInformation
+        };
+
+        return campus;
+
+    }
+
     public void ChangeName(string name)
     {
         string normalizedName = ValidateName(name);

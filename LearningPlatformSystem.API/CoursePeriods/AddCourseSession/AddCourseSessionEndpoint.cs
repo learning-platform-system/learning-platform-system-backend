@@ -15,12 +15,14 @@ public static class AddCourseSessionEndpoint
         return group;
     }
 
+    // Måste ta bort Z från startTime och endTime i Swagger annars 400 - Failed to read parameter
     private static async Task<IResult> HandleAsync(Guid coursePeriodId, AddCourseSessionRequest request, ICoursePeriodService service, CancellationToken ct)
     {
         if (!Enum.TryParse(request.Format, true, out CourseFormat parsedFormat))
         {
             return Results.BadRequest("Ogiltigt kursformat.");
         }
+
         AddCourseSessionInput input = new(
             coursePeriodId,
             parsedFormat,
