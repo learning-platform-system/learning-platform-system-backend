@@ -1,13 +1,13 @@
 ﻿using LearningPlatformSystem.Domain.Campuses;
+using LearningPlatformSystem.Domain.Students;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
 
-public class CampusRepository(LearningPlatformDbContext context) : ICampusRepository
+public class CampusRepository(LearningPlatformDbContext _context) : ICampusRepository
 {
-    private readonly LearningPlatformDbContext _context = context;
     public async Task AddAsync(Campus aggregate, CancellationToken ct)
     {
         CampusEntity entity = new CampusEntity
@@ -28,6 +28,16 @@ public class CampusRepository(LearningPlatformDbContext context) : ICampusReposi
     public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)
     {
         return await _context.Campuses.AnyAsync(campus => campus.Name == name, ct);
+    }
+
+    public async Task<IReadOnlyList<Campus>> GetAllAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Campus> campuses = await _context.Campuses
+            .AsNoTracking()
+            .Select(entity => Campus.Rehydrate(entity.Id, entity.Name, entity.Address, entity.ContactInformation))
+            .ToListAsync(ct);
+
+        return campuses;
     }
 
     public Task<Campus?> GetByIdAsync(Guid id, CancellationToken ct)

@@ -1,4 +1,5 @@
 ﻿using LearningPlatformSystem.Application.Campuses.Inputs;
+using LearningPlatformSystem.Application.Campuses.Outputs;
 using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Domain.Campuses;
 
@@ -33,5 +34,22 @@ public class CampusService(ICampusRepository _campusRepository, IUnitOfWork _uni
         await _unitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult.Success();
+    }
+
+    public async Task<ApplicationResult<IReadOnlyList<CampusOutput>>> GetAllCampusesAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Campus> campuses = await _campusRepository.GetAllAsync(ct);
+
+        IReadOnlyList<CampusOutput> campusOutputs = campuses
+            .Select(campus => new CampusOutput
+            (
+                Name: campus.Name,
+                Street: campus.Address.Street,
+                PostalCode: campus.Address.PostalCode,
+                City: campus.Address.City
+            ))
+            .ToList();
+
+        return ApplicationResult<IReadOnlyList<CampusOutput>>.Success(campusOutputs);   
     }
 }
