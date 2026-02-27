@@ -1,5 +1,23 @@
-﻿namespace LearningPlatformSystem.Application.Students;
+﻿using LearningPlatformSystem.Application.Shared;
+using LearningPlatformSystem.Application.Students.Inputs;
+using LearningPlatformSystem.Domain.Students;
 
-public class StudentService : IStudentService
+namespace LearningPlatformSystem.Application.Students;
+
+public class StudentService(IStudentRepository _studentRepository, IUnitOfWork _iUnitOfWork) : IStudentService
 {
+    public async Task<ApplicationResult<Guid>> CreateStudentAsync(CreateStudentInput input, CancellationToken ct)
+    {
+        bool exists = await _studentRepository.ExistsWithTheSameEmailAsync(input.Email, ct);
+
+        if (exists) 
+            return ApplicationResult<Guid>.Fail(StudentApplicationErrors.EmailAlreadyExists(input.Email));
+
+        Student student = Student.Create(input.FirstName, input.LastName, input.Email, input.PhoneNumber);
+
+        await _studentRepository.AddAsync(student, ct);
+        await _iUnitOfWork.SaveChangesAsync(ct);
+
+        return ApplicationResult<Guid>.Success(student.Id);
+    }
 }
