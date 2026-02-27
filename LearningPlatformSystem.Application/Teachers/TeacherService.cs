@@ -1,5 +1,6 @@
 ﻿using LearningPlatformSystem.Application.Shared;
 using LearningPlatformSystem.Application.Teachers.Inputs;
+using LearningPlatformSystem.Application.Teachers.Outputs;
 using LearningPlatformSystem.Domain.Teachers;
 
 namespace LearningPlatformSystem.Application.Teachers;
@@ -49,5 +50,21 @@ public class TeacherService(ITeacherRepository _teacherRepository, IUnitOfWork _
 
         await _iUnitOfWork.SaveChangesAsync(ct);
         return ApplicationResult.Success();
+    }
+
+    public async Task<ApplicationResult<IReadOnlyList<TeacherOutput>>> GetAllTeachersAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Teacher> teachers = await _teacherRepository.GetAllAsync(ct);
+
+        IReadOnlyList<TeacherOutput> teacherOutputs = teachers.Select(teacher => new TeacherOutput
+        (
+            Id: teacher.Id,
+            FirstName: teacher.Name.FirstName,
+            LastName: teacher.Name.LastName,
+            Email: teacher.ContactInformation.Email,
+            PhoneNumber: teacher.ContactInformation.PhoneNumber
+        )).ToList();
+
+        return ApplicationResult<IReadOnlyList<TeacherOutput>>.Success(teacherOutputs);
     }
 }

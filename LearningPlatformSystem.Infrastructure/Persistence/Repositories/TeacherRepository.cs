@@ -41,6 +41,15 @@ public class TeacherRepository(LearningPlatformDbContext context) : ITeacherRepo
         return await _context.Teachers.AnyAsync(teacherEntity => teacherEntity.ContactInformation.Email == email, ct);
     }
 
+    public async Task<IReadOnlyList<Teacher>> GetAllAsync(CancellationToken ct)
+    {
+        IReadOnlyList<Teacher> teachers = await _context.Teachers
+            .AsNoTracking()
+            .Select(teacherEntity => Teacher.Rehydrate(teacherEntity.Id, teacherEntity.Name, teacherEntity.ContactInformation, teacherEntity.Address))
+            .ToListAsync(ct);
+
+        return teachers;
+    }
 
     public async Task<Teacher?> GetByIdAsync(Guid id, CancellationToken ct)
     {

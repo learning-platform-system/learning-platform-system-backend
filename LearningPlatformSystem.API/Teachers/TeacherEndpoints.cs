@@ -2,6 +2,7 @@
 using LearningPlatformSystem.API.Teachers.AddAddress;
 using LearningPlatformSystem.API.Teachers.Create;
 using LearningPlatformSystem.API.Teachers.Delete;
+using LearningPlatformSystem.API.Teachers.GetAll;
 
 namespace LearningPlatformSystem.API.Teachers;
 
@@ -16,6 +17,7 @@ public static class TeacherEndpoints
         group.MapPostTeacherEndpoint();
         group.MapPostTeacherAddressEndpoint();
         group.MapDeleteTeacherEndpoint();
+        group.MapGetAllTeachersEndpoint();
 
 
 
