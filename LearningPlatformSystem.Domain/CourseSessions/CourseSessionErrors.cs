@@ -6,7 +6,7 @@ public class CourseSessionErrors
     public const string ClassroomIdIsRequired = "Lokal måste anges.";
     public const string CourseSessionEndTimeMustBeAfterStartTime = "Sluttiden måste vara efter starttiden.";
 
-    public const string ClassroomIdIsRequiredForOnsiteSession = "För onsite-format måste en klassrum anges.";
+    public const string ClassroomIdIsRequiredForOnsiteSession = "För onsite-format måste ett klassrum anges.";
 
     public const string ClassroomNotAllowedForOnlineSession = "För online-format får inget klassrum anges.";
 }

@@ -568,7 +568,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CampusEntityId");
 
-                            b1.ToTable("Campuses");
+                            b1.ToTable("Campuses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("CampusEntityId");
@@ -593,7 +593,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CampusEntityId");
 
-                            b1.ToTable("Campuses");
+                            b1.ToTable("Campuses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("CampusEntityId");
@@ -755,7 +755,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("StudentEntityId");
 
-                            b1.ToTable("Students");
+                            b1.ToTable("Students", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("StudentEntityId");
@@ -783,7 +783,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                             b1.HasIndex("Email")
                                 .IsUnique();
 
-                            b1.ToTable("Students");
+                            b1.ToTable("Students", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("StudentEntityId");
@@ -810,7 +810,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("FirstName", "LastName");
 
-                            b1.ToTable("Students");
+                            b1.ToTable("Students", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("StudentEntityId");
@@ -867,7 +867,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("TeacherEntityId");
 
-                            b1.ToTable("Teachers");
+                            b1.ToTable("Teachers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TeacherEntityId");
@@ -895,7 +895,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
                             b1.HasIndex("Email")
                                 .IsUnique();
 
-                            b1.ToTable("Teachers");
+                            b1.ToTable("Teachers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TeacherEntityId");
@@ -920,7 +920,7 @@ namespace LearningPlatformSystem.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("TeacherEntityId");
 
-                            b1.ToTable("Teachers");
+                            b1.ToTable("Teachers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TeacherEntityId");

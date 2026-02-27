@@ -77,16 +77,14 @@ public sealed class CourseSession
     {
         if (format == CourseFormat.Onsite)
         {
-            if (classroomId is null)
+            if (classroomId == null || classroomId == Guid.Empty)
                 throw new DomainException(CourseSessionErrors.ClassroomIdIsRequiredForOnsiteSession);
 
-            if (classroomId == Guid.Empty)
-                throw new DomainException(CourseSessionErrors.ClassroomIdIsRequiredForOnsiteSession);
         }
 
         if (format == CourseFormat.Online) 
         {
-            if (classroomId is not null)
+            if (classroomId != null && classroomId != Guid.Empty)
                 throw new DomainException(CourseSessionErrors.ClassroomNotAllowedForOnlineSession);
         }
     }

@@ -1,5 +1,8 @@
-﻿using LearningPlatformSystem.Domain.Teachers;
+﻿using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
+using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
+using LearningPlatformSystem.Domain.Teachers;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
+using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearningPlatformSystem.Infrastructure.Persistence.Repositories;
@@ -8,9 +11,24 @@ public class TeacherRepository(LearningPlatformDbContext context) : ITeacherRepo
 {
     private readonly LearningPlatformDbContext _context = context;
 
-    public Task AddAsync(Teacher aggregate, CancellationToken ct)
+    public async Task AddAsync(Teacher aggregate, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        TeacherEntity entity = new TeacherEntity
+        {
+            Id = aggregate.Id,
+            Name = PersonName.Create
+            (
+                aggregate.Name.FirstName,
+                aggregate.Name.LastName
+            ),
+            ContactInformation = ContactInformation.Create
+            (
+                aggregate.ContactInformation.Email,
+                aggregate.ContactInformation.PhoneNumber
+            ),
+        };
+
+        await _context.Teachers.AddAsync(entity, ct);
     }
 
     public async Task<bool> ExistsAsync(Guid teacherId, CancellationToken ct)
@@ -18,18 +36,35 @@ public class TeacherRepository(LearningPlatformDbContext context) : ITeacherRepo
         return await _context.Teachers.AnyAsync(teacher => teacher.Id == teacherId, ct);
     }
 
-    public Task<Teacher?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<bool> ExistsWithTheSameEmailAsync(string email, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return await _context.Teachers.AnyAsync(teacherEntity => teacherEntity.ContactInformation.Email == email, ct);
     }
 
-    public Task<bool> RemoveAsync(Guid id, CancellationToken ct)
+
+    public async Task<Teacher?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        TeacherEntity? entity = await _context.Teachers.SingleOrDefaultAsync(teacherEntity => teacherEntity.Id == id, ct);
+
+        if (entity == null) return null;
+
+        return Teacher.Rehydrate(entity.Id, entity.Name, entity.ContactInformation, entity.Address);
     }
 
-    public Task UpdateAsync(Teacher aggregate, CancellationToken ct)
+    public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        TeacherEntity? entity = await _context.Teachers.SingleOrDefaultAsync(teacher => teacher.Id == id);
+
+        if (entity == null) return false; 
+
+        _context.Teachers.Remove(entity);
+        return true;
+    }
+
+    public async Task UpdateAsync(Teacher teacher, CancellationToken ct)
+    {
+        TeacherEntity? entity = await _context.Teachers.SingleAsync(teacherEntity => teacherEntity.Id == teacher.Id, ct);                    
+
+         entity.Address = teacher.Address;
     }
 }

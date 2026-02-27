@@ -30,6 +30,16 @@ public sealed class Teacher
 
         return teacher;
     }
+  
+    internal static Teacher Rehydrate(Guid id, PersonName name, ContactInformation contactInformation, Address? address)
+    {
+        Teacher teacher = new(id, name, contactInformation)
+        {
+            Address = address
+        };
+
+        return teacher;
+    }
 
     public void ChangeName(string firstName, string lastName)
     {

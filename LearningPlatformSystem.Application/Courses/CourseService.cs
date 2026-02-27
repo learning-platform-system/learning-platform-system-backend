@@ -10,14 +10,13 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
 {
     public async Task<ApplicationResult<Guid>> CreateCourseAsync(CreateCourseInput input, CancellationToken ct)
     {
-        Course course = Course.Create(input.SubcategoryId, input.Title, input.Description, input.Credits);
-
-        bool exists = await _courseRepository.ExistsByTitleAsync(course.Title, ct);
+        bool exists = await _courseRepository.ExistsByTitleAsync(input.Title, ct);
         if (exists)
         {
-            return ApplicationResult<Guid>.Fail(CourseApplicationErrors.TitleAlreadyExists(course.Title));
+            return ApplicationResult<Guid>.Fail(CourseApplicationErrors.TitleAlreadyExists(input.Title));
         }
 
+        Course course = Course.Create(input.SubcategoryId, input.Title, input.Description, input.Credits);
 
         bool subcategoryExists = await _categoryRepository.SubcategoryExistsAsync(course.SubcategoryId, ct);
         if (!subcategoryExists)
@@ -33,14 +32,14 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
 
     public async Task<ApplicationResult> DeleteCourseAsync(Guid id, CancellationToken ct)
     {
-        Course? course = await _courseRepository.GetByIdAsync(id, ct);
+        bool removed = await _courseRepository.RemoveAsync(id, ct); 
 
-        if (course is null)
+        if (!removed)
         {
             return ApplicationResult.Fail(CourseApplicationErrors.NotFound(id));
         }
 
-        await _courseRepository.RemoveAsync(course.Id, ct);
+        await _courseRepository.RemoveAsync(id, ct);
         await _iUnitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult.Success();
