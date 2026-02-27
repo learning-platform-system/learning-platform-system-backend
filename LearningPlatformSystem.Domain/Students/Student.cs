@@ -31,6 +31,16 @@ public sealed class Student
         return student;
     }
 
+    internal static Student Rehydrate(Guid id, PersonName name, ContactInformation contactInformation, Address? address)
+    {
+        Student student = new(id, name, contactInformation)
+        {
+            Address = address
+        };
+
+        return student;
+    }
+
     public void ChangeName(string firstName, string lastName)
     {
         Name = PersonName.Create(firstName, lastName);

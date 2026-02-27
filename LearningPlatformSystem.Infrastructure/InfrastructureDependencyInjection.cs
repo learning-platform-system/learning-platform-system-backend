@@ -4,6 +4,7 @@ using LearningPlatformSystem.Domain.Categories;
 using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.CoursePeriods;
 using LearningPlatformSystem.Domain.Courses;
+using LearningPlatformSystem.Domain.Students;
 using LearningPlatformSystem.Domain.Teachers;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.Repositories;
@@ -32,6 +33,7 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ICampusRepository, CampusRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
 
 
         return services;
