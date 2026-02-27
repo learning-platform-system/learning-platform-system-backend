@@ -107,8 +107,4 @@ public static class DomainValidator
         }
     }
 
-    internal static void ValidateRequiredGuid(Guid id, object idIsRequired)
-    {
-        throw new NotImplementedException();
-    }
 }

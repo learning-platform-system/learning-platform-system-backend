@@ -2,7 +2,7 @@
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodEnrollments;
-
+// CoursePeriodEnrollment är child entity i CoursePeriod aggregate.
 public sealed class CoursePeriodEnrollment
 {
     // 2 FK, Student x är inskriven i period y

@@ -1,6 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodReviews;
+// CoursePeriodReview är child entity i CoursePeriod aggregate.
 
 public sealed class CoursePeriodReview
 {

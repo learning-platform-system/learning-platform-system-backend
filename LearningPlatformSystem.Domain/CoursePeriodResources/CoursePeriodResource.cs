@@ -2,7 +2,7 @@
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CoursePeriodResources;
-
+// CoursePeriodResource är child entity i CoursePeriod aggregate.
 public sealed class CoursePeriodResource
 {
     public const int TitleMaxLength = 200;
