@@ -4,7 +4,7 @@ using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.Validators;
 
 namespace LearningPlatformSystem.Domain.CourseSessions;
-
+// CourseSession är child entity i CoursePeriod aggregate.
 public sealed class CourseSession
 {
     private readonly List<CourseSessionAttendance> _attendances = new();
