@@ -32,6 +32,25 @@ public class LearningPlatformDbContext : DbContext, IUnitOfWork
 
         // EF Core letar efter ALLA klasser i assemblyn (projektet) som implementerar IEntityTypeConfiguration och anropar deras Configure-metod automatiskt.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LearningPlatformDbContext).Assembly);
+
+        // SQLite har inte stöd för SYSUTCDATETIME() som standardvärde i SQL, måste ersätta det med CURRENT_TIMESTAMP för att säkerställa kompatibilitet med SQLite som databas. 
+        if (Database.IsSqlite())
+        {
+            foreach (Microsoft.EntityFrameworkCore.Metadata.IMutableEntityType entityType
+                     in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (Microsoft.EntityFrameworkCore.Metadata.IMutableProperty property
+                         in entityType.GetProperties())
+                {
+                    string? defaultSql = property.GetDefaultValueSql();
+
+                    if (defaultSql == "SYSUTCDATETIME()")
+                    {
+                        property.SetDefaultValueSql("CURRENT_TIMESTAMP");
+                    }
+                }
+            }
+        }
     }
 
     // Överlagrar SaveChangesAsync för att fånga DbUpdateException och kasta en PersistenceException som kan hanteras i applikationslagret.

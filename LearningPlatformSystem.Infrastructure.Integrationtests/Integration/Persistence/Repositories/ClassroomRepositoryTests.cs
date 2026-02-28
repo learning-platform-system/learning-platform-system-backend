@@ -13,6 +13,7 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
 
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -45,6 +46,7 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
 
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -76,6 +78,7 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
 
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -108,6 +111,7 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
 
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -129,7 +133,8 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
-
+        
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -165,6 +170,7 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
 
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 
@@ -192,7 +198,8 @@ public sealed class ClassroomRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken cancellationToken = CancellationToken.None;
-
+        
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context =
             _fixture.CreateContext();
 

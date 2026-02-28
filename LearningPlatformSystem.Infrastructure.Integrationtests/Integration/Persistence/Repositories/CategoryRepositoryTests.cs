@@ -14,6 +14,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -38,6 +40,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -60,6 +64,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -90,6 +96,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -120,6 +128,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -147,6 +157,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);
@@ -178,6 +190,8 @@ public sealed class CategoryRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CategoryRepository repository = new(context);

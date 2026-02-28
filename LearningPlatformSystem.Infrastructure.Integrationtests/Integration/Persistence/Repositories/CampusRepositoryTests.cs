@@ -14,6 +14,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CampusRepository repository = new(context);
@@ -43,6 +45,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         Campus campus =
@@ -70,6 +74,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         Campus campus =
@@ -97,6 +103,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CampusRepository repository = new(context);
@@ -133,6 +141,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CampusRepository repository = new(context);
@@ -161,6 +171,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CampusRepository repository = new(context);
@@ -193,6 +205,8 @@ public sealed class CampusRepositoryTests(SqliteInMemoryFixture _fixture)
     {
         // Arrange
         CancellationToken ct = CancellationToken.None;
+
+        await _fixture.ClearDatabaseAsync();
         await using LearningPlatformDbContext context = _fixture.CreateContext();
 
         CampusRepository repository = new(context);

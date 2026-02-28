@@ -47,12 +47,31 @@ public sealed class SqliteInMemoryFixture : IAsyncLifetime
     {
         return new LearningPlatformDbContext(Options);
     }
+
+    public async Task ClearDatabaseAsync()
+    {
+        await using LearningPlatformDbContext context = CreateContext();
+
+        // Rensa child-tabeller först (FK-ordning)
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM CourseSessionAttendances;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM CourseSessions;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM CoursePeriods;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Courses;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Subcategories;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Categories;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Campuses;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Teachers;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM Students;");
+    }
 }
 
 // Stänger databasen efter alla tester
 [CollectionDefinition(Name)]
-public sealed class SqliteInMemoryCollection
-    : ICollectionFixture<SqliteInMemoryFixture>
+public sealed class SqliteInMemoryCollection : ICollectionFixture<SqliteInMemoryFixture>
 {
     public const string Name = "SqliteInMemory";
 }
+
+
+
+    
