@@ -8,6 +8,7 @@ using LearningPlatformSystem.API.Students;
 using LearningPlatformSystem.API.Teachers;
 using LearningPlatformSystem.Application;
 using LearningPlatformSystem.Infrastructure;
+using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +32,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddMemoryCache();
 
-var services = builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
+var services = builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration, builder.Environment.IsDevelopment());
 
 
 
@@ -44,10 +47,16 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<LearningPlatformDbContext>();
+    await db.Database.EnsureCreatedAsync();
+}
+
 app.UseGlobalExceptionHandling();
 
 app.UseHttpsRedirection();
-
 
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
