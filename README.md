@@ -70,7 +70,7 @@ Databasen är modellerad enligt tredje normalformen (3NF) och innehåller 13 tab
 
 ### ER-diagram
 ER-diagrammet visar den relationella databasens struktur samt hur domänens aggregat och relationer är modellerade.
-[Öppna ER-diagram](docs/erd.pdf)
+[Öppna ER-diagram](docs/ERD.pdf)
 
 ## Domänmodell
 Domain-lagret innehåller:
