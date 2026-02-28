@@ -1,8 +1,6 @@
 <Solution>
   <Project Path="LearningPlatformSystem.API/LearningPlatformSystem.API.csproj" />
-  <Project Path="LearningPlatformSystem.Application.Tests/LearningPlatformSystem.Application.Tests.csproj" Id="0fbc4b94-f2f6-41a6-b67e-a0b79028a438">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
+  <Project Path="LearningPlatformSystem.Application.Tests/LearningPlatformSystem.Application.Tests.csproj" Id="0fbc4b94-f2f6-41a6-b67e-a0b79028a438" />
   <Project Path="LearningPlatformSystem.Application/LearningPlatformSystem.Application.csproj" />
   <Project Path="LearningPlatformSystem.Domain/LearningPlatformSystem.Domain.csproj" />
   <Project Path="LearningPlatformSystem.Infrastructure.Integrationtests/LearningPlatformSystem.Infrastructure.Integrationtests.csproj" Id="df6c4592-9ff5-48ae-8385-27c32c32ab13" />

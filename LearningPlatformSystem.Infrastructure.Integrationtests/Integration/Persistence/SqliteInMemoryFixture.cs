@@ -1,4 +1,8 @@
-﻿namespace LearningPlatformSystem.Infrastructure.Integrationtests.Integration.Persistence;
+﻿using LearningPlatformSystem.Infrastructure.Persistence.EFC;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
+namespace LearningPlatformSystem.Infrastructure.Integrationtests.Integration.Persistence;
 
 public sealed class SqliteInMemoryFixture : IAsyncLifetime
 {
