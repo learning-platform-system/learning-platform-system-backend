@@ -62,7 +62,7 @@ public class TeacherRepository(LearningPlatformDbContext context) : ITeacherRepo
 
     public async Task<bool> RemoveAsync(Guid id, CancellationToken ct)
     {
-        TeacherEntity? entity = await _context.Teachers.SingleOrDefaultAsync(teacher => teacher.Id == id);
+        TeacherEntity? entity = await _context.Teachers.SingleOrDefaultAsync(teacher => teacher.Id == id, ct);
 
         if (entity == null) return false; 
 
