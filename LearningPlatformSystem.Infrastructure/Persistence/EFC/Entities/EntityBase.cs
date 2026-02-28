@@ -7,5 +7,5 @@ public abstract class EntityBase
     public DateTime ModifiedAt { get; set; }
 
     // Concurrency, förhindrar krockande uppdateringar
-    public byte[] RowVersion { get; set; } = null!;
+    public byte[]? RowVersion { get; set; } = null!;
 }

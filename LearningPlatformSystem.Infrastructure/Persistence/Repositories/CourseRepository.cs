@@ -67,11 +67,14 @@ public class CourseRepository(LearningPlatformDbContext context) : ICourseReposi
            @ anger att det är en inparameter
            om IS NULL = true ignoreras filtreringen - satsen blir true och allt om finns i Courses matchar = returneras
         */
+
+        string? titlePattern = title is null ? null : $"%{title}%";
+
         List<CourseEntity> entities = await _context.Courses
             .FromSqlInterpolated($@"
                 SELECT *
                 FROM Courses cEntity
-                WHERE ({title} IS NULL OR cEntity.Title LIKE '%' + {title} + '%')
+                WHERE ({title} IS NULL OR cEntity.Title LIKE {titlePattern})
                 AND ({subcategoryId} IS NULL OR cEntity.SubcategoryId = {subcategoryId})
             ")
             .AsNoTracking()
