@@ -1,5 +1,4 @@
 ﻿using LearningPlatformSystem.Domain.Campuses;
-using LearningPlatformSystem.Domain.Students;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC;
 using LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
 using Microsoft.EntityFrameworkCore;

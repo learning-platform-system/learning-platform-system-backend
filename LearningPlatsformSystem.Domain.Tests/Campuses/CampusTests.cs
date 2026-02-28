@@ -3,7 +3,7 @@ using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.Addresses;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.Campuses;
 
 public class CampusTests
 {

@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodEnrollments;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.CoursePeriodEnrollments;
 
 public class CoursePeriodEnrollmentTests
 {

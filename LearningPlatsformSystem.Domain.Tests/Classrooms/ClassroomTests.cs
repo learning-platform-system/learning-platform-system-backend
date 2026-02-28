@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Classrooms;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.Classrooms;
 
 public class ClassroomTests
 {

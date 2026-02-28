@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.CourseSessionAttendances;
 
 public class CourseSessionAttendanceTests
 {

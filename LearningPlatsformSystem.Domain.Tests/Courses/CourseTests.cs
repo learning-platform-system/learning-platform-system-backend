@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Courses;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.Courses;
 
 public class CourseTests
 {

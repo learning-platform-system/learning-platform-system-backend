@@ -3,7 +3,7 @@ using LearningPlatformSystem.Domain.CourseSessions;
 using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.CourseSessions;
 
 public class CourseSessionTests
 {

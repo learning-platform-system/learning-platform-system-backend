@@ -4,7 +4,7 @@ using LearningPlatformSystem.Domain.Shared.ValueObjects.ContactInformations;
 using LearningPlatformSystem.Domain.Shared.ValueObjects.PersonNames;
 using LearningPlatformSystem.Domain.Teachers;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.Teachers;
 
 public class TeacherTests
 {
