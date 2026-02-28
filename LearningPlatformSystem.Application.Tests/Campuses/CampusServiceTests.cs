@@ -13,17 +13,13 @@ public class CampusServiceTests : CampusServiceTestBase
     public async Task AddCampusContactInformationAsync_Should_Return_NotFound_When_Campus_Does_Not_Exist()
     {
         // Arrange
-        Guid campusId = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
 
         AddCampusContactInformationInput input =
-            new AddCampusContactInformationInput(
-                Id: campusId,
-                Email: "test@test.se",
-                PhoneNumber: "123456"
-            );
+            new AddCampusContactInformationInput(id, "mail@test.se", "0700000000");
 
         CampusRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(campusId, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync((Campus?)null);
 
         // Act
@@ -31,41 +27,36 @@ public class CampusServiceTests : CampusServiceTestBase
             await Service.AddCampusContactInformationAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CampusApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CampusApplicationErrors.NotFound(campusId).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         CampusRepositoryMock.Verify(
-            repository => repository.UpdateAsync(It.IsAny<Campus>(), CancellationToken),
-            Times.Never
-        );
+            r => r.UpdateAsync(It.IsAny<Campus>(), CancellationToken),
+            Times.Never);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
     public async Task AddCampusContactInformationAsync_Should_Update_And_Save_When_Campus_Exists()
     {
         // Arrange
-        Guid campusId = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
 
         Campus campus =
-            Campus.Create("Stockholm", "Gatan 1", "12345", "Stockholm");
+            Campus.Create("Stockholm", "Gatan 1", "11111", "Stockholm");
 
         AddCampusContactInformationInput input =
-            new AddCampusContactInformationInput(
-                Id: campusId,
-                Email: "mail@test.se",
-                PhoneNumber: "0700000000"
-            );
+            new AddCampusContactInformationInput(id, "mail@test.se", "0700000000");
 
         CampusRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(campusId, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(campus);
 
         // Act
@@ -76,14 +67,12 @@ public class CampusServiceTests : CampusServiceTestBase
         Assert.True(result.IsSuccess);
 
         CampusRepositoryMock.Verify(
-            repository => repository.UpdateAsync(campus, CancellationToken),
-            Times.Once
-        );
+            r => r.UpdateAsync(campus, CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
@@ -93,15 +82,10 @@ public class CampusServiceTests : CampusServiceTestBase
         string name = "Stockholm";
 
         CreateCampusInput input =
-            new CreateCampusInput(
-                Name: name,
-                Street: "Gatan 1",
-                PostalCode: "12345",
-                City: "Stockholm"
-            );
+            new CreateCampusInput(name, "Gatan 1", "11111", "Stockholm");
 
         CampusRepositoryMock
-            .Setup(repository => repository.ExistsByNameAsync(name, CancellationToken))
+            .Setup(r => r.ExistsByNameAsync(name, CancellationToken))
             .ReturnsAsync(true);
 
         // Act
@@ -109,21 +93,20 @@ public class CampusServiceTests : CampusServiceTestBase
             await Service.CreateCampusAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CampusApplicationErrors.NameAlreadyExists(name);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CampusApplicationErrors.NameAlreadyExists(name).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         CampusRepositoryMock.Verify(
-            repository => repository.AddAsync(It.IsAny<Campus>(), CancellationToken),
-            Times.Never
-        );
+            r => r.AddAsync(It.IsAny<Campus>(), CancellationToken),
+            Times.Never);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
@@ -133,15 +116,10 @@ public class CampusServiceTests : CampusServiceTestBase
         string name = "Göteborg";
 
         CreateCampusInput input =
-            new CreateCampusInput(
-                Name: name,
-                Street: "Gatan 2",
-                PostalCode: "22222",
-                City: "Göteborg"
-            );
+            new CreateCampusInput(name, "Gatan 2", "22222", "Göteborg");
 
         CampusRepositoryMock
-            .Setup(repository => repository.ExistsByNameAsync(name, CancellationToken))
+            .Setup(r => r.ExistsByNameAsync(name, CancellationToken))
             .ReturnsAsync(false);
 
         // Act
@@ -153,64 +131,61 @@ public class CampusServiceTests : CampusServiceTestBase
         Assert.NotEqual(Guid.Empty, result.Data);
 
         CampusRepositoryMock.Verify(
-            repository => repository.AddAsync(It.IsAny<Campus>(), CancellationToken),
-            Times.Once
-        );
+            r => r.AddAsync(It.IsAny<Campus>(), CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
     public async Task DeleteCampusAsync_Should_Return_NotFound_When_Campus_Does_Not_Exist()
     {
         // Arrange
-        Guid campusId = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
 
         CampusRepositoryMock
-            .Setup(repository => repository.RemoveAsync(campusId, CancellationToken))
+            .Setup(r => r.RemoveAsync(id, CancellationToken))
             .ReturnsAsync(false);
 
         // Act
         ApplicationResult result =
-            await Service.DeleteCampusAsync(campusId, CancellationToken);
+            await Service.DeleteCampusAsync(id, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CampusApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CampusApplicationErrors.NotFound(campusId).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
     public async Task DeleteCampusAsync_Should_Remove_And_Save_When_Campus_Exists()
     {
         // Arrange
-        Guid campusId = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
 
         CampusRepositoryMock
-            .Setup(repository => repository.RemoveAsync(campusId, CancellationToken))
+            .Setup(r => r.RemoveAsync(id, CancellationToken))
             .ReturnsAsync(true);
 
         // Act
         ApplicationResult result =
-            await Service.DeleteCampusAsync(campusId, CancellationToken);
+            await Service.DeleteCampusAsync(id, CancellationToken);
 
         // Assert
         Assert.True(result.IsSuccess);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
@@ -224,7 +199,7 @@ public class CampusServiceTests : CampusServiceTestBase
             new List<Campus> { campus };
 
         CampusRepositoryMock
-            .Setup(repository => repository.GetAllAsync(CancellationToken))
+            .Setup(r => r.GetAllAsync(CancellationToken))
             .ReturnsAsync(campuses);
 
         // Act
@@ -235,8 +210,8 @@ public class CampusServiceTests : CampusServiceTestBase
         Assert.True(result.IsSuccess);
         Assert.Single(result.Data!);
         Assert.Equal("Malmö", result.Data![0].Name);
-        Assert.Equal("Testgatan 3", result.Data![0].Street);
-        Assert.Equal("33333", result.Data![0].PostalCode);
-        Assert.Equal("Malmö", result.Data![0].City);
+        Assert.Equal("Testgatan 3", result.Data[0].Street);
+        Assert.Equal("33333", result.Data[0].PostalCode);
+        Assert.Equal("Malmö", result.Data[0].City);
     }
 }

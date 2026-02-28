@@ -13,12 +13,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
     public async Task CreateCategoryAsync_Should_Return_NameAlreadyExists_When_Name_Exists()
     {
         // Arrange
-        string name = "Programmering";
+        string name = "Backend";
 
         CreateCategoryInput input = new CreateCategoryInput(name);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.ExistsByNameAsync(name, CancellationToken))
+            .Setup(r => r.ExistsByNameAsync(name, CancellationToken))
             .ReturnsAsync(true);
 
         // Act
@@ -26,21 +26,20 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.CreateCategoryAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NameAlreadyExists(name);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NameAlreadyExists(name).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         CategoryRepositoryMock.Verify(
-            repository => repository.AddAsync(It.IsAny<Category>(), CancellationToken),
-            Times.Never
-        );
+            r => r.AddAsync(It.IsAny<Category>(), CancellationToken),
+            Times.Never);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
@@ -52,7 +51,7 @@ public class CategoryServiceTests : CategoryServiceTestBase
         CreateCategoryInput input = new CreateCategoryInput(name);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.ExistsByNameAsync(name, CancellationToken))
+            .Setup(r => r.ExistsByNameAsync(name, CancellationToken))
             .ReturnsAsync(false);
 
         // Act
@@ -64,14 +63,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Assert.NotEqual(Guid.Empty, result.Data);
 
         CategoryRepositoryMock.Verify(
-            repository => repository.AddAsync(It.IsAny<Category>(), CancellationToken),
-            Times.Once
-        );
+            r => r.AddAsync(It.IsAny<Category>(), CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
@@ -81,7 +78,7 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Guid id = Guid.NewGuid();
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync((Category?)null);
 
         // Act
@@ -89,11 +86,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.GetCategoryByIdAsync(id, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NotFound(id).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
     }
 
     [Fact]
@@ -101,10 +99,11 @@ public class CategoryServiceTests : CategoryServiceTestBase
     {
         // Arrange
         Guid id = Guid.NewGuid();
+
         Category category = Category.Create(id, "Backend");
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(category);
 
         // Act
@@ -113,8 +112,9 @@ public class CategoryServiceTests : CategoryServiceTestBase
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal("Backend", result.Data!.Name);
-        Assert.Equal(id, result.Data.Id);
+        Assert.Equal(id, result.Data!.Id);
+        Assert.Equal("Backend", result.Data.Name);
+        Assert.Empty(result.Data.Subcategories);
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Guid id = Guid.NewGuid();
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync((Category?)null);
 
         // Act
@@ -132,16 +132,16 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.DeleteCategoryAsync(id, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NotFound(id).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
@@ -149,10 +149,11 @@ public class CategoryServiceTests : CategoryServiceTestBase
     {
         // Arrange
         Guid id = Guid.NewGuid();
-        Category category = Category.Create(id, "Frontend");
+
+        Category category = Category.Create(id, "Backend");
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(category);
 
         // Act
@@ -163,14 +164,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Assert.True(result.IsSuccess);
 
         CategoryRepositoryMock.Verify(
-            repository => repository.RemoveAsync(id, CancellationToken),
-            Times.Once
-        );
+            r => r.RemoveAsync(id, CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
@@ -183,7 +182,7 @@ public class CategoryServiceTests : CategoryServiceTestBase
             new UpdateCategoryNameInput(id, "NewName");
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync((Category?)null);
 
         // Act
@@ -191,11 +190,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.UpdateCategoryNameAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NotFound(id).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
     }
 
     [Fact]
@@ -205,17 +205,17 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Guid id = Guid.NewGuid();
         string newName = "Duplicate";
 
-        Category category = Category.Create(id, "OldName");
+        Category category = Category.Create(id, "Backend");
 
         UpdateCategoryNameInput input =
             new UpdateCategoryNameInput(id, newName);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(category);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.ExistsAnotherWithSameNameAsync(newName, id, CancellationToken))
+            .Setup(r => r.ExistsAnotherWithSameNameAsync(newName, id, CancellationToken))
             .ReturnsAsync(true);
 
         // Act
@@ -223,16 +223,16 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.UpdateCategoryNameAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NameAlreadyExists(newName);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NameAlreadyExists(newName).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Never
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Never);
     }
 
     [Fact]
@@ -240,19 +240,19 @@ public class CategoryServiceTests : CategoryServiceTestBase
     {
         // Arrange
         Guid id = Guid.NewGuid();
-        string newName = "NewValidName";
+        string newName = "Updated";
 
-        Category category = Category.Create(id, "OldName");
+        Category category = Category.Create(id, "Backend");
 
         UpdateCategoryNameInput input =
             new UpdateCategoryNameInput(id, newName);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(category);
 
         CategoryRepositoryMock
-            .Setup(repository => repository.ExistsAnotherWithSameNameAsync(newName, id, CancellationToken))
+            .Setup(r => r.ExistsAnotherWithSameNameAsync(newName, id, CancellationToken))
             .ReturnsAsync(false);
 
         // Act
@@ -263,14 +263,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Assert.True(result.IsSuccess);
 
         CategoryRepositoryMock.Verify(
-            repository => repository.UpdateAsync(category, CancellationToken),
-            Times.Once
-        );
+            r => r.UpdateAsync(category, CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 
     [Fact]
@@ -280,10 +278,10 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Guid id = Guid.NewGuid();
 
         AddSubcategoryInput input =
-            new AddSubcategoryInput(id, "Sub");
+            new AddSubcategoryInput(id, "API");
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync((Category?)null);
 
         // Act
@@ -291,11 +289,12 @@ public class CategoryServiceTests : CategoryServiceTestBase
             await Service.AddSubcategoryAsync(input, CancellationToken);
 
         // Assert
+        ApplicationResultError expected =
+            CategoryApplicationErrors.NotFound(id);
+
         Assert.False(result.IsSuccess);
-        Assert.Equal(
-            CategoryApplicationErrors.NotFound(id).Message,
-            result.Error!.Message
-        );
+        Assert.Equal(expected.Type, result.Error!.Type);
+        Assert.Equal(expected.Message, result.Error!.Message);
     }
 
     [Fact]
@@ -303,13 +302,14 @@ public class CategoryServiceTests : CategoryServiceTestBase
     {
         // Arrange
         Guid id = Guid.NewGuid();
+
         Category category = Category.Create(id, "Backend");
 
         AddSubcategoryInput input =
             new AddSubcategoryInput(id, "API");
 
         CategoryRepositoryMock
-            .Setup(repository => repository.GetByIdAsync(id, CancellationToken))
+            .Setup(r => r.GetByIdAsync(id, CancellationToken))
             .ReturnsAsync(category);
 
         // Act
@@ -320,13 +320,11 @@ public class CategoryServiceTests : CategoryServiceTestBase
         Assert.True(result.IsSuccess);
 
         CategoryRepositoryMock.Verify(
-            repository => repository.UpdateAsync(category, CancellationToken),
-            Times.Once
-        );
+            r => r.UpdateAsync(category, CancellationToken),
+            Times.Once);
 
         UnitOfWorkMock.Verify(
-            unit => unit.SaveChangesAsync(CancellationToken),
-            Times.Once
-        );
+            u => u.SaveChangesAsync(CancellationToken),
+            Times.Once);
     }
 }
