@@ -1,13 +1,20 @@
 # Learning Platform System
 
-Backend för ett utbildningssystem utvecklat inom utbildningen Webbutvecklare .NET (Nackademin).
-Systemet hanterar kurser, kurstillfällen, lärare, deltagare och registreringar via ett REST-baserat API.
+Backend-system för ett utbildningsföretag utvecklat inom utbildningen Webbutvecklare .NET (Nackademin). Projektet är utvecklat med ASP.NET Core Minimal API, Entity Framework Core samt enligt principerna för Domain-Driven Design och Clean Architecture. 
 
-Projektets huvudsakliga fokus är databashantering, domänmodellering och backend-arkitektur.
-Frontend är implementerad i React och finns i ett separat repository (länk nedan).
-
-## Projektets status
-Projektet är under utveckling.
+## Översikt
+Systemet hanterar:
+- Kurser
+- Kurstillfällen 
+- Kurssessioner
+- Studenter
+- Lärare
+- Campus
+- Klassrum
+- Kategorier och underkategorier
+- Registreringar
+- Närvaro
+- Recensioner
 
 ## Arkitektur
 Projektet är uppbyggt enligt Domain-Driven-Design (DDD) och Clean Architecture.
@@ -23,48 +30,84 @@ Infrastructure (EF Core & Databas)
 
 ### Lagerstruktur
 - **Presentation**  
-  ASP.NET Core Minimal API som exponerar endpoints.
+Minimal API endpoints
+Global exception handling
+HTTP-anrop
 
 - **Application**  
-  Use cases och applikationslogik.
-  Koordinerar domän och infrastruktur.
+Use cases
+Applikationstjänster
+ApplicationResult-mönster
+Koordinering av domänlogik
 
 - **Domain**  
- Aggregates, entiteter, value objects och affärsregler.
- Repository-interfaces definieras här.
+Aggregat (aggregate roots)
+Entiteter (child entities)
+Value Objects
+Affärsregler
+Domänvalidering och domänexceptions
 
 - **Infrastructure**  
-  Entity Framework Core, konfigurationer och repository-implementationer.
+Entity Framework Core
+DbContext
+Repository-implementationer
+Rå SQL
+Transaktioner
+Caching
 
-- **Tests**  
-  Enhets- och integrationstester för centrala delar av systemet.
+- **Testning**
+Projektet innehåller:
+- Enhetstester för samtliga domänmodeller och affärsregler
+- Enhetstester för applikationstjänster (use cases)
+- Integrationstester för Infrastructure-lagret och databasåtkomst
+Samtliga lager (Domain, Application och Infrastructure) är testade.
 
-## Databas
+## Databas design
+Databasen är modellerad enligt tredje normalformen (3NF) och innehåller 13 tabeller med tydliga relationer mellan aggregat och child entities.
 - Code First med Entity Framework Core
-- Relationsdatabas modellerad enligt 3NF
-- Tydliga relationer mellan aggregates
 - Owned types för Value Objects
 - Konfigurationer via IEntityTypeConfiguration
 
-### Exempel på centrala aggregates:
+### ER-diagram
+ER-diagrammet visar den relationella databasens struktur samt hur domänens aggregat och relationer är modellerade.
+[Öppna ER-diagram](docs/erd.pdf)
+
+## Domänmodell
+Domain-lagret innehåller:
+**Aggregat Roots**
+- Category
 - Course
 - CoursePeriod
+- CourseSession
 - Student
 - Teacher
 - Campus
 - Classroom
-- Category
 
-## Teknisk stack
-### Backend (huvudfokus)
-- C#
-- .NET
+**Child Entities**
+- Subcategory
+- CourseSessionAttendance
+- CoursePeriodReview
+- CoursePeriodResource
+
+**Association Entities**
+- CoursePeriodEnrollment
+- CourseSessionAttendance
+
+**Value Objects**
+- PersonName
+- ContactInformation
+- Address
+
+## Tekniker
+- .NET 10
+- C# 14
 - ASP.NET Core Minimal API
-- Entity Framework Core
+- Entity Framework Core (Code First)
 - SQL Server
-
-### Frontend (separat repository)
-🔗 [Frontend repository](https://github.com/learning-platform-system/learning-platform-system-frontend)
+- SQLite (för tester)
+- xUnit
+- Moq
 
 ## Vad projektet demonstrerar
 - Datamodellering i relationsdatabas
