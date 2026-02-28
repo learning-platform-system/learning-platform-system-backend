@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.CoursePeriodResources;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.CoursePeriodResources;
 
 public class CoursePeriodResourceTests
 {

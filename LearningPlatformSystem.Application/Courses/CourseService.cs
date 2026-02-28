@@ -39,7 +39,6 @@ public class CourseService(ICourseRepository _courseRepository, IUnitOfWork _iUn
             return ApplicationResult.Fail(CourseApplicationErrors.NotFound(id));
         }
 
-        await _courseRepository.RemoveAsync(id, ct);
         await _iUnitOfWork.SaveChangesAsync(ct);
 
         return ApplicationResult.Success();

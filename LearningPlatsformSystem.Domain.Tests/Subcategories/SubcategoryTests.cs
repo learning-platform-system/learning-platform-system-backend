@@ -1,7 +1,7 @@
 ﻿using LearningPlatformSystem.Domain.Shared.Exceptions;
 using LearningPlatformSystem.Domain.Subcategories;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.Subcategories;
 
 public class SubcategoryTests
 {

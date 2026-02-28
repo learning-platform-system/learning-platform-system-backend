@@ -6,7 +6,7 @@ using LearningPlatformSystem.Domain.CourseSessionAttendances;
 using LearningPlatformSystem.Domain.Shared.Enums;
 using LearningPlatformSystem.Domain.Shared.Exceptions;
 
-namespace LearningPlatformSystem.Domain.Tests.Aggregates;
+namespace LearningPlatformSystem.Domain.Tests.CoursePeriods;
 
 public class CoursePeriodTests
 {
