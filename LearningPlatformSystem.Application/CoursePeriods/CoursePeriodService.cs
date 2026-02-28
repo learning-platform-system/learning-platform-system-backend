@@ -150,7 +150,6 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
         return ApplicationResult.Success();
     }
-    // API skickar string för att undvika att swagger lägger på Z 
     
 
     public async Task<ApplicationResult<Guid>> CreateCoursePeriodAsync(CreateCoursePeriodInput input, CancellationToken ct)
@@ -170,12 +169,15 @@ public class CoursePeriodService(ICoursePeriodRepository _coursePeriodRepository
 
         if (coursePeriod.Format is CourseFormat.Onsite)
         {
-            coursePeriod.ConnectToCampus(input.CampusId);
+            if (input.CampusId is null)
+                return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CampusIdIsRequired(input.CampusId));
 
             // CAMPUS EXISTS
-            bool campusExists = await _campusRepository.ExistsAsync(input.CampusId, ct);
+            bool campusExists = await _campusRepository.ExistsAsync(input.CampusId.Value, ct);
             if (!campusExists)
                 return ApplicationResult<Guid>.Fail(CoursePeriodApplicationErrors.CampusNotFound(input.CampusId));
+
+            coursePeriod.ConnectToCampus(input.CampusId.Value);
         }
 
         await _coursePeriodRepository.AddAsync(coursePeriod, ct);

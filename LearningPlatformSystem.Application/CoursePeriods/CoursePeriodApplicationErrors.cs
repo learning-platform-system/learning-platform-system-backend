@@ -23,4 +23,9 @@ public static class CoursePeriodApplicationErrors
     {
         return new ApplicationResultError(ErrorTypes.NotFound, $"Lärare med id: {teacherId} kunde inte hittas.");
     }
+
+    public static ApplicationResultError CampusIdIsRequired(Guid? campusId)
+    {
+        return new ApplicationResultError(ErrorTypes.BadRequest, $"CampusId är obligatoriskt. Värdet som angavs var: {campusId}");
+    }
 }
