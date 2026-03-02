@@ -1,0 +1,22 @@
+﻿using LearningPlatformSystem.Domain.Shared.Enums;
+
+namespace LearningPlatformSystem.Infrastructure.Persistence.EFC.Entities;
+
+public sealed class CoursePeriodEntity : EntityBase
+{
+    public Guid Id { get; set; }
+    public Guid CourseId { get; set; }
+    public CourseEntity Course { get; set; } = null!;
+    public Guid TeacherId { get; set; }
+    public TeacherEntity Teacher { get; set; } = null!;
+    public Guid? CampusId { get; set; }
+    public CampusEntity? Campus { get; set; }
+    public DateOnly StartDate { get; set; }
+    public DateOnly EndDate { get; set; }
+    public CourseFormat Format { get; set; }
+    public ICollection<CourseSessionEntity> Sessions { get; set; } = [];
+    public ICollection<CoursePeriodEnrollmentEntity> Enrollments { get; set; } = [];
+    public ICollection<CoursePeriodResourceEntity> Resources { get; set; } = [];
+    public ICollection<CoursePeriodReviewEntity> Reviews { get; set; } = [];
+}
+
