@@ -30,30 +30,24 @@ Infrastructure (EF Core & Databas)
 
 ### Lagerstruktur
 - **Presentation**  
-Minimal API endpoints
-Global exception handling
-HTTP-anrop
+Minimal API endpoints.
+Tar emot HTTP-anrop och returnerar HTTP-response.
+Hanterar global exception handling.
 
 - **Application**  
-Use cases
-Applikationstjänster
-ApplicationResult-mönster
-Koordinering av domänlogik
+Use cases och services.
+Koordinerar domänlogik genom att anropa domänlagret.
+Returnerar resultat via ApplicationResult (Result pattern).
 
 - **Domain**  
-Aggregat (aggregate roots)
-Entiteter (child entities)
-Value Objects
-Affärsregler
-Domänvalidering och domänexceptions
+Innehåller domänobjekt som entiteter, value objects och aggregat (aggregate roots med tillhörande entiteter).
+Definierar affärsregler och domänvalidering.  
+Hanterar domänexceptions.
 
 - **Infrastructure**  
-Entity Framework Core
-DbContext
-Repository-implementationer
-Rå SQL
-Transaktioner
-Caching
+Implementerar databasåtkomst. 
+Innehåller Entity Framework Core, DbContext och repository-implementationer.  
+Hanterar transaktioner och rå SQL.
 
 - **Testning**
 Projektet innehåller:
