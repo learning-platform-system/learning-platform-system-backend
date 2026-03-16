@@ -108,5 +108,8 @@ Domain-lagret innehåller:
 - Datamodellering i relationsdatabas
 - Tydliga aggregate boundaries
 - Separation of concerns
-- Repository-, Service-, Base-, Result-pattern
+- Repository Pattern – separerar databasåtkomst från domänlogik
+- Service Pattern – samlar applikationens use cases i services i Application-lagret
+- Result Pattern – används för att returnera resultat och fel utan att använda exceptions för normal logik
+- Base classes – används för att återanvända gemensam funktionalitet i entiteter och repositories
 - Strukturerad versionshantering med feature-branches
