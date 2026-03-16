@@ -108,5 +108,5 @@ Domain-lagret innehåller:
 - Datamodellering i relationsdatabas
 - Tydliga aggregate boundaries
 - Separation of concerns
-- Repository-mönster
+- Repository-, Service-, Base-, Result-pattern
 - Strukturerad versionshantering med feature-branches
