@@ -51,9 +51,10 @@ Hanterar transaktioner och rå SQL.
 
 - **Testning**
 Projektet innehåller:
-- Enhetstester för samtliga domänmodeller och affärsregler
-- Enhetstester för applikationstjänster (use cases)
-- Integrationstester för Infrastructure-lagret och databasåtkomst
+
+  - Enhetstester för samtliga domänmodeller och affärsregler
+  - Enhetstester för applikationstjänster (use cases)
+  - Integrationstester för Infrastructure-lagret och databasåtkomst
 Samtliga lager (Domain, Application och Infrastructure) är testade.
 
 ## Databas design
